@@ -10,7 +10,8 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import { Server, Menu, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
+import { LogoMark } from "@/components/Logo"
 
 // Menu data structured like the reference image
 const menuData = {
@@ -106,7 +107,7 @@ function ListItem({ title, description, href, ...props }) {
         <Link
           to={href}
           className={cn(
-            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#006BFF]/10 hover:text-[#006BFF] focus:bg-[#006BFF]/10 focus:text-[#006BFF]"
+            "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! active:bg-[#006BFF]/10! active:text-[#006BFF]!"
           )}
           {...props}
         >
@@ -164,9 +165,7 @@ export function Navbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#006BFF]">
-            <Server className="h-5 w-5 text-white" />
-          </div>
+          <LogoMark size={32} />
           <span className="text-xl font-bold text-gray-900">BelajarHosting</span>
         </Link>
 

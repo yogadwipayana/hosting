@@ -16,19 +16,25 @@ import {
 } from "@/components/ui/card"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
-  GlobalIcon,
-  DatabaseIcon,
-  Robot01Icon,
-  CloudServerIcon,
   ArrowRight01Icon,
   CheckmarkCircle02Icon,
-  SourceCodeIcon,
-  CpuIcon,
-  LayersIcon,
-  ZapIcon,
-  CommandIcon,
 } from "@hugeicons/core-free-icons"
+
+// Custom SVG Icons
+const GlobalIcon = () => <img src="/src/assets/website-svgrepo-com.svg" alt="Website" className="h-6 w-6" />
+const DatabaseIcon = () => <img src="/src/assets/database-svgrepo-com.svg" alt="Database" className="h-6 w-6" />
+const Robot01Icon = () => <img src="/src/assets/bot-svgrepo-com.svg" alt="Bot" className="h-6 w-6" />
+const CloudServerIcon = () => <img src="/src/assets/logo.svg" alt="Server" className="h-6 w-6" />
+const SourceCodeIcon = () => <img src="/src/assets/docker-icon.svg" alt="Docker" className="h-6 w-6" />
+const CpuIcon = () => <img src="/src/assets/bot-svgrepo-com.svg" alt="Bot API" className="h-6 w-6" />
+const LayersIcon = () => <img src="/src/assets/coolify.svg" alt="Coolify" className="h-6 w-6" />
+const ZapIcon = () => <img src="/src/assets/vercel-icon-svgrepo-com.svg" alt="Vercel" className="h-6 w-6" />
+const CommandIcon = () => <img src="/src/assets/devops-svgrepo-com.svg" alt="DevOps" className="h-6 w-6" />
+const RailwayIcon = () => <img src="/src/assets/railway.svg" alt="Railway" className="h-6 w-6" />
+const N8nIcon = () => <img src="/src/assets/n8n.svg" alt="n8n" className="h-6 w-6" />
+const SupabaseIcon = () => <img src="/src/assets/supabase-icon.svg" alt="Supabase" className="h-6 w-6" />
 import { Navbar } from "@/components/Navbar"
+import { LogoMark } from "@/components/Logo"
 
 // Hero Section
 function HeroSection() {
@@ -212,7 +218,7 @@ function FeaturesSection() {
             <Card key={feature.title} className="group cursor-pointer border-0 shadow-sm hover:shadow-md transition-all">
               <CardHeader>
                 <div className={`inline-flex h-12 w-12 items-center justify-center rounded-lg ${feature.color} mb-4`}>
-                  <HugeiconsIcon icon={feature.icon} size={24} color={feature.iconColor} />
+                  <feature.icon />
                 </div>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
@@ -245,11 +251,11 @@ function FeaturesSection() {
 function ToolsSection() {
   const tools = [
     { name: "Vercel", category: "Frontend Hosting", icon: ZapIcon },
-    { name: "Railway", category: "Backend Hosting", icon: CloudServerIcon },
-    { name: "Supabase", category: "Database", icon: DatabaseIcon },
+    { name: "Railway", category: "Backend Hosting", icon: RailwayIcon },
+    { name: "Supabase", category: "Database", icon: SupabaseIcon },
     { name: "Coolify", category: "Self-Hosted", icon: LayersIcon },
     { name: "Docker", category: "Container", icon: SourceCodeIcon },
-    { name: "n8n", category: "Automation", icon: Robot01Icon },
+    { name: "n8n", category: "Automation", icon: N8nIcon },
   ]
 
   return (
@@ -278,7 +284,7 @@ function ToolsSection() {
                   className="flex items-center gap-3 rounded-lg bg-card p-4 shadow-sm border hover:border-primary/50 transition-colors"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <HugeiconsIcon icon={tool.icon} size={20} color="var(--primary)" />
+                    <tool.icon />
                   </div>
                   <div>
                     <p className="font-medium text-foreground">{tool.name}</p>
@@ -398,9 +404,7 @@ function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                <HugeiconsIcon icon={CloudServerIcon} size={20} color="white" />
-              </div>
+              <LogoMark size={32} />
               <span className="text-xl font-bold text-white">BelajarHosting</span>
             </div>
             <p className="text-gray-400 mb-6 max-w-sm">
