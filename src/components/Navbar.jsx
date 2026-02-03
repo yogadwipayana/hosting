@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from "react-router"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +11,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Search } from "lucide-react"
 import { LogoMark } from "@/components/Logo"
 
 // Menu data structured like the reference image
@@ -20,7 +21,7 @@ const menuData = {
       {
         title: "HOSTING",
         items: [
-          { name: "Cloud Hosting", description: "Scalable cloud solution", href: "/products/cloud" }
+          { name: "Managed Hosting", description: "Scalable managed hosting solution", href: "/products/cloud" }
         ],
       },
       {
@@ -43,28 +44,28 @@ const menuData = {
       {
         title: "SERVER & HOSTING",
         items: [
-          { name: "Website Uptime Checker", description: "Cek status website", href: "/tools/uptime-checker" }
+          { name: "Website Uptime Checker", description: "Cek status website", href: "/alat/uptime-checker" }
         ],
       },
       {
         title: "SECURITY",
         items: [
-          { name: "Password Generator", description: "Buat password kuat", href: "/tools/password-generator" }
+          { name: "Password Generator", description: "Buat password kuat", href: "/alat/password-generator" }
         ],
       },
       {
         title: "DEVELOPER TOOLS",
         items: [
-          { name: "QR Code", description: "Generate QR code", href: "/tools/qr-code" },
-          { name: "Color Converter", description: "HEX, RGB, HSL", href: "/tools/color-converter" },
+          { name: "QR Code", description: "Generate QR code", href: "/alat/qr-code" },
+          { name: "Color Converter", description: "HEX, RGB, HSL", href: "/alat/color-converter" },
         ],
       },
       {
         title: "CONVERTERS",
         items: [
-          { name: "Unix Timestamp", description: "Convert time", href: "/tools/unix-timestamp" },
+          { name: "Unix Timestamp", description: "Convert time", href: "/alat/unix-timestamp" },
         ],
-        footer: { label: "Lihat Semua Alat →", href: "/tools" },
+        footer: { label: "Lihat Semua Alat →", href: "/alat" },
       },
     ],
   },
@@ -153,66 +154,76 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <LogoMark size={32} />
-          <span className="text-xl font-bold text-gray-900">BelajarHosting</span>
-        </Link>
+      <div className="container mx-auto flex h-16 items-center px-4">
+        {/* Logo - Fixed width left section */}
+        <div className="flex-shrink-0 w-48">
+          <Link to="/" className="flex items-center gap-2">
+            <LogoMark size={32} />
+            <span className="text-xl font-bold text-gray-900">Belajar Hosting</span>
+          </Link>
+        </div>
 
-        {/* Desktop Navigation with Mega Menu */}
-        <NavigationMenu className="hidden md:flex">
-          <NavigationMenuList>
-            {/* Beranda Link */}
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  to="/"
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]!"
-                >
-                  Beranda
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+        {/* Desktop Navigation with Mega Menu - Centered */}
+        <div className="flex-1 flex justify-center">
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              {/* Beranda Link */}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/"
+                    className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]!"
+                  >
+                    Beranda
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
 
-            {/* Produk Dropdown */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
-                Produk
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <MegaMenuContent columns={menuData.produk.columns} />
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+              {/* Produk Dropdown */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
+                  Produk
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <MegaMenuContent columns={menuData.produk.columns} />
+                </NavigationMenuContent>
+              </NavigationMenuItem>
 
-            {/* Alat Dropdown */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
-                Alat
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <MegaMenuContent columns={menuData.alat.columns} />
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+              {/* Alat Dropdown */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
+                  Alat
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <MegaMenuContent columns={menuData.alat.columns} />
+                </NavigationMenuContent>
+              </NavigationMenuItem>
 
-            {/* Edukasi Dropdown */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
-                Edukasi
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <MegaMenuContent columns={menuData.edukasi.columns} />
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+              {/* Edukasi Dropdown */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
+                  Edukasi
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <MegaMenuContent columns={menuData.edukasi.columns} />
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
 
-        {/* CTA Buttons */}
-        <div className="hidden md:flex items-center gap-3">
-          <Button variant="outline" size="sm" className="rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-[#006BFF] hover:border-[#006BFF]">
-            Masuk
-          </Button>
-          <Button size="sm" className="rounded-lg bg-[#006BFF] hover:bg-[#0055CC] text-white">
+        {/* Search Box & CTA Buttons - Fixed width right section */}
+        <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+          {/* Search Box */}
+          <div className="relative flex items-center">
+            <Search className="absolute left-3 h-4 w-4 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Cari tutorial..."
+              className="pl-9 pr-4 h-9 w-48 rounded-lg border-gray-200 bg-gray-50 text-sm focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+          <Button size="sm" className="rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
             Mulai Belajar
           </Button>
         </div>
@@ -229,24 +240,33 @@ export function Navbar() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-gray-200 bg-white px-4 py-4">
+          {/* Mobile Search */}
+          <div className="flex items-center relative mb-4">
+            <Search className="absolute left-3 h-4 w-4 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Cari tutorial..."
+              className="pl-9 pr-4 h-10 w-full rounded-lg border-gray-200 bg-gray-50 text-sm focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
           <nav className="flex flex-col gap-3">
-            <Link to="/" className="text-base font-medium text-gray-900 hover:text-[#006BFF]">
+            <Link to="/" className="text-base font-medium text-gray-900 hover:text-blue-600">
               Beranda
             </Link>
-            <Link to="/produk" className="text-base font-medium text-gray-600 hover:text-[#006BFF]">
+            <Link to="/produk" className="text-base font-medium text-gray-600 hover:text-blue-600">
               Produk
             </Link>
-            <Link to="#alat" className="text-base font-medium text-gray-600 hover:text-[#006BFF]">
+            <Link to="#alat" className="text-base font-medium text-gray-600 hover:text-blue-600">
               Alat
             </Link>
-            <Link to="#edukasi" className="text-base font-medium text-gray-600 hover:text-[#006BFF]">
+            <Link to="#edukasi" className="text-base font-medium text-gray-600 hover:text-blue-600">
               Edukasi
             </Link>
             <div className="flex flex-col gap-2 pt-3 border-t border-gray-200">
-              <Button variant="outline" className="w-full rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-[#006BFF] hover:border-[#006BFF]">
+              <Button variant="outline" className="w-full rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 hover:border-blue-600">
                 Masuk
               </Button>
-              <Button className="w-full rounded-lg bg-[#006BFF] hover:bg-[#0055CC] text-white">
+              <Button className="w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
                 Mulai Belajar
               </Button>
             </div>

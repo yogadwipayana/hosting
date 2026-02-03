@@ -24,7 +24,6 @@ import {
 const GlobalIcon = () => <img src="/src/assets/website-svgrepo-com.svg" alt="Website" className="h-6 w-6" />
 const DatabaseIcon = () => <img src="/src/assets/database-svgrepo-com.svg" alt="Database" className="h-6 w-6" />
 const Robot01Icon = () => <img src="/src/assets/bot-svgrepo-com.svg" alt="Bot" className="h-6 w-6" />
-const CloudServerIcon = () => <img src="/src/assets/logo.svg" alt="Server" className="h-6 w-6" />
 const SourceCodeIcon = () => <img src="/src/assets/docker-icon.svg" alt="Docker" className="h-6 w-6" />
 const CpuIcon = () => <img src="/src/assets/bot-svgrepo-com.svg" alt="Bot API" className="h-6 w-6" />
 const LayersIcon = () => <img src="/src/assets/coolify.svg" alt="Coolify" className="h-6 w-6" />
@@ -70,7 +69,7 @@ function HeroSection() {
                 Mulai Belajar Gratis
                 <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2" size={16} />
               </Button>
-              <Button size="lg" variant="outline" className="rounded-lg">
+              <Button size="lg" variant="outline" className="rounded-lg border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
                 Lihat Tutorial
               </Button>
             </div>
@@ -117,8 +116,8 @@ function HeroSection() {
                       <div className="text-2xl font-bold text-primary">50+</div>
                       <div className="text-sm text-muted-foreground">Tutorial Lengkap</div>
                     </div>
-                    <div className="rounded-lg bg-accent/10 p-4">
-                      <div className="text-2xl font-bold text-accent">10K+</div>
+                    <div className="rounded-lg bg-primary/5 p-4">
+                      <div className="text-2xl font-bold text-primary">10K+</div>
                       <div className="text-sm text-muted-foreground">Developer Aktif</div>
                     </div>
                   </div>
@@ -157,7 +156,7 @@ function FeaturesSection() {
       iconColor: "#2563eb",
     },
     {
-      icon: Robot01Icon,
+      icon: N8nIcon,
       title: "n8n Automation",
       description: "Setup n8n workflow automation di server sendiri. Integrasikan dengan berbagai layanan tanpa batas.",
       count: "8 Tutorial",
@@ -271,10 +270,12 @@ function ToolsSection() {
                 Pelajari cara menggunakan platform hosting dan tools populer yang digunakan
                 oleh developer profesional di seluruh dunia.
               </p>
-              <Button className="rounded-lg bg-primary hover:bg-primary/90">
-                Lihat Semua Tools
-                <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
-              </Button>
+              <Link to="/alat">
+                <Button className="rounded-lg bg-primary hover:bg-primary/90">
+                  Lihat Semua Tools
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
+                </Button>
+              </Link>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -370,30 +371,30 @@ function FAQSection() {
 // Footer Component
 function Footer() {
   const footerLinks = {
-    tutorial: [
-      { name: "Deploy Website", href: "#" },
-      { name: "n8n Automation", href: "#" },
-      { name: "Database", href: "#" },
-      { name: "Coolify", href: "#" },
-      { name: "Bot Development", href: "#" },
+    produk: [
+      { name: "Cloud Hosting", href: "/products/cloud" },
+      { name: "Managed Database", href: "/products/database" },
+      { name: "n8n Automation", href: "/products/n8n" },
     ],
-    resources: [
-      { name: "Blog", href: "#" },
-      { name: "Snippets", href: "#" },
-      { name: "Templates", href: "#" },
-      { name: "Cheatsheet", href: "#" },
+    alat: [
+      { name: "Uptime Checker", href: "/alat/uptime-checker" },
+      { name: "Password Generator", href: "/alat/password-generator" },
+      { name: "QR Code Generator", href: "/alat/qr-code" },
+      { name: "Color Converter", href: "/alat/color-converter" },
+      { name: "Unix Timestamp", href: "/alat/unix-timestamp" },
     ],
-    community: [
-      { name: "Discord", href: "#" },
-      { name: "GitHub", href: "#" },
-      { name: "Twitter", href: "#" },
-      { name: "YouTube", href: "#" },
+    edukasi: [
+      { name: "Getting Started", href: "/education/getting-started" },
+      { name: "Deploy Website", href: "/education/deploy" },
+      { name: "Best Practices", href: "/education/best-practices" },
+      { name: "Blog", href: "/blog" },
+      { name: "Documentation", href: "/docs" },
     ],
     company: [
-      { name: "Tentang Kami", href: "#" },
-      { name: "Kontak", href: "#" },
-      { name: "Kebijakan Privasi", href: "#" },
-      { name: "Syarat Penggunaan", href: "#" },
+      { name: "Tentang Kami", href: "/about" },
+      { name: "Kontak", href: "/contact" },
+      { name: "Kebijakan Privasi", href: "/privacy" },
+      { name: "Syarat Penggunaan", href: "/terms" },
     ],
   }
 
@@ -429,26 +430,39 @@ function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Tutorial</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Produk</h3>
             <ul className="space-y-3">
-              {footerLinks.tutorial.map((link) => (
+              {footerLinks.produk.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                  <Link to={link.href} className="text-gray-400 hover:text-white transition-colors">
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Resources</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Alat</h3>
             <ul className="space-y-3">
-              {footerLinks.resources.map((link) => (
+              {footerLinks.alat.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                  <Link to={link.href} className="text-gray-400 hover:text-white transition-colors">
                     {link.name}
-                  </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Edukasi</h3>
+            <ul className="space-y-3">
+              {footerLinks.edukasi.map((link) => (
+                <li key={link.name}>
+                  <Link to={link.href} className="text-gray-400 hover:text-white transition-colors">
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -459,9 +473,9 @@ function Footer() {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                  <Link to={link.href} className="text-gray-400 hover:text-white transition-colors">
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
