@@ -35,7 +35,7 @@ function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-background pt-16 pb-24 lg:pt-24 lg:pb-32">
       {/* Background - Solid Color */}
-      <div className="absolute inset-0 bg-[#F8F9FA]" />
+      <div className="absolute inset-0 bg-gray-50" />
 
       <div className="container relative mx-auto px-4">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
@@ -88,7 +88,7 @@ function HeroSection() {
 
           {/* Hero Image/Illustration */}
           <div className="relative lg:pl-8">
-            <div className="relative rounded-2xl bg-[#006BFF]/10 p-1">
+            <div className="relative rounded-2xl bg-blue-100 p-1">
               <div className="rounded-xl bg-card p-6 shadow-lg">
                 <div className="space-y-4">
                   {/* Code Preview Card */}
@@ -147,48 +147,48 @@ function FeaturesSection() {
       title: "Deploy Website",
       description: "Pelajari cara deploy website statis dan dinamis menggunakan Vercel, Netlify, Cloudflare Pages, dan VPS.",
       count: "15 Tutorial",
-      color: "bg-[#006BFF]/10",
-      iconColor: "#006BFF",
+      color: "bg-blue-100",
+      iconColor: "#2563eb",
     },
     {
       icon: Robot01Icon,
       title: "n8n Automation",
       description: "Setup n8n workflow automation di server sendiri. Integrasikan dengan berbagai layanan tanpa batas.",
       count: "8 Tutorial",
-      color: "bg-[#7C3AED]/10",
-      iconColor: "#7C3AED",
+      color: "bg-violet-100",
+      iconColor: "#7c3aed",
     },
     {
       icon: DatabaseIcon,
       title: "Database",
       description: "Deploy PostgreSQL, MySQL, MongoDB, dan Redis. Pelajari backup, scaling, dan optimasi database.",
       count: "12 Tutorial",
-      color: "bg-[#006BFF]/10",
-      iconColor: "#006BFF",
+      color: "bg-blue-100",
+      iconColor: "#2563eb",
     },
     {
       icon: LayersIcon,
       title: "Coolify & Dokploy",
       description: "Setup platform deployment self-hosted. Deploy aplikasi dengan fitur CI/CD dan manajemen otomatis.",
       count: "10 Tutorial",
-      color: "bg-[#7C3AED]/10",
-      iconColor: "#7C3AED",
+      color: "bg-violet-100",
+      iconColor: "#7c3aed",
     },
     {
       icon: CpuIcon,
       title: "Bot & API",
       description: "Deploy bot Telegram, Discord, WhatsApp, dan REST API dengan webhook dan autoscaling.",
       count: "7 Tutorial",
-      color: "bg-[#006BFF]/10",
-      iconColor: "#006BFF",
+      color: "bg-blue-100",
+      iconColor: "#2563eb",
     },
     {
       icon: CommandIcon,
       title: "DevOps Tools",
       description: "Pelajari Docker, Docker Compose, Nginx, SSL certificates, dan best practices deployment.",
       count: "8 Tutorial",
-      color: "bg-[#7C3AED]/10",
-      iconColor: "#7C3AED",
+      color: "bg-violet-100",
+      iconColor: "#7c3aed",
     },
   ]
 
@@ -255,7 +255,7 @@ function ToolsSection() {
   return (
     <section id="tools" className="py-24 bg-background">
       <div className="container mx-auto px-4">
-        <div className="rounded-2xl bg-[#F8F9FA] border border-[#E5E7EB] p-8 lg:p-12">
+        <div className="rounded-2xl bg-gray-50 border border-gray-200 p-8 lg:p-12">
           <div className="grid gap-12 lg:grid-cols-2 items-center">
             <div>
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4">
@@ -392,14 +392,14 @@ function Footer() {
   }
 
   return (
-    <footer className="bg-[#111827] text-gray-300">
+    <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-16">
         <div className="grid gap-12 lg:grid-cols-5">
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#006BFF]">
-                <HugeiconsIcon icon={CloudServerIcon} size={20} color="#ffffff" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
+                <HugeiconsIcon icon={CloudServerIcon} size={20} color="white" />
               </div>
               <span className="text-xl font-bold text-white">BelajarHosting</span>
             </div>
