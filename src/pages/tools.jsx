@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router"
 import { Helmet } from "react-helmet-async"
 import { Navbar } from "@/components/Navbar"
+import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -215,96 +216,6 @@ function MoreAlatSection() {
         </div>
       </div>
     </section>
-  )
-}
-
-// Footer Component
-function Footer() {
-  const footerLinks = {
-    alat: [
-      { name: "Website Uptime Checker", href: "/alat/uptime-checker" },
-      { name: "Password Generator", href: "/alat/password-generator" },
-      { name: "QR Code", href: "/alat/qr-code" },
-      { name: "Color Converter", href: "/alat/color-converter" },
-      { name: "Unix Timestamp", href: "/alat/unix-timestamp" },
-    ],
-    resources: [
-      { name: "Blog", href: "/blog" },
-      { name: "Tutorial", href: "/tutorial" },
-      { name: "Dokumentasi", href: "/docs" },
-      { name: "FAQ", href: "/faq" },
-    ],
-    company: [
-      { name: "Tentang Kami", href: "/about" },
-      { name: "Kontak", href: "/contact" },
-      { name: "Kebijakan Privasi", href: "/privacy" },
-      { name: "Syarat Penggunaan", href: "/terms" },
-    ],
-  }
-
-  return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-4">
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-bold text-white">BelajarHosting</span>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Platform belajar deployment dan hosting untuk developer Indonesia.
-            </p>
-          </div>
-
-          {/* Links */}
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Alat</h3>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.alat.map((link) => (
-                <li key={link.name}>
-                  <Link to={link.href} className="text-gray-400 hover:text-white transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Resources</h3>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.resources.map((link) => (
-                <li key={link.name}>
-                  <Link to={link.href} className="text-gray-400 hover:text-white transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Company</h3>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link to={link.href} className="text-gray-400 hover:text-white transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom */}
-        <div className="border-t border-gray-800 mt-10 pt-6 text-center">
-          <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} BelajarHosting. All rights reserved.
-          </p>
-        </div>
-      </div>
-    </footer>
   )
 }
 
