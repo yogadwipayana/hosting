@@ -161,7 +161,7 @@ function FeaturesSection() {
       title: "n8n Automation",
       description: "Setup n8n workflow automation di server sendiri. Integrasikan dengan berbagai layanan tanpa batas.",
       count: "8 Tutorial",
-      color: "bg-violet-100",
+      color: "bg-blue-100",
       iconColor: "#7c3aed",
     },
     {
@@ -177,7 +177,7 @@ function FeaturesSection() {
       title: "Coolify & Dokploy",
       description: "Setup platform deployment self-hosted. Deploy aplikasi dengan fitur CI/CD dan manajemen otomatis.",
       count: "10 Tutorial",
-      color: "bg-violet-100",
+      color: "bg-blue-100",
       iconColor: "#7c3aed",
     },
     {
@@ -193,7 +193,7 @@ function FeaturesSection() {
       title: "DevOps Tools",
       description: "Pelajari Docker, Docker Compose, Nginx, SSL certificates, dan best practices deployment.",
       count: "8 Tutorial",
-      color: "bg-violet-100",
+      color: "bg-blue-100",
       iconColor: "#7c3aed",
     },
   ]

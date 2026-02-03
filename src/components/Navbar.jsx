@@ -20,25 +20,21 @@ const menuData = {
       {
         title: "HOSTING",
         items: [
-          { name: "VPS Hosting", description: "Virtual Private Server", href: "/produk/vps" },
-          { name: "Cloud Hosting", description: "Scalable cloud solution", href: "/produk/cloud" },
-          { name: "Shared Hosting", description: "Hosting terjangkau", href: "/produk/shared" },
+          { name: "Cloud Hosting", description: "Scalable cloud solution", href: "/products/cloud" }
         ],
       },
       {
         title: "MANAGED SERVICES",
         items: [
-          { name: "Managed Dockploy", description: "Deploy apps with ease", href: "/produk/dockploy" },
-          { name: "Managed Database", description: "PostgreSQL, MySQL", href: "/produk/database" },
+          { name: "Managed Database", description: "PostgreSQL, MySQL", href: "/products/database" }
         ],
       },
       {
         title: "AUTOMATION",
         items: [
-          { name: "n8n Automation", description: "Workflow automation", href: "/produk/n8n" },
-          { name: "Coolify", description: "Self-hosted PaaS", href: "/produk/coolify" },
+          { name: "n8n Automation", description: "Workflow automation", href: "/products/n8n" }
         ],
-        footer: { label: "Lihat Semua Produk →", href: "/produk" },
+        footer: { label: "Lihat Semua Produk →", href: "/products" },
       },
     ],
   },
@@ -47,22 +43,18 @@ const menuData = {
       {
         title: "SERVER & HOSTING",
         items: [
-          { name: "Website Uptime Checker", description: "Cek status website", href: "/tools/uptime-checker" },
-          { name: "SSL Checker", description: "Validasi certificate", href: "/tools/ssl-checker" },
-          { name: "DNS Lookup", description: "Check DNS records", href: "/tools/dns-lookup" },
+          { name: "Website Uptime Checker", description: "Cek status website", href: "/tools/uptime-checker" }
         ],
       },
       {
         title: "SECURITY",
         items: [
-          { name: "Password Generator", description: "Buat password kuat", href: "/tools/password-generator" },
-          { name: "Hash Generator", description: "MD5, SHA-256", href: "/tools/hash-generator" },
+          { name: "Password Generator", description: "Buat password kuat", href: "/tools/password-generator" }
         ],
       },
       {
         title: "DEVELOPER TOOLS",
         items: [
-          { name: "JSON Formatter", description: "Format & validate", href: "/tools/json-formatter" },
           { name: "QR Code", description: "Generate QR code", href: "/tools/qr-code" },
           { name: "Color Converter", description: "HEX, RGB, HSL", href: "/tools/color-converter" },
         ],
@@ -70,7 +62,6 @@ const menuData = {
       {
         title: "CONVERTERS",
         items: [
-          { name: "Base64", description: "Encode/decode", href: "/tools/base64" },
           { name: "Unix Timestamp", description: "Convert time", href: "/tools/unix-timestamp" },
         ],
         footer: { label: "Lihat Semua Alat →", href: "/tools" },
@@ -93,7 +84,7 @@ const menuData = {
           { name: "Blog", description: "Artikel terbaru", href: "/blog" },
           { name: "Documentation", description: "Panduan lengkap", href: "/docs" },
         ],
-        footer: { label: "Lihat Semua Edukasi →", href: "/edukasi" },
+        footer: { label: "Lihat Semua Edukasi →", href: "/education" },
       },
     ],
   },
