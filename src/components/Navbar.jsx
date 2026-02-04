@@ -77,6 +77,7 @@ const menuData = {
           { name: "Getting Started", description: "Panduan pemula", href: "/edukasi/getting-started" },
           { name: "Deploy Website", description: "Tutorial deploy", href: "/edukasi/deploy" },
           { name: "Best Practices", description: "Tips & trik", href: "/edukasi/best-practices" },
+          { name: "Blog", description: "Artikel terbaru", href: "/blog" },
         ],
       },
       {
@@ -181,9 +182,11 @@ export function Navbar() {
 
               {/* Produk Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
-                  Produk
-                </NavigationMenuTrigger>
+                <Link to="/produk">
+                  <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
+                    Produk
+                  </NavigationMenuTrigger>
+                </Link>
                 <NavigationMenuContent>
                   <MegaMenuContent columns={menuData.produk.columns} />
                 </NavigationMenuContent>
@@ -191,9 +194,11 @@ export function Navbar() {
 
               {/* Alat Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
-                  Alat
-                </NavigationMenuTrigger>
+                <Link to="/alat">
+                  <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
+                    Alat
+                  </NavigationMenuTrigger>
+                </Link>
                 <NavigationMenuContent>
                   <MegaMenuContent columns={menuData.alat.columns} />
                 </NavigationMenuContent>
@@ -201,9 +206,11 @@ export function Navbar() {
 
               {/* Edukasi Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
-                  Edukasi
-                </NavigationMenuTrigger>
+                <Link to="/edukasi">
+                  <NavigationMenuTrigger className="h-9 bg-transparent! text-gray-700 hover:bg-[#006BFF]/10! hover:text-[#006BFF]! focus:bg-[#006BFF]/10! focus:text-[#006BFF]! data-[state=open]:bg-[#006BFF]/10! data-[state=open]:text-[#006BFF]! data-[state=open]:hover:bg-[#006BFF]/10!">
+                    Edukasi
+                  </NavigationMenuTrigger>
+                </Link>
                 <NavigationMenuContent>
                   <MegaMenuContent columns={menuData.edukasi.columns} />
                 </NavigationMenuContent>
@@ -223,9 +230,11 @@ export function Navbar() {
               className="pl-9 pr-4 h-9 w-48 rounded-lg border-gray-200 bg-gray-50 text-sm focus:bg-white focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
-          <Button size="sm" className="rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
-            Mulai Belajar
-          </Button>
+          <Link to="/register">
+            <Button size="sm" className="rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
+              Mulai Sekarang
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -256,19 +265,23 @@ export function Navbar() {
             <Link to="/produk" className="text-base font-medium text-gray-600 hover:text-blue-600">
               Produk
             </Link>
-            <Link to="#alat" className="text-base font-medium text-gray-600 hover:text-blue-600">
+            <Link to="/alat" className="text-base font-medium text-gray-600 hover:text-blue-600">
               Alat
             </Link>
-            <Link to="#edukasi" className="text-base font-medium text-gray-600 hover:text-blue-600">
+            <Link to="/edukasi" className="text-base font-medium text-gray-600 hover:text-blue-600">
               Edukasi
             </Link>
             <div className="flex flex-col gap-2 pt-3 border-t border-gray-200">
-              <Button variant="outline" className="w-full rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 hover:border-blue-600">
-                Masuk
-              </Button>
-              <Button className="w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
-                Mulai Belajar
-              </Button>
+              <Link to="/login">
+                <Button variant="outline" className="w-full rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-blue-600 hover:border-blue-600">
+                  Masuk
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button className="w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
+                  Mulai Belajar
+                </Button>
+              </Link>
             </div>
           </nav>
         </div>

@@ -4,9 +4,9 @@ import { LogoMark } from "@/components/Logo"
 export function Footer() {
   const footerLinks = {
     produk: [
-      { name: "Cloud Hosting", href: "/products/cloud" },
-      { name: "Managed Database", href: "/products/database" },
-      { name: "n8n Automation", href: "/products/n8n" },
+      { name: "Managed Hosting", href: "/produk/cloud" },
+      { name: "Managed Database", href: "/produk/database" },
+      { name: "n8n Automation", href: "/produk/n8n" },
     ],
     alat: [
       { name: "Uptime Checker", href: "/alat/uptime-checker" },
@@ -16,9 +16,9 @@ export function Footer() {
       { name: "Unix Timestamp", href: "/alat/unix-timestamp" },
     ],
     edukasi: [
-      { name: "Getting Started", href: "/education/getting-started" },
-      { name: "Deploy Website", href: "/education/deploy" },
-      { name: "Best Practices", href: "/education/best-practices" },
+      { name: "Getting Started", href: "/edukasi/getting-started" },
+      { name: "Deploy Website", href: "/edukasi/deploy" },
+      { name: "Best Practices", href: "/edukasi/best-practices" },
       { name: "Blog", href: "/blog" },
       { name: "Documentation", href: "/docs" },
     ],

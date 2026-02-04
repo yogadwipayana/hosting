@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight01Icon, GlobeIcon, LockPasswordIcon, QrCodeIcon, ColorsIcon, Clock01Icon, Search01Icon } from "@hugeicons/core-free-icons"
+import { ArrowRight01Icon, Search01Icon } from "@hugeicons/core-free-icons"
 
 // Product data matching Navbar.jsx menuData.produk
 const productList = [
@@ -15,31 +15,28 @@ const productList = [
     id: "managed-hosting",
     title: "Managed Hosting",
     description: "Scalable managed hosting solution untuk aplikasi high-performance. Deploy dalam hitungan menit.",
-    icon: GlobeIcon,
-    href: "/products/cloud",
+    image: "/images/coolify.svg",
+    href: "/produk/cloud",
     category: "Hosting",
     color: "bg-blue-100",
-    iconColor: "#2563eb",
   },
   {
     id: "managed-database",
     title: "Managed Database",
     description: "PostgreSQL & MySQL managed solutions dengan backup otomatis, scaling mudah, dan performa tinggi.",
-    icon: ColorsIcon, // Using Colors as placeholder for diverse data types
-    href: "/products/database",
+    image: "/images/database-svgrepo-com.svg",
+    href: "/produk/database",
     category: "Managed Services",
-    color: "bg-emerald-100",
-    iconColor: "#059669",
+    color: "bg-blue-100",
   },
   {
     id: "n8n-automation",
     title: "n8n Automation",
     description: "Workflow automation made simple. Integrasikan berbagai layanan dan API tanpa coding yang rumit.",
-    icon: Clock01Icon, // Represents time-saving automation
-    href: "/products/n8n",
+    image: "/images/n8n.svg",
+    href: "/produk/n8n",
     category: "Automation",
-    color: "bg-violet-100",
-    iconColor: "#7c3aed",
+    color: "bg-blue-100",
   },
 ]
 
@@ -116,7 +113,7 @@ function ProductCard({ product }) {
         <div
           className={`inline-flex h-12 w-12 items-center justify-center rounded-lg ${product.color} mb-4`}
         >
-          <HugeiconsIcon icon={product.icon} size={24} color={product.iconColor} />
+          <img src={product.image} alt={product.title} className="h-7 w-7" />
         </div>
         <CardTitle className="text-lg">{product.title}</CardTitle>
         <CardDescription className="text-sm leading-relaxed">

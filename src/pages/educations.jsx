@@ -28,8 +28,8 @@ const educationList = [
     icon: GlobeIcon,
     href: "/edukasi/deploy",
     category: "Tutorial",
-    color: "bg-emerald-100",
-    iconColor: "#059669",
+    color: "bg-blue-100",
+    iconColor: "#2563eb",
   },
   {
     id: "best-practices",
@@ -38,8 +38,8 @@ const educationList = [
     icon: CheckmarkCircle02Icon, 
     href: "/edukasi/best-practices",
     category: "Tutorial",
-    color: "bg-violet-100",
-    iconColor: "#7c3aed",
+    color: "bg-blue-100",
+    iconColor: "#2563eb",
   },
   {
     id: "blog",
@@ -48,8 +48,8 @@ const educationList = [
     icon: ColorsIcon, 
     href: "/blog",
     category: "Resources",
-    color: "bg-orange-100",
-    iconColor: "#ea580c",
+    color: "bg-blue-100",
+    iconColor: "#2563eb",
   },
   {
     id: "documentation",
@@ -60,8 +60,8 @@ const educationList = [
     icon: Search01Icon,
     href: "/docs",
     category: "Resources",
-    color: "bg-slate-100",
-    iconColor: "#475569",
+    color: "bg-blue-100",
+    iconColor: "#2563eb",
   },
 ]
 

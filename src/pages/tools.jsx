@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight01Icon, GlobeIcon, LockPasswordIcon, QrCodeIcon, ColorsIcon, Clock01Icon, Search01Icon } from "@hugeicons/core-free-icons"
+import { ArrowRight01Icon, Search01Icon } from "@hugeicons/core-free-icons"
 
 // Tool data matching Navbar.jsx menuData.alat
 const alatList = [
@@ -15,51 +15,46 @@ const alatList = [
     id: "uptime-checker",
     title: "Website Uptime Checker",
     description: "Cek status website anda secara real-time. Verifikasi apakah server online atau down.",
-    icon: GlobeIcon,
+    image: "/images/website-svgrepo-com.svg",
     href: "/alat/uptime-checker",
     category: "Server & Hosting",
     color: "bg-blue-100",
-    iconColor: "#2563eb",
   },
   {
     id: "password-generator",
     title: "Password Generator",
     description: "Buat password kuat dan aman untuk aplikasi dan database Anda dengan mudah.",
-    icon: LockPasswordIcon,
+    image: "/images/password-2-svgrepo-com.svg",
     href: "/alat/password-generator",
     category: "Security",
     color: "bg-violet-100",
-    iconColor: "#7c3aed",
   },
   {
     id: "qr-code",
     title: "QR Code",
     description: "Generate QR code untuk URL, teks, atau data lainnya. Download dalam berbagai format.",
-    icon: QrCodeIcon,
+    image: "/images/qr-code-svgrepo-com.svg",
     href: "/alat/qr-code",
     category: "Developer Tools",
     color: "bg-blue-100",
-    iconColor: "#2563eb",
   },
   {
     id: "color-converter",
     title: "Color Converter",
     description: "Konversi warna antara HEX, RGB, HSL. Copy nilai dengan satu klik.",
-    icon: ColorsIcon,
+    image: "/images/color-palette-svgrepo-com.svg",
     href: "/alat/color-converter",
     category: "Developer Tools",
     color: "bg-violet-100",
-    iconColor: "#7c3aed",
   },
   {
     id: "unix-timestamp",
     title: "Unix Timestamp",
     description: "Convert Unix timestamp ke format tanggal yang mudah dibaca dan sebaliknya.",
-    icon: Clock01Icon,
+    image: "/images/time-svgrepo-com.svg",
     href: "/alat/unix-timestamp",
     category: "Converters",
     color: "bg-blue-100",
-    iconColor: "#2563eb",
   },
 ]
 
@@ -136,7 +131,7 @@ function AlatCard({ alat }) {
         <div
           className={`inline-flex h-12 w-12 items-center justify-center rounded-lg ${alat.color} mb-4`}
         >
-          <HugeiconsIcon icon={alat.icon} size={24} color={alat.iconColor} />
+          <img src={alat.image} alt={alat.title} className="h-7 w-7" />
         </div>
         <CardTitle className="text-lg">{alat.title}</CardTitle>
         <CardDescription className="text-sm leading-relaxed">
