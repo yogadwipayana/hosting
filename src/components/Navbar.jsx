@@ -21,21 +21,21 @@ const menuData = {
       {
         title: "HOSTING",
         items: [
-          { name: "Managed Hosting", description: "Scalable managed hosting solution", href: "/products/cloud" }
+          { name: "Managed Hosting", description: "Scalable managed hosting solution", href: "/produk/cloud" }
         ],
       },
       {
         title: "MANAGED SERVICES",
         items: [
-          { name: "Managed Database", description: "PostgreSQL, MySQL", href: "/products/database" }
+          { name: "Managed Database", description: "PostgreSQL, MySQL", href: "/produk/database" }
         ],
       },
       {
         title: "AUTOMATION",
         items: [
-          { name: "n8n Automation", description: "Workflow automation", href: "/products/n8n" }
+          { name: "n8n Automation", description: "Workflow automation", href: "/produk/n8n" }
         ],
-        footer: { label: "Lihat Semua Produk →", href: "/products" },
+        footer: { label: "Lihat Semua Produk →", href: "/produk" },
       },
     ],
   },
@@ -74,9 +74,9 @@ const menuData = {
       {
         title: "TUTORIAL",
         items: [
-          { name: "Getting Started", description: "Panduan pemula", href: "/education/getting-started" },
-          { name: "Deploy Website", description: "Tutorial deploy", href: "/education/deploy" },
-          { name: "Best Practices", description: "Tips & trik", href: "/education/best-practices" },
+          { name: "Getting Started", description: "Panduan pemula", href: "/edukasi/getting-started" },
+          { name: "Deploy Website", description: "Tutorial deploy", href: "/edukasi/deploy" },
+          { name: "Best Practices", description: "Tips & trik", href: "/edukasi/best-practices" },
         ],
       },
       {
@@ -85,7 +85,7 @@ const menuData = {
           { name: "Blog", description: "Artikel terbaru", href: "/blog" },
           { name: "Documentation", description: "Panduan lengkap", href: "/docs" },
         ],
-        footer: { label: "Lihat Semua Edukasi →", href: "/education" },
+        footer: { label: "Lihat Semua Edukasi →", href: "/edukasi" },
       },
     ],
   },
