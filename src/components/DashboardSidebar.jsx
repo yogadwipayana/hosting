@@ -9,6 +9,7 @@ import {
   Bookmark,
   CreditCard,
   Settings,
+  HelpCircle,
 } from "lucide-react"
 import { LogoMark } from "@/components/Logo"
 
@@ -41,6 +42,7 @@ const menuItems = [
     items: [
       { id: "credit", name: "Credit", icon: CreditCard, href: "/dashboard/credit" },
       { id: "pengaturan", name: "Pengaturan", icon: Settings, href: "/dashboard/pengaturan" },
+      { id: "bantuan", name: "Bantuan", icon: HelpCircle, href: "/dashboard/bantuan" },
     ],
   },
 ]
@@ -53,7 +55,19 @@ const menuItems = [
  * @param {boolean} isOpen - Whether the sidebar is open on mobile
  * @param {function} onClose - Callback to close the sidebar
  */
-export function DashboardSidebar({ activeMenuItem = "ringkasan", isOpen = false, onClose }) {
+export function DashboardSidebar({ activeMenuItem, activePage, isOpen = false, onClose }) {
+  // Helper to determine if an item is active
+  const isActive = (item) => {
+    if (activePage) {
+      // Direct path match
+      if (item.href === activePage) return true;
+      // Handle sub-paths (optional/future-proof)
+      // if (activePage.startsWith(item.href) && item.href !== "/dashboard") return true;
+    }
+    // Fallback to ID match
+    return item.id === activeMenuItem;
+  };
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -91,7 +105,7 @@ export function DashboardSidebar({ activeMenuItem = "ringkasan", isOpen = false,
                     to={item.href}
                     onClick={onClose} // Auto close on mobile navigation
                     className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-colors ${
-                      item.id === activeMenuItem
+                      isActive(item)
                         ? "bg-blue-50 text-blue-600"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}

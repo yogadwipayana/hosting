@@ -112,9 +112,9 @@ function ProductsSidebar() {
 // Pricing Card Component
 function PricingCard({ title, price, period, features, highlighted, ctaText }) {
   return (
-    <div className={`rounded-2xl border p-6 ${highlighted ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-500" : "border-gray-200 bg-white"}`}>
+    <div className={`feature-card flex flex-col h-full rounded-2xl border p-6 ${highlighted ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-500" : "border-gray-200 bg-white"}`}>
       {highlighted && (
-        <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-full mb-4">
+        <span className="inline-block w-fit px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-full mb-4">
           Paling Populer
         </span>
       )}
@@ -123,7 +123,7 @@ function PricingCard({ title, price, period, features, highlighted, ctaText }) {
         <span className="text-3xl font-bold text-foreground">{price}</span>
         <span className="text-muted-foreground">/{period}</span>
       </div>
-      <ul className="space-y-3 mb-6">
+      <ul className="space-y-3 mb-8 flex-1">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start gap-2 text-sm">
             <HugeiconsIcon icon={CheckmarkCircle02Icon} size={18} className="text-green-500 mt-0.5 shrink-0" />
@@ -131,7 +131,7 @@ function PricingCard({ title, price, period, features, highlighted, ctaText }) {
           </li>
         ))}
       </ul>
-      <Button className={`w-full h-11 ${highlighted ? "bg-blue-600 hover:bg-blue-700" : "bg-slate-900 hover:bg-slate-800"}`}>
+      <Button className={`w-full h-11 mt-auto ${highlighted ? "bg-blue-600 hover:bg-blue-700" : "bg-slate-900 hover:bg-slate-800"}`}>
         {ctaText || "Mulai Sekarang"}
         <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
       </Button>
@@ -238,6 +238,7 @@ export default function ManagedHostingPage() {
                       "4 GB RAM",
                       "50 GB SSD Storage",
                       "2 TB Bandwidth",
+                      "5 Sub Domain *.belajarhosting.com",
                       "Gratis Domain .com/.id/.org (min. pembelian 12 bulan)",
                     ]}
                   />

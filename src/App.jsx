@@ -22,6 +22,20 @@ import RegisterPage from "@/pages/auth/register"
 import LoginPage from "@/pages/auth/login"
 import DashboardOverview from "@/pages/dashboards/overview"
 import DashboardHosting from "@/pages/dashboards/hosting"
+import DeployHosting from "@/pages/dashboards/create/deployHosting"
+import DeployDomain from "@/pages/dashboards/create/deployDomain"
+import DeployDatabase from "@/pages/dashboards/create/deployDatabase"
+import DeployAutomation from "@/pages/dashboards/create/deployAutomation"
+import DashboardDatabase from "@/pages/dashboards/database"
+import DashboardAutomation from "@/pages/dashboards/automation"
+import DashboardSetting from "@/pages/dashboards/setting"
+import DashboardSupport from "@/pages/dashboards/support"
+import DashboardCredit from "@/pages/dashboards/credit"
+import ProjectDashboard from "@/pages/dashboards/project"
+import ProjectDetail from "@/pages/dashboards/project/projectDetail"
+import NewProjectPage from "@/pages/dashboards/project/projectNew"
+import ClassDashboard from "@/pages/dashboards/class"
+import BookmarkDashboard from "@/pages/dashboards/bookmark"
 
 // Main App Component
 export default function App() {
@@ -53,7 +67,21 @@ export default function App() {
       <Route path="/blog" element={<BlogsPage />} />
       <Route path="/docs" element={<DocumentasionsPage />} />
       <Route path="/dashboard" element={<DashboardOverview />} />
+      <Route path="/dashboard/proyek" element={<ProjectDashboard />} />
+      <Route path="/dashboard/project/:id" element={<ProjectDetail />} />
+      <Route path="/dashboard/project/new" element={<NewProjectPage />} />
+      <Route path="/dashboard/kelas" element={<ClassDashboard />} />
+      <Route path="/dashboard/bookmark" element={<BookmarkDashboard />} />
       <Route path="/dashboard/hosting" element={<DashboardHosting />} />
+      <Route path="/dashboard/hosting/deploy" element={<DeployHosting />} />
+      <Route path="/dashboard/hosting/domain" element={<DeployDomain />} />
+      <Route path="/dashboard/database" element={<DashboardDatabase />} />
+      <Route path="/dashboard/database/deploy" element={<DeployDatabase />} />
+      <Route path="/dashboard/automation" element={<DashboardAutomation />} />
+      <Route path="/dashboard/automation/deploy" element={<DeployAutomation />} />
+      <Route path="/dashboard/pengaturan" element={<DashboardSetting />} />
+      <Route path="/dashboard/bantuan" element={<DashboardSupport />} />
+      <Route path="/dashboard/credit" element={<DashboardCredit />} />
       
     </Routes>
   )

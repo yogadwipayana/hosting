@@ -109,7 +109,7 @@ function ProductsSidebar() {
 }
 
 // Database Card Component
-function DatabaseCard({ name, logo, description, features }) {
+function DatabaseCard({ name, logo, description, features, href }) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition-shadow">
       <div className="flex items-center gap-4 mb-4">
@@ -129,10 +129,12 @@ function DatabaseCard({ name, logo, description, features }) {
           </li>
         ))}
       </ul>
-      <Button variant="outline" className="w-full">
-        Lihat Detail
-        <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
-      </Button>
+      <a href={href} target="_blank" rel="noopener noreferrer" className="block w-full">
+        <Button className="w-full bg-white border border-gray-200 text-gray-900 hover:bg-gray-50 hover:text-gray-900 shadow-sm">
+          Lihat Detail
+          <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
+        </Button>
+      </a>
     </div>
   )
 }
@@ -140,9 +142,9 @@ function DatabaseCard({ name, logo, description, features }) {
 // Pricing Card Component
 function PricingCard({ title, price, period, features, highlighted, ctaText }) {
   return (
-    <div className={`rounded-2xl border p-6 ${highlighted ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-500" : "border-gray-200 bg-white"}`}>
+    <div className={`feature-card flex flex-col h-full rounded-2xl border p-6 ${highlighted ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-500" : "border-gray-200 bg-white"}`}>
       {highlighted && (
-        <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-full mb-4">
+        <span className="inline-block w-fit px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-full mb-4">
           Paling Populer
         </span>
       )}
@@ -151,7 +153,7 @@ function PricingCard({ title, price, period, features, highlighted, ctaText }) {
         <span className="text-3xl font-bold text-foreground">{price}</span>
         <span className="text-muted-foreground">/{period}</span>
       </div>
-      <ul className="space-y-3 mb-6">
+      <ul className="space-y-3 mb-8 flex-1">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start gap-2 text-sm">
             <HugeiconsIcon icon={CheckmarkCircle02Icon} size={18} className="text-green-500 mt-0.5 shrink-0" />
@@ -159,7 +161,7 @@ function PricingCard({ title, price, period, features, highlighted, ctaText }) {
           </li>
         ))}
       </ul>
-      <Button className={`w-full h-11 ${highlighted ? "bg-blue-600 hover:bg-blue-700" : "bg-slate-900 hover:bg-slate-800"}`}>
+      <Button className={`w-full h-11 mt-auto ${highlighted ? "bg-blue-600 hover:bg-blue-700" : "bg-slate-900 hover:bg-slate-800"}`}>
         {ctaText || "Mulai Sekarang"}
         <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
       </Button>
@@ -218,6 +220,7 @@ export default function ManagedDatabasePage() {
                     name="PostgreSQL"
                     logo="/images/postgres.svg"
                     description="Database relasional open-source yang powerful"
+                    href="https://www.postgresql.org/"
                     features={[
                       "ACID compliant",
                       "JSON & JSONB support",
@@ -229,6 +232,7 @@ export default function ManagedDatabasePage() {
                     name="MySQL"
                     logo="/images/mysql.svg"
                     description="Database populer untuk web applications"
+                    href="https://www.mysql.com/"
                     features={[
                       "High performance",
                       "Replication support",

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Search } from "lucide-react"
 
-const domainPricingData = [
+export const domainPricingData = [
   { tld: ".com", minYears: 1, register: "Rp. 210,000", transfer: "Rp. 230,000", renew: "Rp. 230,000" },
   { tld: ".net", minYears: 1, register: "Rp. 255,000", transfer: "Rp. 255,000", renew: "Rp. 255,000" },
   { tld: ".org", minYears: 1, register: "Rp. 210,000", transfer: "Rp. 210,000", renew: "Rp. 210,000" },
