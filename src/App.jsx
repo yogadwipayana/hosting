@@ -19,6 +19,7 @@ import DeployPage from "@/pages/tutorials/deploy"
 import BestPracticesPage from "@/pages/tutorials/bestPractices"
 import RegisterPage from "@/pages/auth/register"
 import LoginPage from "@/pages/auth/login"
+import DashboardOverview from "@/pages/dashboards/overview"
 
 // Main App Component
 export default function App() {
@@ -48,6 +49,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/blog" element={<BlogsPage />} />
       <Route path="/docs" element={<DocumentasionsPage />} />
+      <Route path="/dashboard" element={<DashboardOverview />} />
       
     </Routes>
   )

@@ -27,7 +27,7 @@ const alatList = [
     image: "/images/password-2-svgrepo-com.svg",
     href: "/alat/password-generator",
     category: "Security",
-    color: "bg-violet-100",
+    color: "bg-blue-100",
   },
   {
     id: "qr-code",
@@ -45,7 +45,7 @@ const alatList = [
     image: "/images/color-palette-svgrepo-com.svg",
     href: "/alat/color-converter",
     category: "Developer Tools",
-    color: "bg-violet-100",
+    color: "bg-blue-100",
   },
   {
     id: "unix-timestamp",
