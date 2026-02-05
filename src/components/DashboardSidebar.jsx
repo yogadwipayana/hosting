@@ -50,42 +50,76 @@ const menuItems = [
  * Reusable sidebar for dashboard pages with navigation menu
  * 
  * @param {string} activeMenuItem - The ID of the currently active menu item (e.g., "ringkasan", "proyek")
+ * @param {boolean} isOpen - Whether the sidebar is open on mobile
+ * @param {function} onClose - Callback to close the sidebar
  */
-export function DashboardSidebar({ activeMenuItem = "ringkasan" }) {
+export function DashboardSidebar({ activeMenuItem = "ringkasan", isOpen = false, onClose }) {
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r bg-white">
-      <div className="flex h-16 items-center border-b px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <LogoMark size={32} />
-          <span className="text-xl font-bold text-gray-900">Belajar Hosting</span>
-        </Link>
-      </div>
-      
-      <div className="h-[calc(100vh-64px)] overflow-y-auto py-6">
-        {menuItems.map((section, index) => (
-          <div key={index} className="mb-6 px-4">
-            <h3 className="mb-2 px-2 text-xs font-semibold text-gray-500">
-              {section.title}
-            </h3>
-            <div className="space-y-1">
-              {section.items.map((item, itemIndex) => (
-                <Link
-                  key={itemIndex}
-                  to={item.href}
-                  className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-colors ${
-                    item.id === activeMenuItem
-                      ? "bg-blue-50 text-blue-600"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                  }`}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.name}
-                </Link>
-              ))}
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden transition-opacity"
+          onClick={onClose}
+        />
+      )}
+
+      <aside 
+        className={`
+          fixed left-0 top-0 z-50 h-screen w-64 border-r bg-white transition-transform duration-300 flex flex-col
+          lg:translate-x-0 lg:z-40
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        <div className="flex h-16 items-center px-6 border-b shrink-0">
+          <Link to="/" className="flex items-center gap-2">
+            <LogoMark size={32} />
+            <span className="text-xl font-bold text-gray-900">Belajar Hosting</span>
+          </Link>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto py-6">
+          {menuItems.map((section, index) => (
+            <div key={index} className="mb-6 px-4">
+              <h3 className="mb-2 px-2 text-xs font-semibold text-gray-500">
+                {section.title}
+              </h3>
+              <div className="space-y-1">
+                {section.items.map((item, itemIndex) => (
+                  <Link
+                    key={itemIndex}
+                    to={item.href}
+                    onClick={onClose} // Auto close on mobile navigation
+                    className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium transition-colors ${
+                      item.id === activeMenuItem
+                        ? "bg-blue-50 text-blue-600"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </aside>
+          ))}
+        </div>
+
+        {/* Mobile Close Button Footer */}
+        <div className="p-4 border-t lg:hidden mt-auto">
+          <button 
+            onClick={onClose}
+            className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+          >
+            <img 
+              src="/images/sidebar-hide-svgrepo-com.svg" 
+              alt="Close Sidebar" 
+              className="h-5 w-5"
+            />
+            <span>Tutup Sidebar</span>
+          </button>
+        </div>
+      </aside>
+    </>
   )
 }

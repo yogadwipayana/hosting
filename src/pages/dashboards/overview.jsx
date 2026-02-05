@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Helmet } from "react-helmet-async"
 import { Link } from "react-router"
 import {
@@ -46,17 +46,24 @@ const MainContent = () => {
 
 // Layout Wrapper
 export default function DashboardOverview() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
   return (
     <>
       <Helmet>
         <title>Dashboard - Learn</title>
       </Helmet>
       <div className="min-h-screen bg-gray-50">
-        <DashboardSidebar activeMenuItem="ringkasan" />
-        <div className="pl-64">
+        <DashboardSidebar 
+          activeMenuItem="ringkasan" 
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+        />
+        <div className="lg:pl-64 transition-all duration-300">
           <DashboardTopbar 
             userName="User" 
             userEmail="yogadwipayana2006@gmail.com"
+            onMenuClick={() => setIsSidebarOpen(true)}
           />
           <MainContent />
         </div>

@@ -20,6 +20,7 @@ import BestPracticesPage from "@/pages/tutorials/bestPractices"
 import RegisterPage from "@/pages/auth/register"
 import LoginPage from "@/pages/auth/login"
 import DashboardOverview from "@/pages/dashboards/overview"
+import DashboardHosting from "@/pages/dashboards/hosting"
 
 // Main App Component
 export default function App() {
@@ -50,6 +51,7 @@ export default function App() {
       <Route path="/blog" element={<BlogsPage />} />
       <Route path="/docs" element={<DocumentasionsPage />} />
       <Route path="/dashboard" element={<DashboardOverview />} />
+      <Route path="/dashboard/hosting" element={<DashboardHosting />} />
       
     </Routes>
   )
