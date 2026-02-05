@@ -9,6 +9,7 @@ import PasswordGeneratorPage from "@/pages/tools/passwordGenerator"
 import QRCodePage from "@/pages/tools/qrCode"
 import ColorConverterPage from "@/pages/tools/colorConverter"
 import UnixTimestampPage from "@/pages/tools/unixTimestamp"
+import DomainCheckPage from "@/pages/tools/domainCheck"
 import ManagedHostingPage from "@/pages/products/cloud"
 import ManagedDatabasePage from "@/pages/products/database"
 import N8nAutomationPage from "@/pages/products/n8n"
@@ -41,6 +42,7 @@ export default function App() {
       <Route path="/alat/qr-code" element={<QRCodePage />} />
       <Route path="/alat/color-converter" element={<ColorConverterPage />} />
       <Route path="/alat/unix-timestamp" element={<UnixTimestampPage />} />
+      <Route path="/alat/domain-checker" element={<DomainCheckPage />} />
 
       <Route path="/edukasi" element={<EducationsPage />} />
       <Route path="/edukasi/getting-started" element={<GettingStartedPage />} />

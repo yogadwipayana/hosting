@@ -18,6 +18,7 @@ const toolCategories = [
     count: 10,
     items: [
       { id: "uptime-checker", title: "Website Uptime Checker", href: "/alat/uptime-checker", icon: GlobeIcon },
+      { id: "domain-checker", title: "Domain Checker", href: "/alat/domain-checker", icon: Search01Icon },
     ]
   },
   {

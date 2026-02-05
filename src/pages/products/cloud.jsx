@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import DomainPrice from "@/components/DomainPrice"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { 
   GlobeIcon, 
@@ -230,17 +231,26 @@ export default function ManagedHostingPage() {
                   />
                   <PricingCard 
                     title="Business"
-                    price="Rp 250.000"
+                    price="Rp 100.000"
                     period="bulan"
                     features={[
                       "2 vCPU",
                       "4 GB RAM",
                       "50 GB SSD Storage",
                       "2 TB Bandwidth",
-                      "1 Domain",
+                      "Gratis Domain .com/.id/.org (min. pembelian 12 bulan)",
                     ]}
                   />
                 </div>
+              </div>
+
+
+              {/* Add on Domain */}
+              <div className="mb-12">
+                <h2 className="text-2xl font-bold tracking-tight text-foreground mb-6">
+                  Add on Domain
+                </h2>
+                <DomainPrice />
               </div>
 
               {/* FAQ / Additional Info */}

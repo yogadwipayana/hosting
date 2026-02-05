@@ -21,6 +21,15 @@ const alatList = [
     color: "bg-blue-100",
   },
   {
+    id: "domain-checker",
+    title: "Domain Checker",
+    description: "Cek ketersediaan domain dan informasi WHOIS lengkap dengan mudah dan cepat.",
+    image: "/images/website-svgrepo-com.svg",
+    href: "/alat/domain-checker",
+    category: "Server & Hosting",
+    color: "bg-blue-100",
+  },
+  {
     id: "password-generator",
     title: "Password Generator",
     description: "Buat password kuat dan aman untuk aplikasi dan database Anda dengan mudah.",
