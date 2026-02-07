@@ -129,7 +129,7 @@ const MainContent = () => {
 
 
                         <div className="pt-6 border-t flex items-center justify-end gap-4">
-                            <Button type="button" variant="ghost" onClick={() => navigate("/dashboard/proyek")}>
+                            <Button type="button" variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900" onClick={() => navigate("/dashboard/proyek")}>
                                 Batal
                             </Button>
                             <Button type="submit" size="lg" className="min-w-[150px]" disabled={isLoading}>

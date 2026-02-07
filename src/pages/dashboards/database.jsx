@@ -14,7 +14,6 @@ import {
   Activity,
   AlertCircle
 } from "lucide-react"
-
 // Mock Data
 const databaseServices = [
   {

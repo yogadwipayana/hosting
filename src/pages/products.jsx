@@ -182,10 +182,12 @@ function MoreProductsSection() {
               Hubungi tim expert kami untuk konsultasi gratis.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button className="rounded-lg bg-primary hover:bg-primary/90">
-                Hubungi Sales
-              </Button>
-              <Button variant="outline" className="rounded-lg">
+              <a href="https://wa.me/6285173090538" target="_blank" rel="noopener noreferrer">
+                <Button className="rounded-lg bg-primary hover:bg-primary/90">
+                  Hubungi Sales
+                </Button>
+              </a>
+              <Button variant="outline" className="rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900">
                 Jadwalkan Demo
               </Button>
             </div>

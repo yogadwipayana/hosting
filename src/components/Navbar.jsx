@@ -44,7 +44,8 @@ const menuData = {
       {
         title: "SERVER & HOSTING",
         items: [
-          { name: "Website Uptime Checker", description: "Cek status website", href: "/alat/uptime-checker" }
+          { name: "Website Uptime Checker", description: "Cek status website", href: "/alat/uptime-checker" },
+          { name: "Domain Checker", description: "Cek ketersediaan domain", href: "/alat/domain-checker" }
         ],
       },
       {
@@ -157,7 +158,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/60">
       <div className="container mx-auto flex h-16 items-center px-4">
         {/* Logo - Fixed width left section */}
-        <div className="flex-shrink-0 w-48">
+        <div className="shrink-0 w-48">
           <Link to="/" className="flex items-center gap-2">
             <LogoMark size={32} />
             <span className="text-xl font-bold text-gray-900">Belajar Hosting</span>
@@ -220,7 +221,7 @@ export function Navbar() {
         </div>
 
         {/* Search Box & CTA Buttons - Fixed width right section */}
-        <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+        <div className="hidden md:flex items-center gap-3 shrink-0">
           {/* Search Box */}
           <div className="relative flex items-center">
             <Search className="absolute left-3 h-4 w-4 text-gray-400" />

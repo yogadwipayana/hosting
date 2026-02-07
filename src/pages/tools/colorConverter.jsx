@@ -135,7 +135,7 @@ function ColorConverterForm() {
           <Button 
             onClick={() => copyValue(hexValue, "hex")}
             variant="outline"
-            className="h-12 px-4"
+            className="h-12 px-4 bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-gray-900"
           >
             <HugeiconsIcon icon={Copy01Icon} size={18} />
             {copied === "hex" ? "Copied!" : "Copy"}

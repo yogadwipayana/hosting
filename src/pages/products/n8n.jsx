@@ -125,7 +125,7 @@ function IntegrationCard({ name, description, icon }) {
 }
 
 // Pricing Card Component
-function PricingCard({ title, price, period, features, highlighted, ctaText }) {
+function PricingCard({ title, price, period, features, highlighted, ctaText, href }) {
   return (
     <div className={`feature-card flex flex-col h-full rounded-2xl border p-6 ${highlighted ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-500" : "border-gray-200 bg-white"}`}>
       {highlighted && (
@@ -146,9 +146,28 @@ function PricingCard({ title, price, period, features, highlighted, ctaText }) {
           </li>
         ))}
       </ul>
-      <Button className={`w-full h-11 mt-auto ${highlighted ? "bg-blue-600 hover:bg-blue-700" : "bg-slate-900 hover:bg-slate-800"}`}>
-        {ctaText || "Mulai Sekarang"}
-        <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
+      <Button 
+        asChild={!!href}
+        className={`w-full h-11 mt-auto ${highlighted ? "bg-blue-600 hover:bg-blue-700" : "bg-slate-900 hover:bg-slate-800"}`}
+      >
+        {href ? (
+          href.startsWith("http") ? (
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {ctaText || "Mulai Sekarang"}
+              <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
+            </a>
+          ) : (
+             <Link to={href}>
+              {ctaText || "Mulai Sekarang"}
+              <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
+             </Link>
+          )
+        ) : (
+          <>
+            {ctaText || "Mulai Sekarang"}
+            <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
+          </>
+        )}
       </Button>
     </div>
   )
@@ -305,6 +324,7 @@ export default function N8nAutomationPage() {
                       "Dedicated support",
                     ]}
                     ctaText="Hubungi Sales"
+                    href="https://wa.me/6285173090538"
                   />
                 </div>
               </div>

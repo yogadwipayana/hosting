@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon, Search01Icon } from "@hugeicons/core-free-icons"
+import { Globe } from "lucide-react"
 
 // Tool data matching Navbar.jsx menuData.alat
 const alatList = [
@@ -24,7 +25,7 @@ const alatList = [
     id: "domain-checker",
     title: "Domain Checker",
     description: "Cek ketersediaan domain dan informasi WHOIS lengkap dengan mudah dan cepat.",
-    image: "/images/website-svgrepo-com.svg",
+    icon: Globe,
     href: "/alat/domain-checker",
     category: "Server & Hosting",
     color: "bg-blue-100",
@@ -140,7 +141,11 @@ function AlatCard({ alat }) {
         <div
           className={`inline-flex h-12 w-12 items-center justify-center rounded-lg ${alat.color} mb-4`}
         >
-          <img src={alat.image} alt={alat.title} className="h-7 w-7" />
+          {alat.icon ? (
+            <alat.icon className="h-6 w-6" />
+          ) : (
+            <img src={alat.image} alt={alat.title} className="h-7 w-7" />
+          )}
         </div>
         <CardTitle className="text-lg">{alat.title}</CardTitle>
         <CardDescription className="text-sm leading-relaxed">
@@ -209,10 +214,12 @@ function MoreAlatSection() {
               Punya saran? Beritahu kami!
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button className="rounded-lg bg-primary hover:bg-primary/90">
-                Request Alat Baru
-              </Button>
-              <Button variant="outline" className="rounded-lg">
+              <a href="https://wa.me/6285173090538" target="_blank" rel="noopener noreferrer">
+                <Button className="rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
+                  Request Alat Baru
+                </Button>
+              </a>
+              <Button variant="outline" className="rounded-lg border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
                 Lihat Roadmap
               </Button>
             </div>

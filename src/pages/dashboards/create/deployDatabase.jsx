@@ -4,10 +4,10 @@ import { useNavigate } from "react-router"
 import { DashboardSidebar } from "@/components/DashboardSidebar"
 import { DashboardTopbar } from "@/components/DashboardTopbar"
 import { 
-  GlobeIcon, 
+  GlobeIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Database, Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Lock, User } from "lucide-react"
+import { Database, Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Lock, User, Globe } from "lucide-react"
 
 export default function DeployDatabase() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -21,6 +21,7 @@ export default function DeployDatabase() {
   const [billingCycle, setBillingCycle] = useState("monthly")
   
   // Credentials
+  const [instanceName, setInstanceName] = useState("")
   const [dbName, setDbName] = useState("")
   const [dbUser, setDbUser] = useState("root")
   const [dbPass, setDbPass] = useState("")
@@ -61,8 +62,8 @@ export default function DeployDatabase() {
   }, [selectedEngine])
 
   const handleDeploy = () => {
-    if (!dbName || !dbUser || !dbPass) {
-      alert("Mohon lengkapi konfigurasi database (Nama, User, Password)")
+    if (!instanceName || !dbName || !dbUser || !dbPass) {
+      alert("Mohon lengkapi konfigurasi database (Nama Instance, Nama Database, User, Password)")
       return
     }
 
@@ -230,6 +231,25 @@ export default function DeployDatabase() {
                        Konfigurasi Akun
                     </h2>
                     <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Nama Instance</label>
+                        <div className="relative">
+                          <Globe size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <div className="flex">
+                            <input 
+                              type="text" 
+                              value={instanceName}
+                              onChange={(e) => setInstanceName(e.target.value)}
+                              className="flex-1 pl-10 pr-4 py-2 border border-r-0 border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                              placeholder="my-db-instance"
+                            />
+                            <div className="flex items-center px-4 border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm rounded-r-lg">
+                              .dockploy.com
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">pgadmin/phpmyadmin Anda akan dapat diakses melalui URL ini.</p>
+                      </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Nama Database</label>
                         <div className="relative">

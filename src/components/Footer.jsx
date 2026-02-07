@@ -9,7 +9,8 @@ export function Footer() {
       { name: "n8n Automation", href: "/produk/n8n" },
     ],
     alat: [
-      { name: "Uptime Checker", href: "/alat/uptime-checker" },
+      { name: "Website Uptime Checker", href: "/alat/uptime-checker" },
+      { name: "Domain Checker", href: "/alat/domain-checker" },
       { name: "Password Generator", href: "/alat/password-generator" },
       { name: "QR Code Generator", href: "/alat/qr-code" },
       { name: "Color Converter", href: "/alat/color-converter" },
@@ -62,7 +63,9 @@ export function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Produk</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+              <Link to="/produk" className="hover:text-primary transition-colors">Produk</Link>
+            </h3>
             <ul className="space-y-3">
               {footerLinks.produk.map((link) => (
                 <li key={link.name}>
@@ -75,7 +78,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Alat</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+              <Link to="/alat" className="hover:text-primary transition-colors">Alat</Link>
+            </h3>
             <ul className="space-y-3">
               {footerLinks.alat.map((link) => (
                 <li key={link.name}>
@@ -88,7 +93,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Edukasi</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+              <Link to="/blog" className="hover:text-primary transition-colors">Edukasi</Link>
+            </h3>
             <ul className="space-y-3">
               {footerLinks.edukasi.map((link) => (
                 <li key={link.name}>

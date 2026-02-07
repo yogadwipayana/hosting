@@ -65,13 +65,17 @@ function HeroSection() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <Button size="lg" className="rounded-lg bg-primary hover:bg-primary/90 px-8">
-                Mulai Belajar Gratis
-                <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2" size={16} />
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-lg border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
-                Lihat Tutorial
-              </Button>
+              <Link to="/edukasi/getting-started">
+                <Button size="lg" className="rounded-lg bg-primary hover:bg-primary/90 px-8">
+                  Mulai Belajar Gratis
+                  <HugeiconsIcon icon={ArrowRight01Icon} className="ml-2" size={16} />
+                </Button>
+              </Link>
+              <Link to="/edukasi/getting-started">
+                <Button size="lg" variant="outline" className="rounded-lg border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
+                  Lihat Tutorial
+                </Button>
+              </Link>
             </div>
 
             {/* Trust Indicators */}
@@ -231,7 +235,7 @@ function FeaturesSection() {
               </CardHeader>
               <CardContent>
                 <Link
-                  to="#"
+                  to="/blog"
                   className="inline-flex items-center text-sm font-medium text-primary group-hover:underline"
                 >
                   Lihat Tutorial
@@ -249,12 +253,12 @@ function FeaturesSection() {
 // Tools Section
 function ToolsSection() {
   const tools = [
-    { name: "Vercel", category: "Frontend Hosting", icon: ZapIcon },
-    { name: "Railway", category: "Backend Hosting", icon: RailwayIcon },
-    { name: "Supabase", category: "Database", icon: SupabaseIcon },
-    { name: "Coolify", category: "Self-Hosted", icon: LayersIcon },
-    { name: "Docker", category: "Container", icon: SourceCodeIcon },
-    { name: "n8n", category: "Automation", icon: N8nIcon },
+    { name: "Vercel", category: "Frontend Hosting", icon: ZapIcon, href: "https://vercel.com" },
+    { name: "Railway", category: "Backend Hosting", icon: RailwayIcon, href: "https://railway.app" },
+    { name: "Supabase", category: "Database", icon: SupabaseIcon, href: "https://supabase.com" },
+    { name: "Coolify", category: "Self-Hosted", icon: LayersIcon, href: "https://coolify.io" },
+    { name: "Docker", category: "Container", icon: SourceCodeIcon, href: "https://www.docker.com" },
+    { name: "n8n", category: "Automation", icon: N8nIcon, href: "https://n8n.io" },
   ]
 
   return (
@@ -280,18 +284,21 @@ function ToolsSection() {
 
             <div className="grid grid-cols-2 gap-4">
               {tools.map((tool) => (
-                <div
+                <a
                   key={tool.name}
-                  className="flex items-center gap-3 rounded-lg bg-card p-4 shadow-sm border hover:border-primary/50 transition-colors"
+                  href={tool.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 rounded-lg bg-card p-4 shadow-sm border hover:border-primary/50 transition-colors group"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
                     <tool.icon />
                   </div>
                   <div>
-                    <p className="font-medium text-foreground">{tool.name}</p>
+                    <p className="font-medium text-foreground group-hover:text-primary transition-colors">{tool.name}</p>
                     <p className="text-xs text-muted-foreground">{tool.category}</p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
