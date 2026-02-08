@@ -193,6 +193,45 @@ function EducationsGridSection() {
 
 // Newsletter CTA Section
 function NewsletterSection() {
+  const [email, setEmail] = useState("")
+  const [status, setStatus] = useState("idle") // idle, loading, success, error
+  const [message, setMessage] = useState("")
+
+  const handleSubscribe = (e) => {
+    e.preventDefault()
+    
+    // Reset status
+    setStatus("loading")
+    setMessage("")
+
+    // Basic Validation
+    if (!email) {
+      setStatus("error")
+      setMessage("Email tidak boleh kosong.")
+      return
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setStatus("error")
+      setMessage("Format email tidak valid.")
+      return
+    }
+
+    // Simulate API Call
+    setTimeout(() => {
+      setStatus("success")
+      setMessage("Terima kasih! Anda telah berhasil berlangganan.")
+      setEmail("")
+      
+      // Reset to idle after 3 seconds so user can subscribe another email if they want
+      setTimeout(() => {
+        setStatus("idle")
+        setMessage("")
+      }, 5000)
+    }, 1500)
+  }
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -204,17 +243,54 @@ function NewsletterSection() {
             <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
               Berlangganan newsletter kami untuk mendapatkan tips hosting, security, dan deployment langsung di inbox Anda.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
-              <Input 
-                type="email" 
-                placeholder="Masukkan alamat email anda" 
-                className="h-10 bg-white"
-              />
-              <Button className="rounded-lg bg-primary hover:bg-primary/90 whitespace-nowrap">
-                Subscribe
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground mt-4">
+            
+            <form onSubmit={handleSubscribe} className="max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-2">
+                <div className="w-full relative">
+                  <Input 
+                    type="email" 
+                    placeholder="Masukkan alamat email anda" 
+                    className={`h-10 bg-white ${status === 'error' ? 'border-red-500 focus-visible:ring-red-500' : ''} ${status === 'success' ? 'border-green-500 focus-visible:ring-green-500' : ''}`}
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value)
+                      if (status === 'error') {
+                        setStatus('idle')
+                        setMessage('')
+                      }
+                    }}
+                    disabled={status === 'loading' || status === 'success'}
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  className={`rounded-lg whitespace-nowrap transition-all ${
+                    status === 'success' 
+                      ? 'bg-green-600 hover:bg-green-700' 
+                      : 'bg-primary hover:bg-primary/90'
+                  }`}
+                  disabled={status === 'loading' || status === 'success'}
+                >
+                  {status === 'loading' ? 'Memproses...' : status === 'success' ? 'Terkirim!' : 'Subscribe'}
+                </Button>
+              </div>
+              
+              {/* Validation & Success Messages */}
+              <div className="h-6">
+                {status === 'error' && (
+                  <p className="text-sm text-red-500 animate-in fade-in slide-in-from-top-1">
+                    {message}
+                  </p>
+                )}
+                {status === 'success' && (
+                  <p className="text-sm text-green-600 font-medium animate-in fade-in slide-in-from-top-1">
+                    {message}
+                  </p>
+                )}
+              </div>
+            </form>
+
+            <p className="text-xs text-muted-foreground mt-2">
               Kami tidak akan mengirimkan spam. Unsubscribe kapan saja.
             </p>
           </div>

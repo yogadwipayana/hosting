@@ -13,7 +13,7 @@ import {
   Play,
   Clock,
 } from "lucide-react";
-import n8nIcon from "@/assets/images/n8n.svg";
+
 
 // Mock Data
 const automationServices = [
@@ -21,7 +21,7 @@ const automationServices = [
     id: 1,
     name: "marketing-workflows",
     type: "n8n Automation",
-    icon: n8nIcon,
+    icon: "/images/n8n.svg",
     plan: "Pro",
     status: "active",
     location: "Jakarta (ID)",
@@ -34,7 +34,7 @@ const automationServices = [
     id: 2,
     name: "sales-bot-auto",
     type: "n8n Automation",
-    icon: n8nIcon,
+    icon: "/images/n8n.svg",
     plan: "Starter",
     status: "active",
     location: "Jakarta (ID)",

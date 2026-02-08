@@ -206,10 +206,7 @@ const MainContent = () => {
                         {project.framework}
                      </span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-border/50">
-                     <span className="text-sm text-muted-foreground">Region</span>
-                     <span className="text-sm font-medium">Singapore (SG1)</span>
-                  </div>
+
                   <div className="flex justify-between items-center py-2 border-b border-border/50">
                      <span className="text-sm text-muted-foreground">Created</span>
                      <span className="text-sm font-medium">20 Oct 2023</span>

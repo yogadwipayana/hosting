@@ -219,9 +219,11 @@ function MoreAlatSection() {
                   Request Alat Baru
                 </Button>
               </a>
-              <Button variant="outline" className="rounded-lg border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
-                Lihat Roadmap
-              </Button>
+              <Link to="/blog">
+                <Button variant="outline" className="rounded-lg border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
+                  Lihat Roadmap
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

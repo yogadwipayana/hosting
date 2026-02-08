@@ -23,6 +23,8 @@ import {
 const MainContent = () => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
+    const [selectedFramework, setSelectedFramework] = useState("react")
+    const [customFramework, setCustomFramework] = useState("")
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -114,6 +116,8 @@ const MainContent = () => {
                                     <Label htmlFor="framework">Preset Framework</Label>
                                     <select 
                                         id="framework"
+                                        value={selectedFramework}
+                                        onChange={(e) => setSelectedFramework(e.target.value)}
                                         className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                         <option value="react">React / Vite</option>
@@ -122,7 +126,17 @@ const MainContent = () => {
                                         <option value="node">Node.js</option>
                                         <option value="python">Python</option>
                                         <option value="docker">Docker</option>
+                                        <option value="other">Lainnya</option>
                                     </select>
+                                    {selectedFramework === 'other' && (
+                                        <Input 
+                                            placeholder="Masukkan nama framework" 
+                                            value={customFramework}
+                                            onChange={(e) => setCustomFramework(e.target.value)}
+                                            className="mt-2"
+                                            required
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

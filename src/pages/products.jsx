@@ -187,9 +187,11 @@ function MoreProductsSection() {
                   Hubungi Sales
                 </Button>
               </a>
-              <Button variant="outline" className="rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900">
-                Jadwalkan Demo
-              </Button>
+              <a href="https://wa.me/6285173090538?text=Halo%2C%20saya%20tertarik%20untuk%20menjadwalkan%20demo%20layanan%20Anda." target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="rounded-lg border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-gray-900">
+                  Jadwalkan Demo
+                </Button>
+              </a>
             </div>
           </div>
         </div>
