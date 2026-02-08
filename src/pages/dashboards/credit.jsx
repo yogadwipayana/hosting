@@ -129,7 +129,7 @@ export default function DashboardCredit() {
                     <button 
                       disabled={!!error || !amount}
                       className={`w-full font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2 ${
-                        error || !amount ? "bg-gray-100 text-gray-400 cursor-not-allowed" : "bg-slate-900 hover:bg-slate-800 text-white"
+                        error || !amount ? "bg-gray-100 text-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
                       }`}
                     >
                       <CreditCard size={18} />

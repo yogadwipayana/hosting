@@ -117,7 +117,7 @@ const MainContent = () => {
           <p className="text-gray-500">Kelola layanan hosting dan domain server Anda</p>
         </div>
         <div className="flex gap-3">
-          <Link to="/dashboard/hosting/domain" className="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
+          <Link to="/dashboard/domain/buy" className="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
             <Globe size={18} />
             <span>Beli Domain Baru</span>
           </Link>
@@ -229,9 +229,12 @@ const MainContent = () => {
 
                     {/* Actions */}
                     <div className="flex items-center gap-3 w-full lg:w-auto">
-                      <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
-                        Manage
+                      <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-gray-700 rounded-md text-xs font-bold uppercase hover:bg-gray-50 transition-colors shadow-sm">
+                        Cek
                       </button>
+                      <Link to="/dashboard/hosting/manage" className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
+                        Kelola
+                      </Link>
                       <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-md lg:hidden">
                         <MoreVertical size={20} />
                       </button>
@@ -284,9 +287,12 @@ const MainContent = () => {
                       <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-gray-700 rounded-md text-xs font-bold uppercase hover:bg-gray-50 transition-colors shadow-sm">
                         DNS
                       </button>
-                      <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
-                        Manage
+                      <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-gray-700 rounded-md text-xs font-bold uppercase hover:bg-gray-50 transition-colors shadow-sm">
+                        Cek
                       </button>
+                      <Link to="/dashboard/hosting/domain" className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
+                        Kelola
+                      </Link>
                     </div>
                   </div>
 

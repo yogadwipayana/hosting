@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router"
 import { useClarity } from "@/hooks/useClarity"
+import { ProtectedRoute } from "@/components/ProtectedRoute"
 import LandingPage from "@/pages/landingPages"
 import ToolsPage from "@/pages/tools"
 import ProductsPage from "@/pages/products"
@@ -20,6 +21,7 @@ import DeployPage from "@/pages/tutorials/deploy"
 import BestPracticesPage from "@/pages/tutorials/bestPractices"
 import RegisterPage from "@/pages/auth/register"
 import LoginPage from "@/pages/auth/login"
+import VerifyOtpPage from "@/pages/auth/verifyOtp"
 import DashboardOverview from "@/pages/dashboards/overview"
 import DashboardHosting from "@/pages/dashboards/hosting"
 import DeployHosting from "@/pages/dashboards/create/deployHosting"
@@ -36,6 +38,11 @@ import ProjectDetail from "@/pages/dashboards/project/projectDetail"
 import NewProjectPage from "@/pages/dashboards/project/projectNew"
 import ClassDashboard from "@/pages/dashboards/class"
 import BookmarkDashboard from "@/pages/dashboards/bookmark"
+import ManageHosting from "@/pages/dashboards/manage/manageHosting"
+import ManageDatabase from "@/pages/dashboards/manage/manageDatabase"
+import ManageDomain from "@/pages/dashboards/manage/manageDomain"
+
+import ManageAutomation from "@/pages/dashboards/manage/manageAutomation"
 
 // Main App Component
 export default function App() {
@@ -64,27 +71,32 @@ export default function App() {
       <Route path="/edukasi/best-practices" element={<BestPracticesPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/verify-otp" element={<VerifyOtpPage />} />
       <Route path="/blog" element={<BlogsPage />} />
       <Route path="/docs" element={<DocumentasionsPage />} />
-      <Route path="/dashboard" element={<DashboardOverview />} />
-      <Route path="/dashboard/proyek" element={<ProjectDashboard />} />
-      <Route path="/dashboard/project/:id" element={<ProjectDetail />} />
-      <Route path="/dashboard/project/new" element={<NewProjectPage />} />
-      <Route path="/dashboard/kelas" element={<ClassDashboard />} />
-      <Route path="/dashboard/bookmark" element={<BookmarkDashboard />} />
-      <Route path="/dashboard/hosting" element={<DashboardHosting />} />
-      <Route path="/dashboard/hosting/deploy" element={<DeployHosting />} />
-      <Route path="/dashboard/hosting/domain" element={<DeployDomain />} />
-      <Route path="/dashboard/database" element={<DashboardDatabase />} />
-      <Route path="/dashboard/database/deploy" element={<DeployDatabase />} />
-      <Route path="/dashboard/automation" element={<DashboardAutomation />} />
-      <Route path="/dashboard/automation/deploy" element={<DeployAutomation />} />
-      <Route path="/dashboard/pengaturan" element={<DashboardSetting />} />
-      <Route path="/dashboard/bantuan" element={<DashboardSupport />} />
-      <Route path="/dashboard/credit" element={<DashboardCredit />} />
+
+      {/* Protected Dashboard Routes */}
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardOverview /></ProtectedRoute>} />
+      <Route path="/dashboard/proyek" element={<ProtectedRoute><ProjectDashboard /></ProtectedRoute>} />
+      <Route path="/dashboard/project/:id" element={<ProtectedRoute><ProjectDetail /></ProtectedRoute>} />
+      <Route path="/dashboard/project/new" element={<ProtectedRoute><NewProjectPage /></ProtectedRoute>} />
+      <Route path="/dashboard/kelas" element={<ProtectedRoute><ClassDashboard /></ProtectedRoute>} />
+      <Route path="/dashboard/bookmark" element={<ProtectedRoute><BookmarkDashboard /></ProtectedRoute>} />
+      <Route path="/dashboard/hosting" element={<ProtectedRoute><DashboardHosting /></ProtectedRoute>} />
+      <Route path="/dashboard/hosting/deploy" element={<ProtectedRoute><DeployHosting /></ProtectedRoute>} />
+      <Route path="/dashboard/domain/buy" element={<ProtectedRoute><DeployDomain /></ProtectedRoute>} />
+      <Route path="/dashboard/hosting/domain" element={<ProtectedRoute><ManageDomain /></ProtectedRoute>} />
+      <Route path="/dashboard/hosting/manage" element={<ProtectedRoute><ManageHosting /></ProtectedRoute>} />
+      <Route path="/dashboard/database" element={<ProtectedRoute><DashboardDatabase /></ProtectedRoute>} />
+      <Route path="/dashboard/database/manage" element={<ProtectedRoute><ManageDatabase /></ProtectedRoute>} />
+      <Route path="/dashboard/database/deploy" element={<ProtectedRoute><DeployDatabase /></ProtectedRoute>} />
+      <Route path="/dashboard/automation" element={<ProtectedRoute><DashboardAutomation /></ProtectedRoute>} />
+      <Route path="/dashboard/automation/manage" element={<ProtectedRoute><ManageAutomation /></ProtectedRoute>} />
+      <Route path="/dashboard/automation/deploy" element={<ProtectedRoute><DeployAutomation /></ProtectedRoute>} />
+      <Route path="/dashboard/pengaturan" element={<ProtectedRoute><DashboardSetting /></ProtectedRoute>} />
+      <Route path="/dashboard/bantuan" element={<ProtectedRoute><DashboardSupport /></ProtectedRoute>} />
+      <Route path="/dashboard/credit" element={<ProtectedRoute><DashboardCredit /></ProtectedRoute>} />
       
     </Routes>
   )
 }
-
-

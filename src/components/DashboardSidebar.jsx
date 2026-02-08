@@ -1,4 +1,4 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import {
   LayoutDashboard,
   Folder,
@@ -10,8 +10,10 @@ import {
   CreditCard,
   Settings,
   HelpCircle,
+  LogOut,
 } from "lucide-react"
 import { LogoMark } from "@/components/Logo"
+import { useAuth } from "@/hooks/useAuth"
 
 // Menu configuration
 const menuItems = [
@@ -56,6 +58,15 @@ const menuItems = [
  * @param {function} onClose - Callback to close the sidebar
  */
 export function DashboardSidebar({ activeMenuItem, activePage, isOpen = false, onClose }) {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+
+  // Handle logout
+  const handleLogout = () => {
+    logout()
+    navigate("/login")
+  }
+
   // Helper to determine if an item is active
   const isActive = (item) => {
     if (activePage) {
@@ -119,8 +130,19 @@ export function DashboardSidebar({ activeMenuItem, activePage, isOpen = false, o
           ))}
         </div>
 
+        {/* Logout Button - Always visible */}
+        <div className="p-4 border-t mt-auto">
+          <button 
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Keluar</span>
+          </button>
+        </div>
+
         {/* Mobile Close Button Footer */}
-        <div className="p-4 border-t lg:hidden mt-auto">
+        <div className="p-4 border-t lg:hidden">
           <button 
             onClick={onClose}
             className="flex w-full items-center gap-3 rounded-lg px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"

@@ -188,11 +188,11 @@ const MainContent = () => {
                   {/* Actions */}
                   <div className="flex items-center gap-3 w-full lg:w-auto">
                     <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-gray-700 rounded-md text-xs font-bold uppercase hover:bg-gray-50 transition-colors shadow-sm">
-                      Open Editor
+                      Cek
                     </button>
-                    <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
-                      Manage
-                    </button>
+                    <Link to="/dashboard/automation/manage" className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
+                      Kelola
+                    </Link>
                   </div>
                 </div>
 

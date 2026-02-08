@@ -8,7 +8,7 @@ import {
   Plus,
   Globe,
   GitBranch,
-  Clock,
+
   CheckCircle2,
   AlertCircle,
   ArrowRight
@@ -97,10 +97,7 @@ const ProjectCard = ({ project }) => {
                 <GitBranch size={16} />
                 <span>{project.branch}</span>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-                <Clock size={16} />
-                <span>{project.lastDeploy}</span>
-            </div>
+
         </div>
       </div>
        <div className="flex items-center justify-between border-t p-4 bg-muted/50 rounded-b-xl">
@@ -108,7 +105,7 @@ const ProjectCard = ({ project }) => {
                 {project.framework}
             </div>
             <Link to={`/dashboard/project/${project.id}`} className="text-sm font-medium text-primary flex items-center gap-1 hover:underline">
-                View Details <ArrowRight size={16} />
+                Lihat Detail <ArrowRight size={16} />
             </Link>
        </div>
     </div>
@@ -120,7 +117,7 @@ const MainContent = () => {
         <main className="min-h-[calc(100vh-64px)] bg-gray-50/50 p-8">
              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                 <div>
-                <h1 className="text-2xl font-bold text-foreground">Manage Projects</h1>
+                <h1 className="text-2xl font-bold text-foreground">Kelola Proyek</h1>
                 <p className="text-muted-foreground">Kelola semua project aplikasi anda dalam satu dashboard</p>
                 </div>
                 <Link to="/dashboard/project/new" className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm">
