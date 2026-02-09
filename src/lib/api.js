@@ -76,3 +76,28 @@ export const authApi = {
     googleAuth: (credential) => api.post('/auth/google', { credential }, { auth: false }),
     getMe: () => api.get('/auth/me'),
 };
+
+// Blog API calls
+export const blogApi = {
+    getBlogs: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.page) searchParams.append('page', params.page);
+        if (params.limit) searchParams.append('limit', params.limit);
+        if (params.category) searchParams.append('category', params.category);
+        if (params.search) searchParams.append('search', params.search);
+        const query = searchParams.toString();
+        return api.get(`/blogs${query ? `?${query}` : ''}`);
+    },
+    getBlogBySlug: (slug) => api.get(`/blogs/${slug}`),
+    getCategories: () => api.get('/blogs/categories'),
+};
+
+// Admin Blog API calls
+export const blogAdminApi = {
+    createBlog: (data) => api.post('/blogs', data),
+    updateBlog: (id, data) => api.put(`/blogs/${id}`, data),
+    deleteBlog: (id) => api.delete(`/blogs/${id}`),
+    createCategory: (data) => api.post('/blogs/categories', data),
+    updateCategory: (id, data) => api.put(`/blogs/categories/${id}`, data),
+    deleteCategory: (id) => api.delete(`/blogs/categories/${id}`),
+};

@@ -83,7 +83,7 @@ function QRCodeForm() {
               key={s}
               variant={size === s ? "default" : "outline"}
               onClick={() => setSize(s)}
-              className="h-10"
+              className={`h-10 ${size === s ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'hover:bg-gray-50 hover:text-gray-900'}`}
             >
               {s}px
             </Button>

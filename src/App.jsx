@@ -14,7 +14,9 @@ import DomainCheckPage from "@/pages/tools/domainCheck"
 import ManagedHostingPage from "@/pages/products/cloud"
 import ManagedDatabasePage from "@/pages/products/database"
 import N8nAutomationPage from "@/pages/products/n8n"
+import VpsPage from "@/pages/products/vps"
 import BlogsPage from "@/pages/blogs"
+import BlogDetailPage from "@/pages/blog-detail"
 import DocumentasionsPage from "@/pages/documentasions"
 import GettingStartedPage from "@/pages/tutorials/gettingStarted"
 import DeployPage from "@/pages/tutorials/deploy"
@@ -43,6 +45,11 @@ import ManageDatabase from "@/pages/dashboards/manage/manageDatabase"
 import ManageDomain from "@/pages/dashboards/manage/manageDomain"
 
 import ManageAutomation from "@/pages/dashboards/manage/manageAutomation"
+import DashboardVps from "@/pages/dashboards/vps"
+import DeployVps from "@/pages/dashboards/create/deployVps"
+import ManageVps from "@/pages/dashboards/manage/manageVps"
+import BlogAdminDashboard from "@/pages/dashboards/blog-admin"
+import BlogEditorPage from "@/pages/dashboards/blog-editor"
 
 // Main App Component
 export default function App() {
@@ -56,6 +63,7 @@ export default function App() {
       <Route path="/produk/cloud" element={<ManagedHostingPage />} />
       <Route path="/produk/database" element={<ManagedDatabasePage />} />
       <Route path="/produk/n8n" element={<N8nAutomationPage />} />
+      <Route path="/produk/vps" element={<VpsPage />} />
 
       <Route path="/alat" element={<ToolsPage />} />
       <Route path="/alat/uptime-checker" element={<UptimeCheckerPage />} />
@@ -73,6 +81,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/verify-otp" element={<VerifyOtpPage />} />
       <Route path="/blog" element={<BlogsPage />} />
+      <Route path="/blog/:slug" element={<BlogDetailPage />} />
       <Route path="/docs" element={<DocumentasionsPage />} />
 
       {/* Protected Dashboard Routes */}
@@ -96,7 +105,12 @@ export default function App() {
       <Route path="/dashboard/pengaturan" element={<ProtectedRoute><DashboardSetting /></ProtectedRoute>} />
       <Route path="/dashboard/bantuan" element={<ProtectedRoute><DashboardSupport /></ProtectedRoute>} />
       <Route path="/dashboard/credit" element={<ProtectedRoute><DashboardCredit /></ProtectedRoute>} />
-      
+      <Route path="/dashboard/vps" element={<ProtectedRoute><DashboardVps /></ProtectedRoute>} />
+      <Route path="/dashboard/vps/deploy" element={<ProtectedRoute><DeployVps /></ProtectedRoute>} />
+      <Route path="/dashboard/vps/manage" element={<ProtectedRoute><ManageVps /></ProtectedRoute>} />
+      <Route path="/dashboard/blog-admin" element={<ProtectedRoute><BlogAdminDashboard /></ProtectedRoute>} />
+      <Route path="/dashboard/blog-admin/new" element={<ProtectedRoute><BlogEditorPage /></ProtectedRoute>} />
+      <Route path="/dashboard/blog-admin/edit/:id" element={<ProtectedRoute><BlogEditorPage /></ProtectedRoute>} />
     </Routes>
   )
 }

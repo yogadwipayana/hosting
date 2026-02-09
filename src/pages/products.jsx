@@ -21,6 +21,15 @@ const productList = [
     color: "bg-blue-100",
   },
   {
+    id: "vps",
+    title: "Virtual Private Server",
+    description: "VPS dengan performa tinggi dan full root access. Server virtual dengan dedicated resources.",
+    image: "/images/server-svgrepo-com.svg",
+    href: "/produk/vps",
+    category: "Hosting",
+    color: "bg-blue-100",
+  },
+  {
     id: "managed-database",
     title: "Managed Database",
     description: "PostgreSQL & MySQL managed solutions dengan backup otomatis, scaling mudah, dan performa tinggi.",

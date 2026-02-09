@@ -16,7 +16,6 @@ export default function DeployHosting() {
   const navigate = useNavigate()
 
   // State Form
-  const [selectedLocation, setSelectedLocation] = useState("sg")
   const [selectedPlan, setSelectedPlan] = useState("starter")
   const [domain, setDomain] = useState("")
   const [subdomains, setSubdomains] = useState([])
@@ -27,11 +26,6 @@ export default function DeployHosting() {
   const [domainCheckResult, setDomainCheckResult] = useState(null)
   const [billingCycle, setBillingCycle] = useState("monthly")
   const [tld, setTld] = useState(".com")
-
-  const locations = [
-    { id: "sg", name: "Singapore", flag: "🇸🇬" },
-    { id: "id", name: "Jakarta", flag: "🇮🇩" },
-  ]
 
   const plans = [
     {
@@ -160,31 +154,6 @@ export default function DeployHosting() {
                 {/* Left: Configuration */}
                 <div className="lg:col-span-2 space-y-6">
                   
-                  {/* Location Selection */}
-                  <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                       <HugeiconsIcon icon={GlobeIcon} size={20} className="text-blue-600" />
-                       Pilih Lokasi Server
-                    </h2>
-                    <div className="grid grid-cols-2 gap-4">
-                      {locations.map((loc) => (
-                        <div 
-                          key={loc.id}
-                          onClick={() => setSelectedLocation(loc.id)}
-                          className={`cursor-pointer border rounded-lg p-4 flex items-center gap-3 transition-all ${
-                            selectedLocation === loc.id 
-                              ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600" 
-                              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                          }`}
-                        >
-                          <span className="text-2xl">{loc.flag}</span>
-                          <span className={`font-medium ${selectedLocation === loc.id ? "text-blue-700" : "text-gray-700"}`}>
-                            {loc.name}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
                   {/* Plan Selection */}
                   <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
@@ -378,10 +347,6 @@ export default function DeployHosting() {
                     <h3 className="font-bold text-gray-900 mb-4">Ringkasan Order</h3>
                     
                     <div className="space-y-4 mb-6">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Lokasi</span>
-                        <span className="font-medium text-gray-900">{locations.find(l => l.id === selectedLocation).name}</span>
-                      </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-500">Paket</span>
                         <span className="font-medium text-gray-900">{plans.find(p => p.id === selectedPlan).name}</span>

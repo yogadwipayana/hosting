@@ -21,7 +21,8 @@ const menuData = {
       {
         title: "HOSTING",
         items: [
-          { name: "Managed Hosting", description: "Scalable managed hosting solution", href: "/produk/cloud" }
+          { name: "Managed Hosting", description: "Scalable managed hosting solution", href: "/produk/cloud" },
+          { name: "Managed VPS", description: "High performance virtual server", href: "/produk/vps" }
         ],
       },
       {

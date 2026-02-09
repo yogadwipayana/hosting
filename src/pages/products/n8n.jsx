@@ -1,43 +1,22 @@
-import { useState } from "react"
+
 import { Link } from "react-router"
 import { Helmet } from "react-helmet-async"
 import { Navbar } from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { ProductsSidebar } from "@/components/ProductsSidebar"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { 
   GlobeIcon, 
   Database01Icon, 
   Clock01Icon, 
-  Search01Icon,
   CheckmarkCircle02Icon,
   ArrowRight01Icon,
   Link01Icon
 } from "@hugeicons/core-free-icons"
 
 // Product categories for sidebar
-const productCategories = [
-  {
-    title: "Hosting",
-    items: [
-      { id: "cloud", title: "Managed Hosting", href: "/produk/cloud", icon: GlobeIcon },
-    ]
-  },
-  {
-    title: "Managed Services",
-    items: [
-      { id: "database", title: "Managed Database", href: "/produk/database", icon: Database01Icon },
-    ]
-  },
-  {
-    title: "Automation",
-    items: [
-      { id: "n8n", title: "n8n Automation", href: "/produk/n8n", icon: Clock01Icon, active: true },
-    ]
-  }
-]
+
 
 // Breadcrumb Component
 function Breadcrumb({ items }) {
@@ -60,54 +39,7 @@ function Breadcrumb({ items }) {
 }
 
 // Sidebar Component
-function ProductsSidebar() {
-  return (
-    <div className="w-full lg:w-72 shrink-0 space-y-6">
-      {/* Search Products */}
-      <div className="relative">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2">
-          <HugeiconsIcon icon={Search01Icon} size={16} className="text-muted-foreground" />
-        </div>
-        <Input 
-          type="text" 
-          placeholder="Cari produk..." 
-          className="pl-9 h-10 bg-white"
-        />
-      </div>
 
-      {/* Categories */}
-      <div className="space-y-1">
-        <Accordion type="multiple" defaultValue={["Hosting", "Managed Services", "Automation"]} className="w-full">
-          {productCategories.map((category) => (
-            <AccordionItem key={category.title} value={category.title} className="border-none">
-              <AccordionTrigger className="py-2 hover:no-underline text-sm font-medium text-muted-foreground hover:text-foreground">
-                {category.title}
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="flex flex-col gap-1 pb-2">
-                  {category.items.map((item) => (
-                    <Link
-                      key={item.id}
-                      to={item.href}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
-                        item.active 
-                          ? "bg-blue-100 text-blue-700 font-medium" 
-                          : "text-muted-foreground hover:bg-gray-100 hover:text-foreground"
-                      }`}
-                    >
-                      <HugeiconsIcon icon={item.icon} size={16} />
-                      {item.title}
-                    </Link>
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </div>
-  )
-}
 
 // Integration Card Component
 function IntegrationCard({ name, description, icon }) {
@@ -148,7 +80,7 @@ function PricingCard({ title, price, period, features, highlighted, ctaText, hre
       </ul>
       <Button 
         asChild={!!href}
-        className={`w-full h-11 mt-auto ${highlighted ? "bg-blue-600 hover:bg-blue-700" : "bg-slate-900 hover:bg-slate-800"}`}
+        className="w-full h-11 mt-auto bg-blue-600 hover:bg-blue-700"
       >
         {href ? (
           href.startsWith("http") ? (

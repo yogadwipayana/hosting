@@ -5,6 +5,7 @@ export function Footer() {
   const footerLinks = {
     produk: [
       { name: "Managed Hosting", href: "/produk/cloud" },
+      { name: "Managed VPS", href: "/produk/vps" },
       { name: "Managed Database", href: "/produk/database" },
       { name: "n8n Automation", href: "/produk/n8n" },
     ],

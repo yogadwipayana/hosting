@@ -1,20 +1,21 @@
 import { Menu } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
 
 /**
  * DashboardTopbar Component
  * Reusable topbar for dashboard pages with user profile
  * 
- * @param {string} userName - Display name of the user (optional, defaults to "User")
- * @param {string} userEmail - Email address of the user (optional)
- * @param {string} userAvatar - URL to user's avatar image (optional, defaults to placeholder)
  * @param {function} onMenuClick - Callback when mobile menu button is clicked
  */
-export function DashboardTopbar({ 
-  userName = "User", 
-  userEmail = "user@example.com",
-  userAvatar = "https://github.com/shadcn.png",
-  onMenuClick
-}) {
+export function DashboardTopbar({ onMenuClick }) {
+  const { user } = useAuth()
+  
+  // Get user data or fallback to defaults
+  const userName = user?.name || "User"
+  const userEmail = user?.email || ""
+  // Use Google profile picture if available, otherwise generate avatar from name
+  const userAvatar = user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=3b82f6&color=fff`
+
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between lg:justify-end bg-white border-b px-4 lg:px-8">
       <button 

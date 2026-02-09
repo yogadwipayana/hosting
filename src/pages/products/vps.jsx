@@ -5,12 +5,11 @@ import { Navbar } from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
 import { ProductsSidebar } from "@/components/ProductsSidebar"
-import DomainPrice from "@/components/DomainPrice"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { 
-  GlobeIcon, 
   CheckmarkCircle02Icon,
-  ArrowRight01Icon
+  ArrowRight01Icon,
+  ComputerIcon
 } from "@hugeicons/core-free-icons"
 
 // Product categories for sidebar
@@ -61,7 +60,7 @@ function PricingCard({ title, price, period, features, highlighted, ctaText, hre
           </li>
         ))}
       </ul>
-      <Link to={href || "/dashboard/hosting/deploy"}>
+      <Link to={href || "/dashboard/vps/deploy"}>
         <Button className="w-full h-11 mt-auto bg-blue-600 hover:bg-blue-700">
           {ctaText || "Mulai Sekarang"}
           <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
@@ -72,12 +71,12 @@ function PricingCard({ title, price, period, features, highlighted, ctaText, hre
 }
 
 // Main Page Component
-export default function ManagedHostingPage() {
+export default function VpsPage() {
   return (
     <>
       <Helmet>
-        <title>Managed Hosting - BelajarHosting</title>
-        <meta name="description" content="Scalable managed hosting solution untuk aplikasi high-performance. Deploy dalam hitungan menit dengan infrastruktur yang reliable." />
+        <title>VPS - BelajarHosting</title>
+        <meta name="description" content="Virtual Private Server dengan performa tinggi dan full root access. Deploy server dalam hitungan menit." />
       </Helmet>
       
       <Navbar />
@@ -89,7 +88,7 @@ export default function ManagedHostingPage() {
             items={[
               { label: "Home", href: "/" },
               { label: "Produk", href: "/produk" },
-              { label: "Managed Hosting", href: null },
+              { label: "VPS", href: null },
             ]}
           />
 
@@ -101,26 +100,26 @@ export default function ManagedHostingPage() {
             <div className="flex-1 max-w-4xl">
               <div className="mb-8">
                 <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 mb-4">
-                  <HugeiconsIcon icon={GlobeIcon} size={28} color="#2563eb" />
+                  <HugeiconsIcon icon={ComputerIcon} size={28} color="#2563eb" />
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground mb-3">
-                  Managed Hosting
+                  Virtual Private Server (VPS)
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                  Scalable managed hosting solution untuk aplikasi high-performance. 
-                  Deploy dalam hitungan menit dengan infrastruktur yang reliable dan secure.
+                  Server virtual dengan performa tinggi dan full root access. 
+                  Deploy server dalam hitungan menit dengan infrastruktur enterprise-grade.
                 </p>
               </div>
 
               {/* Features */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
                 {[
-                  "Deploy otomatis dari Git repository",
-                  "SSL/TLS certificates gratis",
-                  "Auto-scaling berdasarkan traffic",
-                  "Monitoring & alerting 24/7",
-                  "Backup harian otomatis",
-                  "Support prioritas via chat",
+                  "Full Root Access",
+                  "SSD NVMe Storage",
+                  "Dedicated Resources",
+                  "Multiple OS Options",
+                  "Instant Deployment",
+                  "24/7 Monitoring",
                 ].map((feature, index) => (
                   <div key={index} className="flex items-center gap-3 p-4 rounded-lg bg-gray-50 border">
                     <HugeiconsIcon icon={CheckmarkCircle02Icon} size={20} className="text-green-500 shrink-0" />
@@ -132,72 +131,72 @@ export default function ManagedHostingPage() {
               {/* Pricing */}
               <div className="mb-12">
                 <h2 className="text-2xl font-bold tracking-tight text-foreground mb-6">
-                  Pilih Paket yang Tepat
+                  Pilih Paket VPS
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <PricingCard 
-                    title="Starter"
-                    price="Rp 30.000"
+                    title="KVM 1"
+                    price="Rp 40.000"
                     period="bulan"
                     features={[
                       "1 vCPU",
                       "1 GB RAM",
-                      "15 GB SSD Storage",
+                      "15 GB NVMe SSD",
                       "1 TB Bandwidth",
-                      "1 Sub Domain *.belajarhosting.com",
+                      "1GB/s Internet Speed",
+                      "1 IPv4 Address",
+                      "Full Root Access",
                     ]}
                   />
                   <PricingCard 
-                    title="Pro"
-                    price="Rp 50.000"
+                    title="KVM 2"
+                    price="Rp 75.000"
                     period="bulan"
                     highlighted={true}
                     features={[
                       "1 vCPU",
                       "2 GB RAM",
-                      "25 GB SSD Storage",
+                      "25 GB NVMe SSD",
                       "1 TB Bandwidth",
-                      "3 Sub Domain *.belajarhosting.com",
-                      "Staging Environment",
-                    ]}
-                  />
-                  <PricingCard 
-                    title="Business"
-                    price="Rp 100.000"
-                    period="bulan"
-                    features={[
-                      "2 vCPU",
-                      "4 GB RAM",
-                      "50 GB SSD Storage",
-                      "2 TB Bandwidth",
-                      "5 Sub Domain *.belajarhosting.com",
-                      "Gratis Domain .com/.id/.org (min. pembelian 12 bulan)",
+                      "1GB/s Internet Speed",
+                      "1 IPv4 Address",
+                      "Full Root Access",
                     ]}
                   />
                 </div>
               </div>
 
-
-              {/* Add on Domain */}
+              {/* OS Options */}
               <div className="mb-12">
                 <h2 className="text-2xl font-bold tracking-tight text-foreground mb-6">
-                  Add on Domain
+                  Sistem Operasi yang Didukung
                 </h2>
-                <DomainPrice />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { name: "Ubuntu", versions: "20.04, 22.04, 24.04" },
+                    { name: "Debian", versions: "11, 12" },
+                    { name: "CentOS", versions: "8, 9 Stream" },
+                    { name: "Rocky Linux", versions: "8, 9" },
+                  ].map((os, index) => (
+                    <div key={index} className="p-4 rounded-xl border border-gray-200 bg-white text-center">
+                      <h4 className="font-semibold text-foreground mb-1">{os.name}</h4>
+                      <p className="text-xs text-muted-foreground">{os.versions}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* FAQ / Additional Info */}
               <div className="prose prose-gray max-w-none text-muted-foreground">
-                <h2 className="text-xl font-semibold text-foreground mb-4">Mengapa Memilih Managed Hosting?</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-4">Mengapa Memilih VPS?</h2>
                 <p className="mb-4">
-                  Dengan managed hosting, Anda tidak perlu khawatir tentang maintenance server, security patches, 
-                  atau optimasi performa. Tim kami menangani semua aspek teknis sehingga Anda dapat fokus 
-                  pada pengembangan aplikasi.
+                  VPS memberikan Anda kontrol penuh atas server virtual dengan resources yang dedicated.
+                  Ideal untuk aplikasi yang membutuhkan custom configuration atau high-performance computing.
                 </p>
                 <ul className="list-disc pl-5 space-y-2 mb-4">
-                  <li><strong>Zero Downtime Deployment:</strong> Update aplikasi tanpa mengganggu user.</li>
-                  <li><strong>Global CDN:</strong> Konten dikirim dari edge server terdekat.</li>
-                  <li><strong>DDoS Protection:</strong> Perlindungan otomatis dari serangan.</li>
+                  <li><strong>Isolated Resources:</strong> CPU, RAM, dan storage tidak dibagi dengan pengguna lain.</li>
+                  <li><strong>Full Control:</strong> Root access untuk instalasi software apapun.</li>
+                  <li><strong>Scalability:</strong> Upgrade resources kapan saja tanpa migrasi.</li>
                 </ul>
               </div>
             </div>
