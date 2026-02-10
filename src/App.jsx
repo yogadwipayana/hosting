@@ -48,8 +48,6 @@ import ManageAutomation from "@/pages/dashboards/manage/manageAutomation"
 import DashboardVps from "@/pages/dashboards/vps"
 import DeployVps from "@/pages/dashboards/create/deployVps"
 import ManageVps from "@/pages/dashboards/manage/manageVps"
-import BlogAdminDashboard from "@/pages/dashboards/blog-admin"
-import BlogEditorPage from "@/pages/dashboards/blog-editor"
 
 // Main App Component
 export default function App() {
@@ -108,9 +106,6 @@ export default function App() {
       <Route path="/dashboard/vps" element={<ProtectedRoute><DashboardVps /></ProtectedRoute>} />
       <Route path="/dashboard/vps/deploy" element={<ProtectedRoute><DeployVps /></ProtectedRoute>} />
       <Route path="/dashboard/vps/manage" element={<ProtectedRoute><ManageVps /></ProtectedRoute>} />
-      <Route path="/dashboard/blog-admin" element={<ProtectedRoute><BlogAdminDashboard /></ProtectedRoute>} />
-      <Route path="/dashboard/blog-admin/new" element={<ProtectedRoute><BlogEditorPage /></ProtectedRoute>} />
-      <Route path="/dashboard/blog-admin/edit/:id" element={<ProtectedRoute><BlogEditorPage /></ProtectedRoute>} />
     </Routes>
   )
 }

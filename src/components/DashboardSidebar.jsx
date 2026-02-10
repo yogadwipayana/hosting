@@ -12,7 +12,6 @@ import {
   HelpCircle,
   LogOut,
   Server,
-  FileText,
 } from "lucide-react"
 import { LogoMark } from "@/components/Logo"
 import { useAuth } from "@/hooks/useAuth"
@@ -40,12 +39,6 @@ const menuItems = [
     items: [
       { id: "kelas", name: "Kelas Saya", icon: GraduationCap, href: "/dashboard/kelas" },
       { id: "bookmark", name: "Bookmark", icon: Bookmark, href: "/dashboard/bookmark" },
-    ],
-  },
-  {
-    title: "CONTENT",
-    items: [
-      { id: "blog-admin", name: "Kelola Blog", icon: FileText, href: "/dashboard/blog-admin" },
     ],
   },
   {
