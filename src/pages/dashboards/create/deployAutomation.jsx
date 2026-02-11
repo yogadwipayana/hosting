@@ -7,7 +7,9 @@ import {
   GlobeIcon, 
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Zap, Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Lock, User, Mail, Globe } from "lucide-react"
+import { automationApi } from "@/services/automation.service"
+import { toast } from "sonner"
+import { Zap, Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Lock, User, Mail, Globe, Loader2 } from "lucide-react"
 
 export default function DeployAutomation() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -18,6 +20,7 @@ export default function DeployAutomation() {
   const [selectedPlatform, setSelectedPlatform] = useState("n8n")
   const [selectedPlan, setSelectedPlan] = useState("starter")
   const [billingCycle, setBillingCycle] = useState("monthly")
+  const [isDeploying, setIsDeploying] = useState(false)
   
   // Instance Config
   const [instanceName, setInstanceName] = useState("")
@@ -50,14 +53,35 @@ export default function DeployAutomation() {
     }
   ]
 
-  const handleDeploy = () => {
+  const handleDeploy = async () => {
     if (!instanceName || !adminEmail || !adminPass) {
-      alert("Mohon lengkapi konfigurasi instance (Nama, Email, Password)")
+      toast.error("Mohon lengkapi konfigurasi instance (Nama, Email, Password)")
       return
     }
 
-    alert(`Deploying ${selectedPlatform} (${selectedPlan}) in ${selectedLocation}`)
-    navigate("/dashboard/automation")
+    try {
+      setIsDeploying(true)
+      
+      const locationMap = { sg: "singapore", id: "jakarta" }
+      
+      await automationApi.create({
+        name: instanceName,
+        subdomain: instanceName.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
+        location: locationMap[selectedLocation],
+        plan: selectedPlan,
+        billingCycle: billingCycle,
+        platform: selectedPlatform,
+        adminEmail: adminEmail,
+        adminPassword: adminPass,
+      })
+      
+      toast.success("Automation service berhasil dibuat!")
+      navigate("/dashboard/automation")
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Gagal membuat automation service")
+    } finally {
+      setIsDeploying(false)
+    }
   }
 
   const formatCurrency = (val) => {
@@ -330,12 +354,21 @@ export default function DeployAutomation() {
 
                     <button 
                       onClick={handleDeploy}
-                      className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl transition-all"
+                      disabled={isDeploying}
+                      className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Rocket size={18} />
-                      Deploy Automation
+                      {isDeploying ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          Deploying...
+                        </>
+                      ) : (
+                        <>
+                          <Rocket size={18} />
+                          Deploy Automation
+                        </>
+                      )}
                     </button>
-                    
                     <p className="text-xs text-center text-gray-500 mt-4">
                       Instance Anda akan siap dalam 2-3 menit.
                     </p>
