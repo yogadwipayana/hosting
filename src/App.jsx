@@ -49,63 +49,76 @@ import DashboardVps from "@/pages/dashboards/vps"
 import DeployVps from "@/pages/dashboards/create/deployVps"
 import ManageVps from "@/pages/dashboards/manage/manageVps"
 
+import { AdminAuthProvider } from "@/context/AdminAuthContext"
+import { AdminRoute } from "@/components/AdminRoute"
+import AdminLoginPage from "@/pages/admin/login"
+
 // Main App Component
 export default function App() {
   useClarity()
 
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
+    <AdminAuthProvider>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
 
-      <Route path="/produk" element={<ProductsPage />} />
-      <Route path="/produk/cloud" element={<ManagedHostingPage />} />
-      <Route path="/produk/database" element={<ManagedDatabasePage />} />
-      <Route path="/produk/n8n" element={<N8nAutomationPage />} />
-      <Route path="/produk/vps" element={<VpsPage />} />
+        {/* ... existing public routes ... */}
+        <Route path="/produk" element={<ProductsPage />} />
+        <Route path="/produk/cloud" element={<ManagedHostingPage />} />
+        <Route path="/produk/database" element={<ManagedDatabasePage />} />
+        <Route path="/produk/n8n" element={<N8nAutomationPage />} />
+        <Route path="/produk/vps" element={<VpsPage />} />
 
-      <Route path="/alat" element={<ToolsPage />} />
-      <Route path="/alat/uptime-checker" element={<UptimeCheckerPage />} />
-      <Route path="/alat/password-generator" element={<PasswordGeneratorPage />} />
-      <Route path="/alat/qr-code" element={<QRCodePage />} />
-      <Route path="/alat/color-converter" element={<ColorConverterPage />} />
-      <Route path="/alat/unix-timestamp" element={<UnixTimestampPage />} />
-      <Route path="/alat/domain-checker" element={<DomainCheckPage />} />
+        <Route path="/alat" element={<ToolsPage />} />
+        <Route path="/alat/uptime-checker" element={<UptimeCheckerPage />} />
+        <Route path="/alat/password-generator" element={<PasswordGeneratorPage />} />
+        <Route path="/alat/qr-code" element={<QRCodePage />} />
+        <Route path="/alat/color-converter" element={<ColorConverterPage />} />
+        <Route path="/alat/unix-timestamp" element={<UnixTimestampPage />} />
+        <Route path="/alat/domain-checker" element={<DomainCheckPage />} />
 
-      <Route path="/edukasi" element={<EducationsPage />} />
-      <Route path="/edukasi/getting-started" element={<GettingStartedPage />} />
-      <Route path="/edukasi/deploy" element={<DeployPage />} />
-      <Route path="/edukasi/best-practices" element={<BestPracticesPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/verify-otp" element={<VerifyOtpPage />} />
-      <Route path="/blog" element={<BlogsPage />} />
-      <Route path="/blog/:slug" element={<BlogDetailPage />} />
-      <Route path="/docs" element={<DocumentasionsPage />} />
+        <Route path="/edukasi" element={<EducationsPage />} />
+        <Route path="/edukasi/getting-started" element={<GettingStartedPage />} />
+        <Route path="/edukasi/deploy" element={<DeployPage />} />
+        <Route path="/edukasi/best-practices" element={<BestPracticesPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/verify-otp" element={<VerifyOtpPage />} />
+        <Route path="/blog" element={<BlogsPage />} />
+        <Route path="/blog/:slug" element={<BlogDetailPage />} />
+        <Route path="/docs" element={<DocumentasionsPage />} />
 
-      {/* Protected Dashboard Routes */}
-      <Route path="/dashboard" element={<ProtectedRoute><DashboardOverview /></ProtectedRoute>} />
-      <Route path="/dashboard/proyek" element={<ProtectedRoute><ProjectDashboard /></ProtectedRoute>} />
-      <Route path="/dashboard/project/:id" element={<ProtectedRoute><ProjectDetail /></ProtectedRoute>} />
-      <Route path="/dashboard/project/new" element={<ProtectedRoute><NewProjectPage /></ProtectedRoute>} />
-      <Route path="/dashboard/kelas" element={<ProtectedRoute><ClassDashboard /></ProtectedRoute>} />
-      <Route path="/dashboard/bookmark" element={<ProtectedRoute><BookmarkDashboard /></ProtectedRoute>} />
-      <Route path="/dashboard/hosting" element={<ProtectedRoute><DashboardHosting /></ProtectedRoute>} />
-      <Route path="/dashboard/hosting/deploy" element={<ProtectedRoute><DeployHosting /></ProtectedRoute>} />
-      <Route path="/dashboard/domain/buy" element={<ProtectedRoute><DeployDomain /></ProtectedRoute>} />
-      <Route path="/dashboard/hosting/domain" element={<ProtectedRoute><ManageDomain /></ProtectedRoute>} />
-      <Route path="/dashboard/hosting/manage" element={<ProtectedRoute><ManageHosting /></ProtectedRoute>} />
-      <Route path="/dashboard/database" element={<ProtectedRoute><DashboardDatabase /></ProtectedRoute>} />
-      <Route path="/dashboard/database/manage" element={<ProtectedRoute><ManageDatabase /></ProtectedRoute>} />
-      <Route path="/dashboard/database/deploy" element={<ProtectedRoute><DeployDatabase /></ProtectedRoute>} />
-      <Route path="/dashboard/automation" element={<ProtectedRoute><DashboardAutomation /></ProtectedRoute>} />
-      <Route path="/dashboard/automation/manage" element={<ProtectedRoute><ManageAutomation /></ProtectedRoute>} />
-      <Route path="/dashboard/automation/deploy" element={<ProtectedRoute><DeployAutomation /></ProtectedRoute>} />
-      <Route path="/dashboard/pengaturan" element={<ProtectedRoute><DashboardSetting /></ProtectedRoute>} />
-      <Route path="/dashboard/bantuan" element={<ProtectedRoute><DashboardSupport /></ProtectedRoute>} />
-      <Route path="/dashboard/credit" element={<ProtectedRoute><DashboardCredit /></ProtectedRoute>} />
-      <Route path="/dashboard/vps" element={<ProtectedRoute><DashboardVps /></ProtectedRoute>} />
-      <Route path="/dashboard/vps/deploy" element={<ProtectedRoute><DeployVps /></ProtectedRoute>} />
-      <Route path="/dashboard/vps/manage" element={<ProtectedRoute><ManageVps /></ProtectedRoute>} />
-    </Routes>
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        
+        {/* Protected Admin Routes - Placeholder for now, can add specific admin pages here */}
+        <Route path="/admin" element={<AdminRoute><div className="p-8 text-center text-2xl font-bold">Admin Dashboard Placeholder</div></AdminRoute>} />
+        
+        {/* Protected User Dashboard Routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardOverview /></ProtectedRoute>} />
+        <Route path="/dashboard/proyek" element={<ProtectedRoute><ProjectDashboard /></ProtectedRoute>} />
+        <Route path="/dashboard/project/:id" element={<ProtectedRoute><ProjectDetail /></ProtectedRoute>} />
+        <Route path="/dashboard/project/new" element={<ProtectedRoute><NewProjectPage /></ProtectedRoute>} />
+        <Route path="/dashboard/kelas" element={<ProtectedRoute><ClassDashboard /></ProtectedRoute>} />
+        <Route path="/dashboard/bookmark" element={<ProtectedRoute><BookmarkDashboard /></ProtectedRoute>} />
+        <Route path="/dashboard/hosting" element={<ProtectedRoute><DashboardHosting /></ProtectedRoute>} />
+        <Route path="/dashboard/hosting/deploy" element={<ProtectedRoute><DeployHosting /></ProtectedRoute>} />
+        <Route path="/dashboard/domain/buy" element={<ProtectedRoute><DeployDomain /></ProtectedRoute>} />
+        <Route path="/dashboard/hosting/domain" element={<ProtectedRoute><ManageDomain /></ProtectedRoute>} />
+        <Route path="/dashboard/hosting/manage" element={<ProtectedRoute><ManageHosting /></ProtectedRoute>} />
+        <Route path="/dashboard/database" element={<ProtectedRoute><DashboardDatabase /></ProtectedRoute>} />
+        <Route path="/dashboard/database/manage" element={<ProtectedRoute><ManageDatabase /></ProtectedRoute>} />
+        <Route path="/dashboard/database/deploy" element={<ProtectedRoute><DeployDatabase /></ProtectedRoute>} />
+        <Route path="/dashboard/automation" element={<ProtectedRoute><DashboardAutomation /></ProtectedRoute>} />
+        <Route path="/dashboard/automation/manage" element={<ProtectedRoute><ManageAutomation /></ProtectedRoute>} />
+        <Route path="/dashboard/automation/deploy" element={<ProtectedRoute><DeployAutomation /></ProtectedRoute>} />
+        <Route path="/dashboard/pengaturan" element={<ProtectedRoute><DashboardSetting /></ProtectedRoute>} />
+        <Route path="/dashboard/bantuan" element={<ProtectedRoute><DashboardSupport /></ProtectedRoute>} />
+        <Route path="/dashboard/credit" element={<ProtectedRoute><DashboardCredit /></ProtectedRoute>} />
+        <Route path="/dashboard/vps" element={<ProtectedRoute><DashboardVps /></ProtectedRoute>} />
+        <Route path="/dashboard/vps/deploy" element={<ProtectedRoute><DeployVps /></ProtectedRoute>} />
+        <Route path="/dashboard/vps/manage" element={<ProtectedRoute><ManageVps /></ProtectedRoute>} />
+      </Routes>
+    </AdminAuthProvider>
   )
 }

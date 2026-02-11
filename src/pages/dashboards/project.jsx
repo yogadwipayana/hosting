@@ -1,52 +1,19 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router"
 import { Helmet } from "react-helmet-async"
 import { DashboardSidebar } from "@/components/DashboardSidebar"
 import { DashboardTopbar } from "@/components/DashboardTopbar"
+import { projectApi } from "@/lib/api"
 import {
   Folder,
   Plus,
   Globe,
   GitBranch,
-
   CheckCircle2,
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  Loader2
 } from "lucide-react"
-
-// Mock Data
-const projects = [
-  {
-    id: 1,
-    name: "landing-page-v1",
-    framework: "React",
-    domain: "landing-page.dockploy.com",
-    status: "production",
-    lastDeploy: "2 minutes ago",
-    branch: "main",
-    repo: "github.com/user/landing-page"
-  },
-  {
-    id: 2,
-    name: "backend-api",
-    framework: "Node.js",
-    domain: "api.dockploy.com",
-    status: "production",
-    lastDeploy: "1 hour ago",
-    branch: "main",
-    repo: "github.com/user/backend-api"
-  },
-  {
-    id: 3,
-    name: "dashboard-app",
-    framework: "Vue",
-    domain: "dash.dockploy.com",
-    status: "failed",
-    lastDeploy: "5 hours ago",
-    branch: "dev",
-    repo: "github.com/user/dashboard-app"
-  }
-]
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -113,6 +80,52 @@ const ProjectCard = ({ project }) => {
 }
 
 const MainContent = () => {
+    const [projects, setProjects] = useState([])
+    const [stats, setStats] = useState({ total: 0, active: 0, failed: 0 })
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                setLoading(true)
+                const response = await projectApi.getProjects()
+                setProjects(response.data.projects)
+                setStats(response.data.stats)
+            } catch (err) {
+                setError(err.message)
+                console.error('Failed to fetch projects:', err)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchProjects()
+    }, [])
+
+    if (loading) {
+        return (
+            <main className="min-h-[calc(100vh-64px)] bg-gray-50/50 p-8 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    <p className="text-muted-foreground">Loading projects...</p>
+                </div>
+            </main>
+        )
+    }
+
+    if (error) {
+        return (
+            <main className="min-h-[calc(100vh-64px)] bg-gray-50/50 p-8 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <AlertCircle className="h-12 w-12 text-red-500" />
+                    <p className="text-lg font-semibold">Failed to load projects</p>
+                    <p className="text-muted-foreground">{error}</p>
+                </div>
+            </main>
+        )
+    }
+
     return (
         <main className="min-h-[calc(100vh-64px)] bg-gray-50/50 p-8">
              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -135,7 +148,7 @@ const MainContent = () => {
                             <Folder size={20} />
                          </div>
                     </div>
-                    <div className="text-3xl font-bold">{projects.length}</div>
+                    <div className="text-3xl font-bold">{stats.total}</div>
                  </div>
                  <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -144,7 +157,7 @@ const MainContent = () => {
                             <CheckCircle2 size={20} />
                          </div>
                     </div>
-                    <div className="text-3xl font-bold">{projects.filter(p => p.status === 'production').length}</div>
+                    <div className="text-3xl font-bold">{stats.active}</div>
                  </div>
                  <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -153,16 +166,28 @@ const MainContent = () => {
                             <AlertCircle size={20} />
                          </div>
                     </div>
-                    <div className="text-3xl font-bold">{projects.filter(p => p.status === 'failed').length}</div>
+                    <div className="text-3xl font-bold">{stats.failed}</div>
                  </div>
             </div>
 
             {/* Project List */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {projects.map(project => (
-                    <ProjectCard key={project.id} project={project} />
-                ))}
-            </div>
+            {projects.length === 0 ? (
+                <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-12 text-center">
+                    <Folder className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-lg font-semibold mb-2">No projects yet</h3>
+                    <p className="text-muted-foreground mb-6">Get started by creating your first project</p>
+                    <Link to="/dashboard/project/new" className="inline-flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <Plus size={16} />
+                        <span>Create Project</span>
+                    </Link>
+                </div>
+            ) : (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {projects.map(project => (
+                        <ProjectCard key={project.id} project={project} />
+                    ))}
+                </div>
+            )}
         </main>
     )
 }

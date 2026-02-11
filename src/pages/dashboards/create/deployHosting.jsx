@@ -9,11 +9,13 @@ import {
   CheckmarkCircle02Icon 
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Plus, Trash2, CheckCircle, XCircle } from "lucide-react"
+import { Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Plus, Trash2, CheckCircle, XCircle, Loader2 } from "lucide-react"
+import { useHosting } from "@/hooks/useHosting"
 
 export default function DeployHosting() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const navigate = useNavigate()
+  const { createHosting, checkDomain, loading: apiLoading } = useHosting()
 
   // State Form
   const [selectedPlan, setSelectedPlan] = useState("starter")
@@ -82,38 +84,45 @@ export default function DeployHosting() {
     setSubdomains(newSubs)
   }
 
-  const handleCheckDomain = () => {
+  const handleCheckDomain = async () => {
     if (!searchDomain) return
 
-    // Clean input name
     const cleanName = searchDomain.toLowerCase().replace(/[^a-z0-9-]/g, "")
     const fullDomain = cleanName + tld
 
     setCheckingDomain(true)
     setDomainCheckResult(null)
-    
-    // Mock check
-    setTimeout(() => {
-      const isTaken = Math.random() < 0.3
-      setDomainCheckResult(isTaken ? 'taken' : 'available')
+
+    try {
+      const result = await checkDomain(fullDomain)
+      setDomainCheckResult(result.available ? 'available' : 'taken')
+      if (result.available) setDomain(fullDomain)
+    } catch (err) {
+      alert('Failed to check domain: ' + err.message)
+    } finally {
       setCheckingDomain(false)
-      
-      // Auto set domain if available
-      if (!isTaken) setDomain(fullDomain)
-    }, 1500)
+    }
   }
 
-  const handleDeploy = () => {
-    // Logic deploy mock
+  const handleDeploy = async () => {
     const finalDomain = domain || (subdomains.length > 0 ? `${subdomains[0]}.belajarhosting.com` : "")
-    
+
     if (!finalDomain) {
       alert("Mohon tentukan domain atau subdomain terlebih dahulu")
       return
     }
 
-    alert(`Deploying ${selectedPlan} in ${selectedLocation} for ${finalDomain}`)
-    navigate("/dashboard/hosting")
+    try {
+      await createHosting({
+        domain: finalDomain,
+        plan: selectedPlan,
+        billingCycle,
+        subdomains: subdomains.filter(s => s.trim()),
+      })
+      navigate("/dashboard/hosting")
+    } catch (err) {
+      alert('Failed to deploy: ' + err.message)
+    }
   }
 
   const formatCurrency = (val) => {
@@ -379,17 +388,21 @@ export default function DeployHosting() {
                       </div>
                     </div>
 
-                    <button 
+                    <button
                       onClick={handleDeploy}
-                      disabled={!domain && subdomains.length === 0}
+                      disabled={(!domain && subdomains.length === 0) || apiLoading}
                       className={`w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
-                         (domain || subdomains.length > 0)
-                          ? "bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl"
-                          : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                         (!domain && subdomains.length === 0) || apiLoading
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl"
                       }`}
                     >
-                      <Rocket size={18} />
-                      Deploy Sekarang
+                      {apiLoading ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <Rocket size={18} />
+                      )}
+                      {apiLoading ? 'Deploying...' : 'Deploy Sekarang'}
                     </button>
                     
                     <p className="text-xs text-center text-gray-500 mt-4">

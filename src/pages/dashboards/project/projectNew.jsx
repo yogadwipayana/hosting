@@ -1,4 +1,5 @@
 
+
 import { useState } from "react"
 import { Helmet } from "react-helmet-async"
 import { useNavigate } from "react-router"
@@ -7,6 +8,7 @@ import { DashboardTopbar } from "@/components/DashboardTopbar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { projectApi } from "@/lib/api"
 import { 
   Rocket, 
   GitBranch, 
@@ -16,24 +18,45 @@ import {
   Code2,
   Database,
   ArrowRight,
-  ChevronRight
+  ChevronRight,
+  AlertCircle
 } from "lucide-react"
 
 // Component for the main content
 const MainContent = () => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
     const [selectedFramework, setSelectedFramework] = useState("react")
     const [customFramework, setCustomFramework] = useState("")
+    const [formData, setFormData] = useState({
+        repoUrl: '',
+        branch: 'main',
+        projectName: '',
+    })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
-        // Simulate API call
-        setTimeout(() => {
-            setIsLoading(false)
+        setError(null)
+
+        try {
+            const framework = selectedFramework === 'other' ? customFramework : selectedFramework
+            
+            await projectApi.createProject({
+                name: formData.projectName,
+                repo: formData.repoUrl,
+                branch: formData.branch,
+                framework: framework,
+            })
+
             navigate("/dashboard/proyek")
-        }, 2000)
+        } catch (err) {
+            setError(err.message || 'Failed to create project')
+            console.error('Failed to create project:', err)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -62,7 +85,7 @@ const MainContent = () => {
                                 </div>
                                 Import Repository Git
                             </h3>
-                            <div className="grid gap-4 p-4 border rounded-lg bg-muted/20">
+                        <div className="grid gap-4 p-4 border rounded-lg bg-muted/20">
                                 <div className="space-y-2">
                                     <Label htmlFor="repo-url">URL Repository</Label>
                                     <div className="relative">
@@ -71,6 +94,8 @@ const MainContent = () => {
                                             id="repo-url" 
                                             placeholder="https://github.com/username/repo" 
                                             className="pl-9"
+                                            value={formData.repoUrl}
+                                            onChange={(e) => setFormData({...formData, repoUrl: e.target.value})}
                                             required
                                         />
                                     </div>
@@ -84,7 +109,8 @@ const MainContent = () => {
                                             id="branch" 
                                             placeholder="main" 
                                             className="pl-9"
-                                            defaultValue="main"
+                                            value={formData.branch}
+                                            onChange={(e) => setFormData({...formData, branch: e.target.value})}
                                         />
                                     </div>
                                 </div>
@@ -108,6 +134,8 @@ const MainContent = () => {
                                             id="project-name" 
                                             placeholder="proyek-saya" 
                                             className="pl-9"
+                                            value={formData.projectName}
+                                            onChange={(e) => setFormData({...formData, projectName: e.target.value})}
                                             required
                                         />
                                     </div>
@@ -141,6 +169,13 @@ const MainContent = () => {
                             </div>
                         </div>
 
+
+                        {error && (
+                            <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                                <AlertCircle size={18} />
+                                <p className="text-sm">{error}</p>
+                            </div>
+                        )}
 
                         <div className="pt-6 border-t flex items-center justify-end gap-4">
                             <Button type="button" variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900" onClick={() => navigate("/dashboard/proyek")}>

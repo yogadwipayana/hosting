@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router"
 import { Helmet } from "react-helmet-async"
 import { DashboardSidebar } from "@/components/DashboardSidebar"
 import { DashboardTopbar } from "@/components/DashboardTopbar"
+import { projectApi } from "@/lib/api"
 import {
   ArrowLeft,
   Globe,
@@ -14,55 +15,12 @@ import {
   TerminalSquare,
   Settings,
   MoreVertical,
-  ExternalLink
+  ExternalLink,
+  Loader2
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// Mock Data (duplicated for demo)
-const projects = [
-  {
-    id: 1,
-    name: "landing-page-v1",
-    framework: "React",
-    domain: "landing-page.dockploy.com",
-    status: "production",
-    lastDeploy: "2 minutes ago",
-    branch: "main",
-    repo: "github.com/user/landing-page",
-    commitMessage: "fix: update hero section responsive layout",
-    commitHash: "8a2b9d4"
-  },
-  {
-    id: 2,
-    name: "backend-api",
-    framework: "Node.js",
-    domain: "api.dockploy.com",
-    status: "production",
-    lastDeploy: "1 hour ago",
-    branch: "main",
-    repo: "github.com/user/backend-api",
-    commitMessage: "feat: add user authentication endpoint",
-    commitHash: "c3f1e9a"
-  },
-  {
-    id: 3,
-    name: "dashboard-app",
-    framework: "Vue",
-    domain: "dash.dockploy.com",
-    status: "failed",
-    lastDeploy: "5 hours ago",
-    branch: "dev",
-    repo: "github.com/user/dashboard-app",
-    commitMessage: "chore: update dependencies",
-    commitHash: "b7d5c2e"
-  }
-]
 
-const deployments = [
-  { id: "dep-1", status: "production", commit: "8a2b9d4", message: "fix: update hero section", time: "2m ago", duration: "45s" },
-  { id: "dep-2", status: "production", commit: "7c3d1e2", message: "feat: add contact form", time: "1d ago", duration: "52s" },
-  { id: "dep-3", status: "failed", commit: "9g8h7j6", message: "fix: typos", time: "2d ago", duration: "12s" },
-]
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -88,10 +46,72 @@ const StatusBadge = ({ status }) => {
 
 const MainContent = () => {
   const { id } = useParams()
-  // Mock finding project by ID (ensure ID is compared correctly, simpler for mock to just grab first or find)
-  const project = projects.find(p => p.id === parseInt(id)) || projects[0] 
+  const [project, setProject] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  if (!project) return <div>Project not found</div>
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        setLoading(true)
+        const response = await projectApi.getProjectById(id)
+        setProject(response.data.project)
+      } catch (err) {
+        setError(err.message)
+        console.error('Failed to fetch project:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (id) {
+      fetchProject()
+    }
+  }, [id])
+
+  if (loading) {
+    return (
+      <main className="min-h-[calc(100vh-64px)] bg-gray-50/50 p-8 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Loading project...</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (error || !project) {
+    return (
+      <main className="min-h-[calc(100vh-64px)] bg-gray-50/50 p-8 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <AlertCircle className="h-12 w-12 text-red-500" />
+          <p className="text-lg font-semibold">Project not found</p>
+          <p className="text-muted-foreground">{error || 'The project you are looking for does not exist.'}</p>
+          <Link to="/dashboard/proyek">
+            <Button variant="outline">
+              <ArrowLeft size={16} className="mr-2" />
+              Back to Projects
+            </Button>
+          </Link>
+        </div>
+      </main>
+    )
+  }
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Never'
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now - date
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMs / 3600000)
+    const diffDays = Math.floor(diffMs / 86400000)
+
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+  }
 
   return (
     <main className="min-h-[calc(100vh-64px)] bg-gray-50/50 p-8">
@@ -108,17 +128,19 @@ const MainContent = () => {
               <StatusBadge status={project.status} />
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-               <a href={`https://${project.domain}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-primary transition-colors">
-                 <Globe size={14} />
-                 {project.domain}
-               </a>
+               {project.domain && (
+                 <a href={`https://${project.domain}`} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-primary transition-colors">
+                   <Globe size={14} />
+                   {project.domain}
+                 </a>
+               )}
                <span className="flex items-center gap-1.5">
                  <GitBranch size={14} />
                  {project.branch}
                </span>
                <span className="flex items-center gap-1.5">
                  <Clock size={14} />
-                 {project.lastDeploy}
+                 {formatDate(project.updatedAt)}
                </span>
             </div>
           </div>
@@ -127,9 +149,13 @@ const MainContent = () => {
             <Button variant="outline" size="sm">
               <RefreshCw size={14} className="mr-2" /> Redeploy
             </Button>
-            <Button variant="default" size="sm">
-              <ExternalLink size={14} className="mr-2" /> Visit
-            </Button>
+            {project.domain && (
+              <Button variant="default" size="sm" asChild>
+                <a href={`https://${project.domain}`} target="_blank" rel="noreferrer">
+                  <ExternalLink size={14} className="mr-2" /> Visit
+                </a>
+              </Button>
+            )}
             <Button variant="ghost" size="icon">
               <Settings size={18} />
             </Button>
@@ -151,47 +177,21 @@ const MainContent = () => {
                    </div>
                  </div>
                  <div className="flex-1">
-                    <p className="font-medium text-foreground">{project.commitMessage}</p>
+                    <p className="font-medium text-foreground">{project.commitMessage || 'No commit message'}</p>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                      <span className="font-mono bg-muted px-1.5 py-0.5 rounded text-xs">{project.commitHash}</span>
-                      <span>•</span>
-                      <span>Committed by user</span>
-                      <span>•</span>
-                      <span>{project.lastDeploy}</span>
+                      {project.commitHash && (
+                        <>
+                          <span className="font-mono bg-muted px-1.5 py-0.5 rounded text-xs">{project.commitHash}</span>
+                          <span>•</span>
+                        </>
+                      )}
+                      <span>{formatDate(project.updatedAt)}</span>
                     </div>
                  </div>
               </div>
             </div>
 
-            {/* Deployment History */}
-            <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
-                <div className="p-6 border-b">
-                   <h3 className="text-lg font-semibold">Deployments</h3>
-                </div>
-                <div className="divide-y">
-                   {deployments.map(dep => (
-                      <div key={dep.id} className="p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
-                          <div className="flex items-center gap-4">
-                             <StatusBadge status={dep.status} />
-                             <div>
-                                <p className="text-sm font-medium text-foreground">{dep.message}</p>
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
-                                   <span className="font-mono">{dep.commit}</span>
-                                   <span>•</span>
-                                   <span>{dep.time}</span>
-                                </div>
-                             </div>
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                             {dep.duration}
-                          </div>
-                      </div>
-                   ))}
-                </div>
-                <div className="p-4 border-t text-center">
-                   <button className="text-sm text-primary hover:underline font-medium">View All Deployments</button>
-                </div>
-            </div>
+
 
          </div>
 
@@ -209,11 +209,11 @@ const MainContent = () => {
 
                   <div className="flex justify-between items-center py-2 border-b border-border/50">
                      <span className="text-sm text-muted-foreground">Created</span>
-                     <span className="text-sm font-medium">20 Oct 2023</span>
+                     <span className="text-sm font-medium">{formatDate(project.createdAt)}</span>
                   </div>
                   <div className="flex justify-between items-center py-2">
                      <span className="text-sm text-muted-foreground">Repository</span>
-                     <a href={`https://${project.repo}`} className="text-sm font-medium text-primary hover:underline truncate max-w-[150px]">
+                     <a href={`https://${project.repo}`} target="_blank" rel="noreferrer" className="text-sm font-medium text-primary hover:underline truncate max-w-[150px]">
                         {project.repo}
                      </a>
                   </div>

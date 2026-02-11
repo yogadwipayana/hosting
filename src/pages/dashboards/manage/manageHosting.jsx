@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useParams } from "react-router";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
 import {
   Server,
@@ -21,39 +21,12 @@ import {
   Download,
   MoreVertical,
   Play,
-  Square
+  Square,
+  Loader2
 } from "lucide-react";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { DashboardTopbar } from "@/components/DashboardTopbar";
-
-// Mock Data for a specific hosting service
-const hostingData = {
-  id: 1,
-  domain: "belajar-react.com",
-  ip: "192.168.1.101",
-  serverNames: ["ns1.dockploy.com", "ns2.dockploy.com"],
-  plan: "Business Cloud",
-  status: "aktif",
-  location: "Jakarta (ID)",
-  expiryDate: "12 Des 2024",
-  autoRenew: true,
-  os: "Ubuntu 22.04 LTS",
-  panel: "CyberPanel",
-  diskUsage: {
-    used: 15,
-    total: 50,
-    unit: "GB",
-    percentage: 30
-  },
-  bandwidthUsage: {
-    used: 120,
-    total: 1000,
-    unit: "GB",
-    percentage: 12
-  },
-  phpVersion: "8.2",
-  sslStatus: "Aktif (Let's Encrypt)"
-};
+import { useHosting } from "@/hooks/useHosting"
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -73,11 +46,11 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-const UsageCard = ({ title, icon: Icon, used, total, unit, percentage, color = "bg-blue-600" }) => (
+const UsageCard = ({ title, icon: IconComponent, used, total, unit, percentage, color = "bg-blue-600" }) => ( // eslint-disable-line no-unused-vars
   <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
     <div className="flex items-center gap-3 mb-4">
       <div className={`p-2 rounded-lg ${color.replace('bg-', 'bg-opacity-10 bg-').replace('600', '50 text-' + color.replace('bg-', ''))}`}>
-        <Icon size={20} />
+        <IconComponent size={20} />
       </div>
       <h3 className="font-medium text-gray-900">{title}</h3>
     </div>
@@ -92,10 +65,10 @@ const UsageCard = ({ title, icon: Icon, used, total, unit, percentage, color = "
   </div>
 );
 
-const QuickAction = ({ icon: Icon, label, description, color = "text-blue-600", bgColor = "bg-blue-50" }) => (
+const QuickAction = ({ icon: IconComponent, label, description, color = "text-blue-600", bgColor = "bg-blue-50" }) => ( // eslint-disable-line no-unused-vars
   <button className="flex items-start gap-4 p-4 rounded-xl border border-gray-100 bg-white hover:border-blue-100 hover:shadow-md transition-all text-left group w-full">
     <div className={`p-3 rounded-lg ${bgColor} ${color} group-hover:scale-110 transition-transform`}>
-      <Icon size={24} />
+      <IconComponent size={24} />
     </div>
     <div>
       <h4 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">{label}</h4>
@@ -105,8 +78,53 @@ const QuickAction = ({ icon: Icon, label, description, color = "text-blue-600", 
 );
 
 const MainContent = () => {
-  // Use mock data
-  const service = hostingData;
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const hostingId = searchParams.get('id')
+  const { currentHosting, loading, error, fetchHostingById, deleteHosting } = useHosting()
+
+  useEffect(() => {
+    if (hostingId) {
+      fetchHostingById(hostingId)
+    }
+  }, [hostingId, fetchHostingById])
+
+  const handleDelete = async () => {
+    if (!confirm('Are you sure you want to delete this hosting? This action cannot be undone.')) return
+    try {
+      await deleteHosting(hostingId)
+      navigate('/dashboard/hosting')
+    } catch (err) {
+      alert('Failed to delete hosting: ' + err.message)
+    }
+  }
+
+  // Show loading state
+  if (loading) {
+    return (
+      <main className="min-h-[calc(100vh-64px)] bg-gray-50 p-6 lg:p-8 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </main>
+    )
+  }
+
+  // Show error state
+  if (error || !currentHosting) {
+    return (
+      <main className="min-h-[calc(100vh-64px)] bg-gray-50 p-6 lg:p-8">
+        <div className="text-center py-12 bg-white rounded-xl border border-gray-100">
+          <Server className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Hosting tidak ditemukan</h2>
+          <p className="text-gray-500 mb-4">{error || 'ID hosting tidak valid'}</p>
+          <Link to="/dashboard/hosting" className="text-blue-600 hover:underline font-medium">
+            Kembali ke daftar hosting
+          </Link>
+        </div>
+      </main>
+    )
+  }
+
+  const service = currentHosting
 
   return (
     <main className="min-h-[calc(100vh-64px)] bg-gray-50 p-6 lg:p-8">
@@ -306,7 +324,8 @@ const MainContent = () => {
                     <button className="px-4 py-2 bg-white border border-red-200 text-red-600 rounded-lg text-sm font-medium hover:bg-red-50 transition-colors">
                         Hentikan Server
                     </button>
-                    <button className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors shadow-sm shadow-red-200">
+                    <button onClick={handleDelete} disabled={loading} className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors shadow-sm shadow-red-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        {loading && <Loader2 size={16} className="animate-spin" />}
                         Hapus Akun
                     </button>
                 </div>
