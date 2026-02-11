@@ -1,49 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Helmet } from "react-helmet-async";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { DashboardTopbar } from "@/components/DashboardTopbar";
+import { automationApi } from "@/services/automation.service";
+import { toast } from "sonner";
 import {
   Plus,
-  MoreVertical,
   Cpu,
   Activity,
   AlertCircle,
   Zap,
-  Play,
   Clock,
+  Loader2,
 } from "lucide-react";
-
-
-// Mock Data
-const automationServices = [
-  {
-    id: 1,
-    name: "marketing-workflows",
-    type: "n8n Automation",
-    icon: "/images/n8n.svg",
-    plan: "Pro",
-    status: "active",
-    location: "Jakarta (ID)",
-    workflows: 12,
-    executions: "14.5k/mo",
-    cpu: "2 vCPU",
-    ram: "2 GB",
-  },
-  {
-    id: 2,
-    name: "sales-bot-auto",
-    type: "n8n Automation",
-    icon: "/images/n8n.svg",
-    plan: "Starter",
-    status: "active",
-    location: "Jakarta (ID)",
-    workflows: 3,
-    executions: "2.1k/mo",
-    cpu: "1 vCPU",
-    ram: "1 GB",
-  },
-];
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -68,8 +38,41 @@ const StatusBadge = ({ status }) => {
     </span>
   );
 };
-
 const MainContent = () => {
+  const [services, setServices] = useState([]);
+  const [stats, setStats] = useState({ total: 0, active: 0, status: 'Normal' });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadServices();
+  }, []);
+
+  const loadServices = async () => {
+    try {
+      setIsLoading(true);
+      const response = await automationApi.getAll();
+      setServices(response.data.data.items || []);
+      setStats(response.data.data.stats || { total: 0, active: 0, status: 'Normal' });
+    } catch (error) {
+      toast.error('Failed to load automation services');
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <main className="min-h-[calc(100vh-64px)] bg-gray-50 p-8">
+        <div className="flex flex-col items-center justify-center min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <p>Loading automation services...</p>
+        </div>
+      </main>
+    );
+  }
+
+
   return (
     <main className="min-h-[calc(100vh-64px)] bg-gray-50 p-8">
       {/* Page Header */}
@@ -102,7 +105,7 @@ const MainContent = () => {
           </div>
           <div className="flex items-end gap-2">
             <span className="text-3xl font-bold text-gray-900">
-              {automationServices.length}
+              {stats.total}
             </span>
             <span className="text-green-600 text-xs font-medium mb-1">
               +0 bulan ini
@@ -121,7 +124,7 @@ const MainContent = () => {
           </div>
           <div className="flex items-end gap-2">
             <span className="text-3xl font-bold text-gray-900">
-              {automationServices.filter((s) => s.status === "active").length}
+              {stats.active}
             </span>
             <span className="text-gray-400 text-xs font-medium mb-1">
               services
@@ -137,7 +140,7 @@ const MainContent = () => {
             </div>
           </div>
           <div className="flex items-end gap-2">
-            <span className="text-3xl font-bold text-gray-900">Normal</span>
+            <span className="text-3xl font-bold text-gray-900">{stats.status}</span>
             <span className="text-green-600 text-xs font-medium mb-1">
               All services running
             </span>
@@ -148,7 +151,7 @@ const MainContent = () => {
       {/* List Content */}
       <div className="space-y-6">
         <div className="grid gap-6">
-          {automationServices.map((service) => (
+          {services.map((service) => (
             <div
               key={service.id}
               className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
@@ -161,7 +164,7 @@ const MainContent = () => {
                       {service.icon ? (
                         <img
                           src={service.icon}
-                          alt={service.type}
+                          alt={service.platform || "n8n Automation"}
                           className="w-full h-full object-contain"
                         />
                       ) : (
@@ -177,10 +180,10 @@ const MainContent = () => {
                       </div>
                       <div className="flex items-center gap-4 text-sm text-gray-500">
                         <span className="flex items-center gap-1.5">
-                          {service.type}
+                          {service.platform || "n8n Automation"}
                         </span>
-                        <span className="hidden sm:inline">•</span>
-                        <span>{service.location}</span>
+                        <span className="hidden sm:inline">&#8226;</span>
+                        <span>{service.locationName || service.location}</span>
                       </div>
                     </div>
                   </div>
@@ -190,7 +193,7 @@ const MainContent = () => {
                     <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-gray-700 rounded-md text-xs font-bold uppercase hover:bg-gray-50 transition-colors shadow-sm">
                       Cek
                     </button>
-                    <Link to="/dashboard/automation/manage" className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
+                    <Link to={`/dashboard/automation/${service.id}`} className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
                       Kelola
                     </Link>
                   </div>
@@ -220,7 +223,7 @@ const MainContent = () => {
                     <div className="flex-1">
                       <p className="text-xs text-gray-500 mb-0.5">Resources</p>
                       <p className="text-sm font-medium text-gray-900">
-                        {service.cpu} / {service.ram}
+                        {service.cpu} vCPU / {service.ram} GB
                       </p>
                     </div>
                   </div>
