@@ -10,11 +10,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { 
+import {
   CheckmarkCircle02Icon,
   AlertCircleIcon,
   Loading01Icon,
+  Cancel01Icon,
 } from "@hugeicons/core-free-icons"
+import { toolsApi } from "@/lib/api.js"
 
 
 
@@ -47,24 +49,21 @@ function UptimeCheckForm() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
 
-  const handleCheck = () => {
+  const handleCheck = async () => {
     if (!url) return
-    
+
     setLoading(true)
     setError(null)
     setResult(null)
 
-    // Simulate check
-    setTimeout(() => {
+    try {
+      const response = await toolsApi.checkUptime(url)
+      setResult(response.data)
+    } catch (err) {
+      setError(err.message || 'Failed to check uptime')
+    } finally {
       setLoading(false)
-      // Mock result
-      setResult({
-        status: "Online",
-        code: 200,
-        time: "145ms",
-        ip: "104.21.55.2"
-      })
-    }, 1500)
+    }
   }
 
   return (
@@ -100,15 +99,38 @@ function UptimeCheckForm() {
           </p>
         </div>
         
+        {/* Error */}
+        {error && (
+          <div className="rounded-xl border border-red-200 bg-red-50 p-6 animate-in fade-in slide-in-from-top-2">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                <HugeiconsIcon icon={Cancel01Icon} size={24} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg text-red-600">Error</h3>
+                <p className="text-sm text-muted-foreground">{error}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Results */}
         {result && (
           <div className="rounded-xl border bg-white p-6 animate-in fade-in slide-in-from-top-2">
              <div className="flex items-center gap-3 mb-6">
-                <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                   <HugeiconsIcon icon={CheckmarkCircle02Icon} size={24} />
+                <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
+                  result.status === 'Online'
+                    ? 'bg-green-100 text-green-600'
+                    : 'bg-red-100 text-red-600'
+                }`}>
+                   <HugeiconsIcon icon={result.status === 'Online' ? CheckmarkCircle02Icon : AlertCircleIcon} size={24} />
                 </div>
                 <div>
-                   <h3 className="font-semibold text-lg text-green-600">Website is Online</h3>
+                   <h3 className={`font-semibold text-lg ${
+                     result.status === 'Online' ? 'text-green-600' : 'text-red-600'
+                   }`}>
+                     {result.status === 'Online' ? 'Website is Online' : 'Website is Offline'}
+                   </h3>
                    <p className="text-sm text-muted-foreground">Checked just now</p>
                 </div>
              </div>
@@ -120,7 +142,7 @@ function UptimeCheckForm() {
                 </div>
                 <div className="p-4 rounded-lg bg-gray-50 border">
                    <div className="text-sm text-muted-foreground mb-1">Status Code</div>
-                   <div className="text-xl font-bold">{result.code} OK</div>
+                   <div className="text-xl font-bold">{result.code} {result.statusText}</div>
                 </div>
                  <div className="p-4 rounded-lg bg-gray-50 border">
                    <div className="text-sm text-muted-foreground mb-1">IP Address</div>

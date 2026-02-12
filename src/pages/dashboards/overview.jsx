@@ -61,15 +61,15 @@ const bookmarks = [
 
 // --- Components ---
 
-const StatCard = ({ title, count, icon: Icon, color, subtext, link }) => (
+const StatCard = ({ title, count, icon: Icon, subtext, link }) => (
   <Link to={link || "#"} className="group relative overflow-hidden rounded-xl bg-white p-6 shadow-sm transition-all hover:shadow-md border border-gray-100">
     <div className="flex items-center justify-between">
       <div>
         <p className="text-sm font-medium text-gray-500">{title}</p>
         <h3 className="mt-2 text-3xl font-bold text-gray-900">{count}</h3>
       </div>
-      <div className={`rounded-xl p-3 ${color} bg-opacity-10`}>
-        <Icon className={`h-6 w-6 ${color.replace('bg-', 'text-')}`} />
+      <div className="rounded-xl p-3 bg-gray-50 text-gray-900">
+        <Icon className="h-6 w-6" />
       </div>
     </div>
     {subtext && (
@@ -93,13 +93,13 @@ const SectionHeader = ({ title, link, linkText }) => (
     </div>
 )
 
-const QuickAction = ({ icon: Icon, label, to, color }) => (
+const QuickAction = ({ icon: Icon, label, to }) => (
     <Link
         to={to}
         className="flex flex-col items-center justify-center p-4 rounded-xl border border-gray-100 bg-white hover:border-blue-200 hover:shadow-sm transition-all group"
     >
-        <div className={`p-3 rounded-full ${color} bg-opacity-10 mb-3 group-hover:scale-110 transition-transform`}>
-            <Icon className={`h-6 w-6 ${color.replace('bg-', 'text-')}`} />
+        <div className="p-3 rounded-full bg-gray-50 text-gray-900 mb-3 group-hover:scale-110 transition-transform">
+            <Icon className="h-6 w-6" />
         </div>
         <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{label}</span>
     </Link>
@@ -131,7 +131,6 @@ const MainContent = () => {
             title="Total Projects"
             count={projects.length}
             icon={Folder}
-            color="bg-purple-600"
             link="/dashboard/proyek"
             subtext={
                 <span className="text-green-600 flex items-center gap-1 font-medium bg-green-50 px-2 py-0.5 rounded-full text-xs">
@@ -143,7 +142,6 @@ const MainContent = () => {
             title="Hosting & Domain"
             count={hostingServices.length}
             icon={Cloud}
-            color="bg-blue-600"
             link="/dashboard/hosting"
             subtext={
                 <span className="text-blue-600 flex items-center gap-1 font-medium bg-blue-50 px-2 py-0.5 rounded-full text-xs">
@@ -155,7 +153,6 @@ const MainContent = () => {
             title="Active VPS"
             count={vpsServices.filter(v => v.status === 'active').length}
             icon={Server}
-            color="bg-emerald-600"
             link="/dashboard/vps"
              subtext={
                 <span className="text-gray-500 font-medium text-xs">
@@ -167,7 +164,6 @@ const MainContent = () => {
             title="My Bookmarks"
             count={bookmarks.length}
             icon={Bookmark}
-            color="bg-pink-600"
             link="/dashboard/bookmark"
              subtext={
                 <span className="text-gray-500 font-medium text-xs">
@@ -186,7 +182,7 @@ const MainContent = () => {
                 <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                            <div className="p-2 bg-gray-50 text-gray-900 rounded-lg">
                                 <Database size={20} />
                             </div>
                             <h3 className="font-semibold text-gray-900">Databases</h3>
@@ -206,7 +202,7 @@ const MainContent = () => {
                 <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-orange-50 text-orange-600 rounded-lg">
+                            <div className="p-2 bg-gray-50 text-gray-900 rounded-lg">
                                 <Zap size={20} />
                             </div>
                             <h3 className="font-semibold text-gray-900">Automation</h3>
@@ -228,10 +224,10 @@ const MainContent = () => {
             <div>
                 <SectionHeader title="Quick Actions" />
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <QuickAction icon={Plus} label="New Project" to="/dashboard/project/new" color="bg-purple-600" />
-                    <QuickAction icon={Cloud} label="Deploy Hosting" to="/dashboard/hosting/deploy" color="bg-blue-600" />
-                    <QuickAction icon={Server} label="Deploy VPS" to="/dashboard/vps/deploy" color="bg-emerald-600" />
-                    <QuickAction icon={Database} label="Add Database" to="/dashboard/database/deploy" color="bg-indigo-600" />
+                    <QuickAction icon={Plus} label="New Project" to="/dashboard/project/new" />
+                    <QuickAction icon={Cloud} label="Deploy Hosting" to="/dashboard/hosting/deploy" />
+                    <QuickAction icon={Server} label="Deploy VPS" to="/dashboard/vps/deploy" />
+                    <QuickAction icon={Database} label="Add Database" to="/dashboard/database/deploy" />
                 </div>
             </div>
 
@@ -260,7 +256,7 @@ const MainContent = () => {
                 <SectionHeader title="Learning Progress" link="/dashboard/kelas" />
                 <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-yellow-50 text-yellow-600 rounded-lg">
+                        <div className="p-2 bg-gray-50 text-gray-900 rounded-lg">
                             <GraduationCap size={20} />
                         </div>
                         <div className="flex-1">

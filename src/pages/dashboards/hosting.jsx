@@ -11,11 +11,21 @@ import {
   Plus,
   RefreshCw,
   Power,
-  Loader2
+  Loader2,
+  AlertTriangle
 } from "lucide-react"
 import { DashboardSidebar } from "@/components/DashboardSidebar"
 import { DashboardTopbar } from "@/components/DashboardTopbar"
 import { useHosting } from "@/hooks/useHosting"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 const StatusBadge = ({ status }) => {
   const styles = {
@@ -48,15 +58,22 @@ const MainContent = () => {
   const [activeTab, setActiveTab] = useState("hosting")
   const { hostings, stats, loading, error, fetchHostings, deleteHosting } = useHosting()
 
+  const [deleteId, setDeleteId] = useState(null)
+
   // Fetch hostings on mount
   useEffect(() => {
     fetchHostings()
   }, [fetchHostings])
 
-  const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this hosting?')) return
+  const handleDeleteClick = (id) => {
+    setDeleteId(id)
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteId) return
     try {
-      await deleteHosting(id)
+      await deleteHosting(deleteId)
+      setDeleteId(null)
     } catch {
       // Error is handled in hook
     }
@@ -240,7 +257,7 @@ const MainContent = () => {
                       {/* Actions */}
                       <div className="flex items-center gap-3 w-full lg:w-auto">
                         <button
-                          onClick={() => handleDelete(service.id)}
+                          onClick={() => handleDeleteClick(service.id)}
                           className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-red-600 hover:bg-red-50 rounded-md text-xs font-bold uppercase transition-colors shadow-sm"
                         >
                           Hapus
@@ -338,6 +355,37 @@ const MainContent = () => {
           </div>
         )}
       </div>
+
+      <Dialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <div className="mx-auto bg-red-100 p-3 rounded-full w-fit mb-2">
+              <AlertTriangle className="w-6 h-6 text-red-600" />
+            </div>
+            <DialogTitle className="text-center">Hapus Layanan Hosting?</DialogTitle>
+            <DialogDescription className="text-center">
+              Apakah Anda yakin ingin menghapus layanan hosting ini? <br />
+              Tindakan ini tidak dapat dibatalkan dan semua data akan hilang permanen.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-center gap-2 mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteId(null)}
+              className="w-full sm:w-auto"
+            >
+              Batal
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+              className="w-full sm:w-auto bg-red-600 hover:bg-red-700"
+            >
+              Ya, Hapus Hosting
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </main>
   )
 }

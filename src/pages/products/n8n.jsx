@@ -222,10 +222,11 @@ export default function N8nAutomationPage() {
                   Pilih Paket n8n
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <PricingCard 
+                  <PricingCard
                     title="Starter"
                     price="Rp 30.000"
                     period="bulan"
+                    href="/dashboard/automation/deploy"
                     features={[
                       "1 vCPU",
                       "1 GB RAM",
@@ -233,11 +234,12 @@ export default function N8nAutomationPage() {
                       "Unlimited Executions",
                     ]}
                   />
-                  <PricingCard 
+                  <PricingCard
                     title="Pro"
                     price="Rp 50.000"
                     period="bulan"
                     highlighted={true}
+                    href="/dashboard/automation/deploy"
                     features={[
                       "1 vCPU",
                       "2 GB RAM",

@@ -7,7 +7,9 @@ import {
   GlobeIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Database, Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Lock, User, Globe } from "lucide-react"
+import { Database, Server, Cpu, HardDrive, Rocket, MemoryStick, ArrowLeft, Lock, User, Globe, Loader2 } from "lucide-react"
+import { databaseApi } from "@/lib/api"
+import { toast } from "sonner"
 
 export default function DeployDatabase() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -25,6 +27,7 @@ export default function DeployDatabase() {
   const [dbName, setDbName] = useState("")
   const [dbUser, setDbUser] = useState("root")
   const [dbPass, setDbPass] = useState("")
+  const [isDeploying, setIsDeploying] = useState(false)
 
   const locations = [
     { id: "sg", name: "Singapore", flag: "🇸🇬" },
@@ -61,14 +64,37 @@ export default function DeployDatabase() {
     }
   }, [selectedEngine])
 
-  const handleDeploy = () => {
+  const handleDeploy = async () => {
     if (!instanceName || !dbName || !dbUser || !dbPass) {
-      alert("Mohon lengkapi konfigurasi database (Nama Instance, Nama Database, User, Password)")
+      toast.error("Mohon lengkapi konfigurasi database")
       return
     }
 
-    alert(`Deploying ${selectedEngine} ${selectedVersion} (${selectedPlan}) in ${selectedLocation}`)
-    navigate("/dashboard/database")
+    try {
+      setIsDeploying(true)
+      
+      const payload = {
+        name: instanceName,
+        engine: selectedEngine.toUpperCase(), // Backend expects uppercase
+        plan: selectedPlan,
+        billingCycle,
+        databaseName: dbName,
+        username: dbUser,
+        password: dbPass,
+        version: selectedVersion,
+        location: selectedLocation
+      }
+      
+      await databaseApi.createDatabase(payload)
+      
+      toast.success(`Database ${instanceName} berhasil di-deploy!`)
+      navigate("/dashboard/database")
+    } catch (error) {
+      console.error("Deploy error:", error)
+      toast.error(error.message || "Gagal men-deploy database")
+    } finally {
+      setIsDeploying(false)
+    }
   }
 
   const formatCurrency = (val) => {
@@ -367,10 +393,20 @@ export default function DeployDatabase() {
 
                     <button 
                       onClick={handleDeploy}
-                      className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl transition-all"
+                      disabled={isDeploying}
+                      className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-700 disabled:cursor-not-allowed text-white shadow-lg hover:shadow-xl transition-all"
                     >
-                      <Rocket size={18} />
-                      Deploy Database
+                      {isDeploying ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          Deploying...
+                        </>
+                      ) : (
+                        <>
+                          <Rocket size={18} />
+                          Deploy Database
+                        </>
+                      )}
                     </button>
                     
                     <p className="text-xs text-center text-gray-500 mt-4">

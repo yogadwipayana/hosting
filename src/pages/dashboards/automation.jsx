@@ -51,9 +51,9 @@ const MainContent = () => {
     try {
       setIsLoading(true);
       const response = await automationApi.getAll();
-      setServices(response.data.data.items || []);
+      setServices(response.data.items || []);
       setStats(
-        response.data.data.stats || { total: 0, active: 0, status: "Normal" },
+        response.data.stats || { total: 0, active: 0, status: "Normal" },
       );
     } catch (error) {
       toast.error("Failed to load automation services");
@@ -256,7 +256,7 @@ const MainContent = () => {
                           Resources
                         </p>
                         <p className="text-sm font-medium text-gray-900">
-                          {service.cpu} vCPU / {service.ram} GB
+                          {service.resources?.cpu?.cores || service.cpu || 1} vCPU / {service.resources?.ram?.size || service.ram || 1} GB
                         </p>
                       </div>
                     </div>

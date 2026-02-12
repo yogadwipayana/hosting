@@ -70,7 +70,7 @@ function DatabaseCard({ name, logo, description, features, href }) {
 }
 
 // Pricing Card Component
-function PricingCard({ title, price, period, features, highlighted, ctaText }) {
+function PricingCard({ title, price, period, features, highlighted, ctaText, href }) {
   return (
     <div className={`feature-card flex flex-col h-full rounded-2xl border p-6 ${highlighted ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-500" : "border-gray-200 bg-white"}`}>
       {highlighted && (
@@ -91,10 +91,12 @@ function PricingCard({ title, price, period, features, highlighted, ctaText }) {
           </li>
         ))}
       </ul>
-      <Button className="w-full h-11 mt-auto bg-blue-600 hover:bg-blue-700">
-        {ctaText || "Mulai Sekarang"}
-        <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
-      </Button>
+      <Link to={href || "/dashboard/database/deploy"}>
+        <Button className="w-full h-11 mt-auto bg-blue-600 hover:bg-blue-700">
+          {ctaText || "Mulai Sekarang"}
+          <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
+        </Button>
+      </Link>
     </div>
   )
 }

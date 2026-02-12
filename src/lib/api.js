@@ -263,3 +263,31 @@ export const productAdminApi = {
     // Delete product
     deleteProduct: (id) => api.delete(`/products/${id}`),
 };
+
+// Domain API calls
+export const domainApi = {
+    // Get list of supported TLDs
+    getTlds: () => api.get('/domains/tlds'),
+
+    // Check single domain availability
+    checkDomain: (domain) => api.get(`/domains/check?domain=${encodeURIComponent(domain)}`),
+
+    // Check domain with multiple TLDs
+    checkDomainWithTlds: (name, tlds, options = {}) => {
+        const tldParam = Array.isArray(tlds) ? tlds.join(',') : tlds;
+        const { page = 1, limit = 10 } = options;
+        return api.get(`/domains/check-all?name=${encodeURIComponent(name)}&tlds=${encodeURIComponent(tldParam)}&page=${page}&limit=${limit}`);
+    },
+
+    // Check domain with all TLDs from domain.txt
+    checkDomainAllTlds: (name, options = {}) => {
+        const { page = 1, limit = 10 } = options;
+        return api.get(`/domains/check-all?name=${encodeURIComponent(name)}&page=${page}&limit=${limit}`);
+    }
+};
+
+// Tools API calls
+export const toolsApi = {
+    // Check website uptime
+    checkUptime: (url) => api.post('/tools/uptime', { url }, { auth: false }),
+};
