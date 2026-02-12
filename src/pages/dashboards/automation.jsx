@@ -40,7 +40,7 @@ const StatusBadge = ({ status }) => {
 };
 const MainContent = () => {
   const [services, setServices] = useState([]);
-  const [stats, setStats] = useState({ total: 0, active: 0, status: 'Normal' });
+  const [stats, setStats] = useState({ total: 0, active: 0, status: "Normal" });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -52,9 +52,11 @@ const MainContent = () => {
       setIsLoading(true);
       const response = await automationApi.getAll();
       setServices(response.data.data.items || []);
-      setStats(response.data.data.stats || { total: 0, active: 0, status: 'Normal' });
+      setStats(
+        response.data.data.stats || { total: 0, active: 0, status: "Normal" },
+      );
     } catch (error) {
-      toast.error('Failed to load automation services');
+      toast.error("Failed to load automation services");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -71,7 +73,6 @@ const MainContent = () => {
       </main>
     );
   }
-
 
   return (
     <main className="min-h-[calc(100vh-64px)] bg-gray-50 p-8">
@@ -140,7 +141,9 @@ const MainContent = () => {
             </div>
           </div>
           <div className="flex items-end gap-2">
-            <span className="text-3xl font-bold text-gray-900">{stats.status}</span>
+            <span className="text-3xl font-bold text-gray-900">
+              {stats.status}
+            </span>
             <span className="text-green-600 text-xs font-medium mb-1">
               All services running
             </span>
@@ -150,88 +153,119 @@ const MainContent = () => {
 
       {/* List Content */}
       <div className="space-y-6">
-        <div className="grid gap-6">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+        {services.length === 0 ? (
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-12 text-center">
+            <div className="p-4 bg-blue-50 text-blue-600 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <Zap size={32} />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No Automations Yet
+            </h3>
+            <p className="text-gray-500 mb-6 max-w-md mx-auto">
+              Anda belum memiliki automation. Deploy automation baru untuk
+              memulai.
+            </p>
+            <Link
+              to="/dashboard/automation/deploy"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
             >
-              <div className="p-6">
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-6">
-                  {/* Service Info */}
-                  <div className="flex items-start gap-4">
-                    <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50 text-pink-600 p-2">
-                      {service.icon ? (
-                        <img
-                          src={service.icon}
-                          alt={service.platform || "n8n Automation"}
-                          className="w-full h-full object-contain"
-                        />
-                      ) : (
-                        <Clock size={24} />
-                      )}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
-                        <h3 className="text-lg font-bold text-gray-900">
-                          {service.name}
-                        </h3>
-                        <StatusBadge status={service.status} />
+              <Plus size={18} />
+              <span>Deploy Automation Baru</span>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-6">
+            {services.map((service) => (
+              <div
+                key={service.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+              >
+                <div className="p-6">
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-6">
+                    {/* Service Info */}
+                    <div className="flex items-start gap-4">
+                      <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50 text-pink-600 p-2">
+                        {service.icon ? (
+                          <img
+                            src={service.icon}
+                            alt={service.platform || "n8n Automation"}
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <Clock size={24} />
+                        )}
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <span className="flex items-center gap-1.5">
-                          {service.platform || "n8n Automation"}
-                        </span>
-                        <span className="hidden sm:inline">&#8226;</span>
-                        <span>{service.locationName || service.location}</span>
+                      <div>
+                        <div className="flex items-center gap-3 mb-1">
+                          <h3 className="text-lg font-bold text-gray-900">
+                            {service.name}
+                          </h3>
+                          <StatusBadge status={service.status} />
+                        </div>
+                        <div className="flex items-center gap-4 text-sm text-gray-500">
+                          <span className="flex items-center gap-1.5">
+                            {service.platform || "n8n Automation"}
+                          </span>
+                          <span className="hidden sm:inline">&#8226;</span>
+                          <span>
+                            {service.locationName || service.location}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Actions */}
-                  <div className="flex items-center gap-3 w-full lg:w-auto">
-                    <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-gray-700 rounded-md text-xs font-bold uppercase hover:bg-gray-50 transition-colors shadow-sm">
-                      Cek
-                    </button>
-                    <Link to={`/dashboard/automation/${service.id}`} className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90">
-                      Kelola
-                    </Link>
-                  </div>
-                </div>
-
-                {/* divider */}
-                <div className="h-px bg-gray-100 w-full mb-6"></div>
-
-                {/* Resources */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-md bg-blue-50 text-blue-600">
-                      <Zap size={18} />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500 mb-0.5">Plan Type</p>
-                      <p className="text-sm font-medium text-gray-900">
-                        {service.plan}
-                      </p>
+                    {/* Actions */}
+                    <div className="flex items-center gap-3 w-full lg:w-auto">
+                      <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-white border border-gray-200 text-gray-700 rounded-md text-xs font-bold uppercase hover:bg-gray-50 transition-colors shadow-sm">
+                        Cek
+                      </button>
+                      <Link
+                        to={`/dashboard/automation/${service.id}`}
+                        className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-md text-xs font-bold uppercase hover:bg-blue-700 transition-colors shadow-sm bg-opacity-90"
+                      >
+                        Kelola
+                      </Link>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-md bg-orange-50 text-orange-600">
-                      <Cpu size={18} />
+                  {/* divider */}
+                  <div className="h-px bg-gray-100 w-full mb-6"></div>
+
+                  {/* Resources */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-md bg-blue-50 text-blue-600">
+                        <Zap size={18} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-gray-500 mb-0.5">
+                          Plan Type
+                        </p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {service.plan}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500 mb-0.5">Resources</p>
-                      <p className="text-sm font-medium text-gray-900">
-                        {service.cpu} vCPU / {service.ram} GB
-                      </p>
+
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-md bg-orange-50 text-orange-600">
+                        <Cpu size={18} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-gray-500 mb-0.5">
+                          Resources
+                        </p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {service.cpu} vCPU / {service.ram} GB
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );

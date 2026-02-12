@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router"
+import { Toaster } from "sonner"
 import { useClarity } from "@/hooks/useClarity"
 import { ProtectedRoute } from "@/components/ProtectedRoute"
 import LandingPage from "@/pages/landingPages"
@@ -52,6 +53,7 @@ import ManageVps from "@/pages/dashboards/manage/manageVps"
 import { AdminAuthProvider } from "@/context/AdminAuthContext"
 import { AdminRoute } from "@/components/AdminRoute"
 import AdminLoginPage from "@/pages/admin/login"
+import ProductCatalogPage from "@/pages/products/Catalog"
 
 // Main App Component
 export default function App() {
@@ -59,6 +61,7 @@ export default function App() {
 
   return (
     <AdminAuthProvider>
+      <Toaster richColors position="top-right" closeButton />
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
@@ -68,6 +71,7 @@ export default function App() {
         <Route path="/produk/database" element={<ManagedDatabasePage />} />
         <Route path="/produk/n8n" element={<N8nAutomationPage />} />
         <Route path="/produk/vps" element={<VpsPage />} />
+        <Route path="/produk/catalog" element={<ProductCatalogPage />} />
 
         <Route path="/alat" element={<ToolsPage />} />
         <Route path="/alat/uptime-checker" element={<UptimeCheckerPage />} />

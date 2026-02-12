@@ -78,7 +78,7 @@ export default function DeployAutomation() {
       toast.success("Automation service berhasil dibuat!")
       navigate("/dashboard/automation")
     } catch (error) {
-      toast.error(error.response?.data?.message || "Gagal membuat automation service")
+      toast.error(error.message || "Gagal membuat automation service")
     } finally {
       setIsDeploying(false)
     }

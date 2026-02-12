@@ -209,3 +209,57 @@ export const vpsApi = {
     // Start VPS
     startVps: (id) => api.post(`/vps/${id}/start`),
 };
+
+// Database API calls
+export const databaseApi = {
+    // Get all databases with stats
+    getDatabases: () => api.get('/database'),
+
+    // Get single database by ID
+    getDatabaseById: (id) => api.get(`/database/${id}`),
+
+    // Create new database
+    createDatabase: (data) => api.post('/database', data),
+
+    // Update database
+    updateDatabase: (id, data) => api.put(`/database/${id}`, data),
+
+    // Delete database
+    deleteDatabase: (id) => api.delete(`/database/${id}`),
+};
+
+// Product Catalog API calls
+export const productCatalogApi = {
+    // Get all products with optional filters
+    getProducts: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.type) searchParams.append('type', params.type);
+        if (params.active) searchParams.append('active', params.active);
+        const query = searchParams.toString();
+        return api.get(`/products${query ? `?${query}` : ''}`);
+    },
+
+    // Get single product by slug
+    getProduct: (slug) => api.get(`/products/${slug}`),
+
+    // Order a product (create instance)
+    orderProduct: (slug, data) => api.post(`/products/${slug}/order`, data),
+
+    // Get user's instances
+    getUserInstances: (type) => {
+        const params = type ? `?type=${type}` : '';
+        return api.get(`/products/user/instances${params}`);
+    },
+};
+
+// Admin Product API calls
+export const productAdminApi = {
+    // Create new product
+    createProduct: (data) => api.post('/products', data),
+
+    // Update product
+    updateProduct: (id, data) => api.patch(`/products/${id}`, data),
+
+    // Delete product
+    deleteProduct: (id) => api.delete(`/products/${id}`),
+};

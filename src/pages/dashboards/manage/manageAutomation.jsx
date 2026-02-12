@@ -38,7 +38,7 @@ const StatusBadge = ({ status }) => {
 
   return (
     <span
-      className={\`px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border \${mapped.style}\`}
+      className={`px-2.5 py-0.5 rounded-full text-xs font-medium capitalize border ${mapped.style}`}
     >
       {mapped.label}
     </span>
@@ -48,7 +48,7 @@ const StatusBadge = ({ status }) => {
 const UsageCard = ({ title, icon: Icon, value, total, unit, percentage, color = "bg-blue-600" }) => (
   <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
     <div className="flex items-center gap-3 mb-4">
-      <div className={\`\${color.replace("bg-", "bg-opacity-10 text-").replace("600", "600")} p-2 rounded-lg\`}>
+      <div className={`${color.replace("bg-", "bg-opacity-10 text-").replace("600", "600")} p-2 rounded-lg`}>
         <Icon size={20} />
       </div>
       <h3 className="font-medium text-gray-900">{title}</h3>
@@ -58,7 +58,7 @@ const UsageCard = ({ title, icon: Icon, value, total, unit, percentage, color = 
       <span className="text-gray-400 text-xs self-end mb-1">dari {total} {unit}</span>
     </div>
     <div className="w-full bg-gray-100 rounded-full h-1.5 mt-2">
-      <div className={\`h-1.5 rounded-full \${color}\`} style={{ width: \`\${percentage}%\` }}></div>
+      <div className={`h-1.5 rounded-full ${color}`} style={{ width: `${percentage}%` }}></div>
     </div>
   </div>
 );
@@ -72,9 +72,9 @@ const QuickAction = ({ icon: Icon, label, description, onClick, variant = "defau
   return (
     <button
       onClick={onClick}
-      className={\`flex items-start gap-4 p-4 rounded-xl border transition-all text-left w-full h-full \${variants[variant]}\`}
+      className={`flex items-start gap-4 p-4 rounded-xl border transition-all text-left w-full h-full ${variants[variant]}`}
     >
-      <div className={\`p-2 rounded-lg bg-white shadow-sm border border-gray-100 shrink-0\`}>
+      <div className={`p-2 rounded-lg bg-white shadow-sm border border-gray-100 shrink-0`}>
         <Icon size={20} className={variant === "danger" ? "text-red-600" : "text-blue-600"} />
       </div>
       <div>
@@ -230,7 +230,7 @@ const MainContent = () => {
                     <h1 className="text-2xl font-bold text-gray-900 mb-2">{automationData.name}</h1>
                     <div className="flex items-center gap-4 flex-wrap">
                         <StatusBadge status={automationData.status} />
-                        <a href={\`https://\${automationData.url}\`} target="_blank" rel="noreferrer" className="text-sm text-gray-500 hover:text-blue-600 flex items-center gap-1 transition-colors">
+                        <a href={`https://${automationData.url}`} target="_blank" rel="noreferrer" className="text-sm text-gray-500 hover:text-blue-600 flex items-center gap-1 transition-colors">
                             <Globe size={14} />
                             {automationData.url}
                         </a>
@@ -253,7 +253,7 @@ const MainContent = () => {
                 </Button>
                 <Button
                   className="gap-2 bg-rose-600 hover:bg-rose-700 text-white border-none shadow-md shadow-rose-200"
-                  onClick={() => window.open(\`https://\${data.instanceUrl}\`, "_blank")}
+                  onClick={() => window.open(`https://${data.instanceUrl}`, "_blank")}
                 >
                     <ExternalLink size={16} />
                     Buka Editor
