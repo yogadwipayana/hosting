@@ -291,3 +291,88 @@ export const toolsApi = {
     // Check website uptime
     checkUptime: (url) => api.post('/tools/uptime', { url }, { auth: false }),
 };
+
+// Bookmark API calls
+export const bookmarkApi = {
+    // Get all bookmarks with optional filters
+    getBookmarks: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.search) searchParams.append('search', params.search);
+        if (params.category) searchParams.append('category', params.category);
+        const query = searchParams.toString();
+        return api.get(`/bookmarks${query ? `?${query}` : ''}`);
+    },
+
+    // Get single bookmark by ID
+    getBookmarkById: (id) => api.get(`/bookmarks/${id}`),
+
+    // Create new bookmark
+    createBookmark: (data) => api.post('/bookmarks', data),
+
+    // Update bookmark
+    updateBookmark: (id, data) => api.put(`/bookmarks/${id}`, data),
+
+    // Delete bookmark
+    deleteBookmark: (id) => api.delete(`/bookmarks/${id}`),
+
+    // Get unique categories
+    getCategories: () => api.get('/bookmarks/categories'),
+};
+
+// Admin API calls
+export const adminApi = {
+    // Dashboard
+    getDashboardStats: () => api.get('/admin/dashboard/stats', { auth: 'admin' }),
+
+    // Users
+    getUsers: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.page) searchParams.append('page', params.page);
+        if (params.limit) searchParams.append('limit', params.limit);
+        if (params.search) searchParams.append('search', params.search);
+        if (params.role) searchParams.append('role', params.role);
+        if (params.isVerified !== undefined) searchParams.append('isVerified', params.isVerified);
+        const query = searchParams.toString();
+        return api.get(`/admin/users${query ? `?${query}` : ''}`, { auth: 'admin' });
+    },
+    getUserDetails: (id) => api.get(`/admin/users/${id}`, { auth: 'admin' }),
+    updateUserRole: (id, role) => api.patch(`/admin/users/${id}/role`, { role }, { auth: 'admin' }),
+    deleteUser: (id) => api.delete(`/admin/users/${id}`, { auth: 'admin' }),
+
+    // Transactions
+    getTransactions: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.page) searchParams.append('page', params.page);
+        if (params.limit) searchParams.append('limit', params.limit);
+        if (params.status) searchParams.append('status', params.status);
+        if (params.type) searchParams.append('type', params.type);
+        if (params.search) searchParams.append('search', params.search);
+        const query = searchParams.toString();
+        return api.get(`/admin/transactions${query ? `?${query}` : ''}`, { auth: 'admin' });
+    },
+    updateTransactionStatus: (id, status, description) =>
+        api.patch(`/admin/transactions/${id}/status`, { status, description }, { auth: 'admin' }),
+
+    // Blogs
+    getBlogs: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.page) searchParams.append('page', params.page);
+        if (params.limit) searchParams.append('limit', params.limit);
+        if (params.search) searchParams.append('search', params.search);
+        if (params.category) searchParams.append('category', params.category);
+        if (params.isPublished !== undefined) searchParams.append('isPublished', params.isPublished);
+        const query = searchParams.toString();
+        return api.get(`/admin/blogs${query ? `?${query}` : ''}`, { auth: 'admin' });
+    },
+    toggleBlogPublish: (id) => api.patch(`/admin/blogs/${id}/toggle-publish`, {}, { auth: 'admin' }),
+
+    // Categories
+    getCategories: () => api.get('/admin/categories', { auth: 'admin' }),
+    updateCategory: (id, data) => api.patch(`/admin/categories/${id}`, data, { auth: 'admin' }),
+    deleteCategory: (id) => api.delete(`/admin/categories/${id}`, { auth: 'admin' }),
+
+    // Admins
+    getAdmins: () => api.get('/admin/admins', { auth: 'admin' }),
+    createAdmin: (data) => api.post('/admin/admins', data, { auth: 'admin' }),
+    toggleAdminStatus: (id) => api.patch(`/admin/admins/${id}/toggle-status`, {}, { auth: 'admin' }),
+};
