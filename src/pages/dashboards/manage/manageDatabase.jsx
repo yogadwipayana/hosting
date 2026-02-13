@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router";
 import { Helmet } from "react-helmet-async";
 import {
   Database,
@@ -160,7 +160,10 @@ const QuickAction = ({ icon: Icon, label, description, color = "text-blue-600", 
 );
 
 const MainContent = () => {
-  const service = dbData;
+  const { id } = useParams();
+  const service = dbData; // TODO: Fetch real data using id
+  
+  console.log('Database ID from URL:', id);
 
   return (
     <main className="min-h-[calc(100vh-64px)] bg-gray-50 p-6 lg:p-8">

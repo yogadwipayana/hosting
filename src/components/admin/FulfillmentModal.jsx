@@ -44,7 +44,7 @@ function VpsForm({ data, onChange }) {
           value={data.rootPassword || ''}
           onChange={(e) => onChange({ ...data, rootPassword: e.target.value })}
         />
-        <p className="text-xs text-gray-500">If left empty, a secure password will be generated.</p>
+        <p className="text-xs text-muted-foreground">If left empty, a secure password will be generated.</p>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
@@ -215,7 +215,7 @@ function AutomationForm({ data, onChange }) {
           value={data.adminPassword || ''}
           onChange={(e) => onChange({ ...data, adminPassword: e.target.value })}
         />
-        <p className="text-xs text-gray-500">If left empty, a secure password will be generated.</p>
+        <p className="text-xs text-muted-foreground">If left empty, a secure password will be generated.</p>
       </div>
     </div>
   );
@@ -303,13 +303,13 @@ export function FulfillmentModal({ order, isOpen, onClose, onSuccess }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg bg-gray-950 border-gray-800 text-white">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Icon className="h-5 w-5 text-blue-400" />
+            <Icon className="h-5 w-5 text-primary" />
             Fulfill {order.serviceType} Order
           </DialogTitle>
-          <DialogDescription className="text-gray-400">
+          <DialogDescription>
             Enter the provisioning details for this order.
           </DialogDescription>
         </DialogHeader>
@@ -319,33 +319,33 @@ export function FulfillmentModal({ order, isOpen, onClose, onSuccess }) {
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
               <Check className="h-6 w-6 text-green-600" />
             </div>
-            <h3 className="text-lg font-semibold text-white">Order Fulfilled!</h3>
-            <p className="text-sm text-gray-400 mt-1">
+            <h3 className="text-lg font-semibold text-foreground">Order Fulfilled!</h3>
+            <p className="text-sm text-muted-foreground mt-1">
               The customer will be notified of their active service.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Order Summary */}
-            <div className="bg-gray-900 rounded-lg p-4 space-y-2">
+            <div className="bg-muted/50 rounded-lg p-4 space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Order ID</span>
-                <span className="font-mono text-gray-300">{order.id?.slice(0, 12)}...</span>
+                <span className="text-muted-foreground">Order ID</span>
+                <span className="font-mono text-foreground">{order.id?.slice(0, 12)}...</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">User</span>
-                <span className="text-white">{order.user?.email}</span>
+                <span className="text-muted-foreground">User</span>
+                <span className="text-foreground">{order.user?.email}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Plan</span>
-                <span className="text-white capitalize">{order.plan || order.planId}</span>
+                <span className="text-muted-foreground">Plan</span>
+                <span className="text-foreground capitalize">{order.plan || order.planId}</span>
               </div>
             </div>
 
             {error && (
-              <Alert variant="destructive" className="bg-red-950/50 border-red-900">
+              <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="text-red-400">{error}</AlertDescription>
+                <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
@@ -357,14 +357,12 @@ export function FulfillmentModal({ order, isOpen, onClose, onSuccess }) {
                 variant="outline"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="border-gray-700 text-white hover:bg-gray-800"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={isSubmitting || !validateForm()}
-                className="bg-blue-600 hover:bg-blue-700"
               >
                 {isSubmitting ? (
                   <>

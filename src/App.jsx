@@ -125,7 +125,7 @@ export default function App() {
         <Route path="/dashboard/hosting/domain" element={<ProtectedRoute><ManageDomain /></ProtectedRoute>} />
         <Route path="/dashboard/hosting/manage" element={<ProtectedRoute><ManageHosting /></ProtectedRoute>} />
         <Route path="/dashboard/database" element={<ProtectedRoute><DashboardDatabase /></ProtectedRoute>} />
-        <Route path="/dashboard/database/manage" element={<ProtectedRoute><ManageDatabase /></ProtectedRoute>} />
+        <Route path="/dashboard/database/manage/:id" element={<ProtectedRoute><ManageDatabase /></ProtectedRoute>} />
         <Route path="/dashboard/database/deploy" element={<ProtectedRoute><DeployDatabase /></ProtectedRoute>} />
         <Route path="/dashboard/automation" element={<ProtectedRoute><DashboardAutomation /></ProtectedRoute>} />
         <Route path="/dashboard/automation/manage" element={<ProtectedRoute><ManageAutomation /></ProtectedRoute>} />

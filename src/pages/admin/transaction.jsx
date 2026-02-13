@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Helmet } from "react-helmet-async"
+import { toast } from "sonner"
 import {
   CreditCard,
   Search,
@@ -251,6 +252,24 @@ export default function AdminTransactionsPage() {
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [updateStatusDialogOpen, setUpdateStatusDialogOpen] = useState(false)
   const [selectedTransaction, setSelectedTransaction] = useState(null)
+  const [updatingTransactionId, setUpdatingTransactionId] = useState(null)
+
+  // Handle status update
+  const handleStatusUpdate = async (transactionId, newStatus, currentStatus) => {
+    // Prevent unnecessary updates
+    if (currentStatus === newStatus) return
+
+    setUpdatingTransactionId(transactionId)
+    try {
+      await adminApi.updateTransactionStatus(transactionId, newStatus)
+      toast.success('Transaction status updated successfully')
+      fetchTransactions() // Refresh data
+    } catch (err) {
+      toast.error(err.message || 'Failed to update transaction status')
+    } finally {
+      setUpdatingTransactionId(null)
+    }
+  }
 
   const fetchTransactions = async () => {
     try {
@@ -474,9 +493,54 @@ export default function AdminTransactionsPage() {
                           </span>
                         </td>
                         <td className="py-3 px-4 text-right">
-                          <div className="flex justify-end">
-                            <StatusBadge status={tx.status} />
-                          </div>
+                          <Select
+                            value={tx.status}
+                            onValueChange={(newStatus) => handleStatusUpdate(tx.id, newStatus, tx.status)}
+                            disabled={updatingTransactionId === tx.id}
+                          >
+                            <SelectTrigger className={cn(
+                              "w-[130px] h-8 border",
+                              tx.status === "SUCCESS" && "border-green-800 text-green-400 bg-green-950/30",
+                              tx.status === "FAILED" && "border-red-800 text-red-400 bg-red-950/30",
+                              tx.status === "PENDING" && "border-yellow-800 text-yellow-400 bg-yellow-950/30",
+                              tx.status === "CANCELLED" && "border-gray-700 text-gray-400 bg-gray-900"
+                            )}>
+                              {updatingTransactionId === tx.id ? (
+                                <div className="flex items-center gap-2">
+                                  <Loader2 className="h-3 w-3 animate-spin" />
+                                  <span>Updating...</span>
+                                </div>
+                              ) : (
+                                <SelectValue />
+                              )}
+                            </SelectTrigger>
+                            <SelectContent className="bg-popover border-border">
+                              <SelectItem value="PENDING" className="text-yellow-400 focus:bg-yellow-950/30 focus:text-yellow-400">
+                                <div className="flex items-center gap-2">
+                                  <Clock className="h-3 w-3" />
+                                  Pending
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="SUCCESS" className="text-green-400 focus:bg-green-950/30 focus:text-green-400">
+                                <div className="flex items-center gap-2">
+                                  <CheckCircle className="h-3 w-3" />
+                                  Success
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="FAILED" className="text-red-400 focus:bg-red-950/30 focus:text-red-400">
+                                <div className="flex items-center gap-2">
+                                  <XCircle className="h-3 w-3" />
+                                  Failed
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="CANCELLED" className="text-gray-400 focus:bg-gray-900 focus:text-gray-400">
+                                <div className="flex items-center gap-2">
+                                  <XCircle className="h-3 w-3" />
+                                  Cancelled
+                                </div>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
                         </td>
                         <td className="py-3 px-4 text-right">
                           <DropdownMenu>

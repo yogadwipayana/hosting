@@ -410,7 +410,7 @@ export default function AdminOrders() {
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex items-center justify-end gap-2">
-                              {(order.status === "PENDING" || order.status === "PROVISIONING") && (
+                              {(order.status === "pending" || order.status === "provisioning") && (
                                 <Button
                                   size="sm"
                                   onClick={() => setFulfillOrder(order)}
