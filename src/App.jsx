@@ -36,6 +36,7 @@ import DashboardAutomation from "@/pages/dashboards/automation"
 import DashboardSetting from "@/pages/dashboards/setting"
 import DashboardSupport from "@/pages/dashboards/support"
 import DashboardCredit from "@/pages/dashboards/credit"
+import DashboardNotifications from "@/pages/dashboards/notifications"
 import ProjectDashboard from "@/pages/dashboards/project"
 import ProjectDetail from "@/pages/dashboards/project/projectDetail"
 import NewProjectPage from "@/pages/dashboards/project/projectNew"
@@ -51,8 +52,14 @@ import DeployVps from "@/pages/dashboards/create/deployVps"
 import ManageVps from "@/pages/dashboards/manage/manageVps"
 
 import { AdminAuthProvider } from "@/context/AdminAuthContext"
-import { AdminRoute } from "@/components/AdminRoute"
+import { AdminLayout } from "@/components/AdminLayout"
 import AdminLoginPage from "@/pages/admin/login"
+import AdminOverviewPage from "@/pages/admin/overview"
+import AdminUsersPage from "@/pages/admin/user"
+import AdminBlogsPage from "@/pages/admin/blog"
+import AdminClassesPage from "@/pages/admin/class"
+import AdminTransactionsPage from "@/pages/admin/transaction"
+import AdminOrdersPage from "@/pages/admin/order"
 import ProductCatalogPage from "@/pages/products/Catalog"
 
 // Main App Component
@@ -94,9 +101,16 @@ export default function App() {
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
-        
-        {/* Protected Admin Routes - Placeholder for now, can add specific admin pages here */}
-        <Route path="/admin" element={<AdminRoute><div className="p-8 text-center text-2xl font-bold">Admin Dashboard Placeholder</div></AdminRoute>} />
+
+        {/* Protected Admin Routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminOverviewPage />} />
+          <Route path="users" element={<AdminUsersPage />} />
+          <Route path="blogs" element={<AdminBlogsPage />} />
+          <Route path="classes" element={<AdminClassesPage />} />
+          <Route path="transactions" element={<AdminTransactionsPage />} />
+          <Route path="orders" element={<AdminOrdersPage />} />
+        </Route>
         
         {/* Protected User Dashboard Routes */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardOverview /></ProtectedRoute>} />
@@ -122,6 +136,7 @@ export default function App() {
         <Route path="/dashboard/vps" element={<ProtectedRoute><DashboardVps /></ProtectedRoute>} />
         <Route path="/dashboard/vps/deploy" element={<ProtectedRoute><DeployVps /></ProtectedRoute>} />
         <Route path="/dashboard/vps/manage" element={<ProtectedRoute><ManageVps /></ProtectedRoute>} />
+        <Route path="/dashboard/notifications" element={<ProtectedRoute><DashboardNotifications /></ProtectedRoute>} />
       </Routes>
     </AdminAuthProvider>
   )

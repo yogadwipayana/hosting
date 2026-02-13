@@ -54,16 +54,16 @@ export default function AdminLoginPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4 py-12">
-        <Card className="w-full max-w-md shadow-2xl border-gray-800 bg-gray-950 text-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+        <Card className="w-full max-w-md shadow-xl border-border bg-card">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-4">
-               <div className="bg-blue-600 p-3 rounded-full">
-                 <Lock className="w-6 h-6 text-white" />
+               <div className="bg-primary/10 p-3 rounded-full">
+                 <Lock className="w-6 h-6 text-primary" />
                </div>
             </div>
-            <CardTitle className="text-2xl font-bold tracking-tight text-white">Admin Portal</CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardTitle className="text-2xl font-bold tracking-tight text-foreground">Admin Portal</CardTitle>
+            <CardDescription className="text-muted-foreground">
               Masuk untuk mengakses panel admin
             </CardDescription>
           </CardHeader>
@@ -71,7 +71,7 @@ export default function AdminLoginPage() {
             
             {/* Error Message */}
             {error && (
-              <div className="bg-red-900/30 border border-red-800 text-red-300 px-4 py-3 rounded-md text-sm">
+              <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-md text-sm">
                 {error}
               </div>
             )}
@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
             {/* Email Form */}
             <form className="space-y-3" onSubmit={handleSubmit}>
               <div className="space-y-1">
-                <Label htmlFor="email" className="text-gray-300">Email</Label>
+                <Label htmlFor="email" className="text-foreground">Email</Label>
                 <Input 
                   id="email" 
                   placeholder="admin@example.com" 
@@ -88,12 +88,12 @@ export default function AdminLoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   disabled={isLoading}
-                  className="bg-gray-900 border-gray-800 text-white placeholder:text-gray-500 focus-visible:ring-blue-600"
+                  className="bg-background border-input text-foreground placeholder:text-muted-foreground focus-visible:ring-primary"
                 />
               </div>
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="text-gray-300">Password</Label>
+                  <Label htmlFor="password" className="text-foreground">Password</Label>
                 </div>
                 <div className="relative">
                   <Input 
@@ -104,12 +104,12 @@ export default function AdminLoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     disabled={isLoading}
-                    className="pr-10 bg-gray-900 border-gray-800 text-white placeholder:text-gray-500 focus-visible:ring-blue-600"
+                    className="pr-10 bg-background border-input text-foreground placeholder:text-muted-foreground focus-visible:ring-primary"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -117,7 +117,7 @@ export default function AdminLoginPage() {
               </div>
               
               <Button 
-                className="w-full bg-blue-600 hover:bg-blue-700 mt-4 text-white font-medium" 
+                className="w-full mt-4 font-medium" 
                 type="submit"
                 disabled={isLoading}
               >
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
 
           </CardContent>
           <CardFooter className="flex justify-center pb-6">
-             <div className="text-xs text-gray-600">
+             <div className="text-xs text-muted-foreground">
                 &copy; {new Date().getFullYear()} BelajarHosting Admin System
              </div>
           </CardFooter>

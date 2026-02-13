@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, Loader2, Check } from 'lucide-react';
-import { productCatalogApi } from '@/lib/api';
+import { AlertCircle, Loader2, Check, Wallet } from 'lucide-react';
+import { productCatalogApi, creditApi } from '@/lib/api';
+import { Link } from 'react-router-dom';
 
 const databaseEngines = [
   { value: 'POSTGRESQL', label: 'PostgreSQL' },
@@ -20,6 +21,8 @@ export function OrderModal({ product, billingCycle, isOpen, onClose, onSuccess }
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [balance, setBalance] = useState(null);
+  const [balanceLoading, setBalanceLoading] = useState(false);
 
   // Form fields based on product type
   const [formData, setFormData] = useState({
@@ -30,10 +33,43 @@ export function OrderModal({ product, billingCycle, isOpen, onClose, onSuccess }
     engine: 'POSTGRESQL',
   });
 
+  // Fetch balance when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      fetchBalance();
+    }
+  }, [isOpen]);
+
+  const fetchBalance = async () => {
+    setBalanceLoading(true);
+    try {
+      const response = await creditApi.getCredits();
+      setBalance(response.data?.balance || 0);
+    } catch (err) {
+      console.error('Failed to fetch balance:', err);
+      setBalance(0);
+    } finally {
+      setBalanceLoading(false);
+    }
+  };
+
+  const price = billingCycle === 'yearly' && product?.priceYearly
+    ? product.priceYearly
+    : product?.priceMonthly;
+
+  const hasInsufficientBalance = balance !== null && price > balance;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
+
+    // Check balance before submitting
+    if (hasInsufficientBalance) {
+      setError('Saldo tidak mencukupi. Silakan top up terlebih dahulu.');
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const orderData = {
@@ -55,15 +91,16 @@ export function OrderModal({ product, billingCycle, isOpen, onClose, onSuccess }
         onClose();
       }, 2000);
     } catch (err) {
-      setError(err.message || 'Gagal membuat pesanan. Silakan coba lagi.');
+      // Handle insufficient balance error from API
+      if (err.response?.status === 402 || err.message?.toLowerCase().includes('insufficient')) {
+        setError('Saldo tidak mencukupi. Silakan top up terlebih dahulu.');
+      } else {
+        setError(err.message || 'Gagal membuat pesanan. Silakan coba lagi.');
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  const price = billingCycle === 'yearly' && product?.priceYearly
-    ? product.priceYearly
-    : product?.priceMonthly;
 
   const renderFormFields = () => {
     switch (product?.type) {
@@ -199,6 +236,45 @@ export function OrderModal({ product, billingCycle, isOpen, onClose, onSuccess }
 
             {renderFormFields()}
 
+            {/* Balance Info */}
+            <div className={`rounded-lg p-4 space-y-2 ${hasInsufficientBalance ? 'bg-red-50 border border-red-200' : 'bg-blue-50 border border-blue-200'}`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Wallet className={`w-4 h-4 ${hasInsufficientBalance ? 'text-red-500' : 'text-blue-600'}`} />
+                  <span className={`text-sm font-medium ${hasInsufficientBalance ? 'text-red-700' : 'text-blue-700'}`}>
+                    Saldo Anda
+                  </span>
+                </div>
+                <span className={`text-sm font-bold ${hasInsufficientBalance ? 'text-red-600' : 'text-blue-600'}`}>
+                  {balanceLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    `Rp ${balance?.toLocaleString('id-ID') || '0'}`
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className={hasInsufficientBalance ? 'text-red-600' : 'text-blue-600'}>Total Pesanan</span>
+                <span className={`font-bold ${hasInsufficientBalance ? 'text-red-600' : 'text-blue-700'}`}>
+                  Rp {price?.toLocaleString('id-ID')}
+                </span>
+              </div>
+              {hasInsufficientBalance && (
+                <div className="pt-2 border-t border-red-200">
+                  <p className="text-xs text-red-600 mb-2">
+                    Saldo tidak mencukupi. Anda membutuhkan Rp {(price - balance).toLocaleString('id-ID')} lebih.
+                  </p>
+                  <Link
+                    to="/dashboard/credit"
+                    onClick={onClose}
+                    className="inline-flex items-center text-xs font-medium text-red-700 hover:text-red-800 underline"
+                  >
+                    Top up sekarang →
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <div className="rounded-lg bg-gray-50 p-4 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Paket</span>
@@ -218,12 +294,18 @@ export function OrderModal({ product, billingCycle, isOpen, onClose, onSuccess }
               <Button type="button" variant="outline" onClick={onClose} className="flex-1">
                 Batal
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="flex-1">
+              <Button
+                type="submit"
+                disabled={isSubmitting || hasInsufficientBalance || balanceLoading}
+                className="flex-1"
+              >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Memproses...
                   </>
+                ) : hasInsufficientBalance ? (
+                  'Saldo Tidak Cukup'
                 ) : (
                   'Konfirmasi Pesanan'
                 )}

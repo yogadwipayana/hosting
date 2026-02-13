@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async"
 import { DashboardSidebar } from "@/components/DashboardSidebar"
 import { DashboardTopbar } from "@/components/DashboardTopbar"
 import { bookmarkApi } from "@/lib/api"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 import {
   Bookmark,
   ExternalLink,
@@ -139,7 +139,6 @@ function DeleteDialog({ bookmark, isOpen, onClose, onConfirm, isDeleting }) {
 
 // Main Content Component
 const MainContent = () => {
-  const { toast } = useToast()
   const [bookmarks, setBookmarks] = useState([])
   const [categories, setCategories] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -163,11 +162,7 @@ const MainContent = () => {
       const response = await bookmarkApi.getBookmarks(params)
       setBookmarks(response.data.bookmarks)
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to load bookmarks",
-        variant: "destructive",
-      })
+      toast.error(error.message || "Failed to load bookmarks")
     } finally {
       setIsLoading(false)
     }
@@ -194,19 +189,12 @@ const MainContent = () => {
     try {
       setIsSubmitting(true)
       await bookmarkApi.createBookmark(formData)
-      toast({
-        title: "Success",
-        description: "Bookmark created successfully",
-      })
+      toast.success("Bookmark created successfully")
       setIsCreateModalOpen(false)
       fetchBookmarks()
       fetchCategories()
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to create bookmark",
-        variant: "destructive",
-      })
+      toast.error(error.message || "Failed to create bookmark")
     } finally {
       setIsSubmitting(false)
     }
@@ -217,20 +205,13 @@ const MainContent = () => {
     try {
       setIsSubmitting(true)
       await bookmarkApi.updateBookmark(selectedBookmark.id, formData)
-      toast({
-        title: "Success",
-        description: "Bookmark updated successfully",
-      })
+      toast.success("Bookmark updated successfully")
       setIsEditModalOpen(false)
       setSelectedBookmark(null)
       fetchBookmarks()
       fetchCategories()
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to update bookmark",
-        variant: "destructive",
-      })
+      toast.error(error.message || "Failed to update bookmark")
     } finally {
       setIsSubmitting(false)
     }
@@ -241,20 +222,13 @@ const MainContent = () => {
     try {
       setIsDeleting(true)
       await bookmarkApi.deleteBookmark(selectedBookmark.id)
-      toast({
-        title: "Success",
-        description: "Bookmark deleted successfully",
-      })
+      toast.success("Bookmark deleted successfully")
       setIsDeleteDialogOpen(false)
       setSelectedBookmark(null)
       fetchBookmarks()
       fetchCategories()
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete bookmark",
-        variant: "destructive",
-      })
+      toast.error(error.message || "Failed to delete bookmark")
     } finally {
       setIsDeleting(false)
     }

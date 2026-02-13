@@ -119,6 +119,12 @@ export default function BlogsPage() {
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1 })
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearch, setDebouncedSearch] = useState("")
+  const [hasMore, setHasMore] = useState(false)
+
+  // Newsletter states
+  const [email, setEmail] = useState("")
+  const [subscribeStatus, setSubscribeStatus] = useState({ type: null, message: "" })
+  const [isSubscribing, setIsSubscribing] = useState(false)
 
   // Debounce search input
   useEffect(() => {
@@ -145,13 +151,13 @@ export default function BlogsPage() {
     fetchCategories()
   }, [])
 
-  // Fetch blogs when category or search changes
+  // Fetch blogs when category, search, or page changes
   useEffect(() => {
     async function fetchBlogs() {
       setIsLoading(true)
       setError("")
       try {
-        const params = { limit: 9 }
+        const params = { page: pagination.page, limit: 9 }
 
         // If searching, prioritize search over category
         if (debouncedSearch.trim()) {
@@ -161,8 +167,16 @@ export default function BlogsPage() {
         }
 
         const response = await blogApi.getBlogs(params)
-        setBlogs(response.data.blogs)
+
+        // Append blogs if loading more (page > 1), otherwise replace
+        if (pagination.page > 1) {
+          setBlogs(prev => [...prev, ...response.data.blogs])
+        } else {
+          setBlogs(response.data.blogs)
+        }
+
         setPagination(response.data.pagination)
+        setHasMore(response.data.pagination.page < response.data.pagination.totalPages)
       } catch (err) {
         setError("Gagal memuat artikel. Silakan coba lagi.")
         console.error("Failed to fetch blogs:", err)
@@ -171,13 +185,46 @@ export default function BlogsPage() {
       }
     }
     fetchBlogs()
-  }, [activeCategory, debouncedSearch])
+  }, [activeCategory, debouncedSearch, pagination.page])
 
   // Handle category change - clear search when selecting a category
   const handleCategoryChange = useCallback((categoryName) => {
     setActiveCategory(categoryName)
     setSearchQuery("")
+    setPagination({ page: 1, totalPages: 1 })
+    setBlogs([])
   }, [])
+
+  // Handle load more - increment page to trigger fetch
+  const handleLoadMore = useCallback(() => {
+    setPagination(prev => ({ ...prev, page: prev.page + 1 }))
+  }, [])
+
+  // Handle newsletter subscription
+  const handleSubscribe = async (e) => {
+    e.preventDefault()
+
+    if (!email.trim()) {
+      setSubscribeStatus({ type: "error", message: "Email wajib diisi" })
+      return
+    }
+
+    setIsSubscribing(true)
+    setSubscribeStatus({ type: null, message: "" })
+
+    try {
+      await blogApi.subscribeNewsletter(email)
+      setSubscribeStatus({ type: "success", message: "Berhasil berlangganan! Terima kasih." })
+      setEmail("")
+    } catch (err) {
+      const message = err.status === 409
+        ? "Email sudah terdaftar"
+        : err.data?.message || "Gagal berlangganan. Silakan coba lagi."
+      setSubscribeStatus({ type: "error", message })
+    } finally {
+      setIsSubscribing(false)
+    }
+  }
 
   return (
     <>
@@ -220,7 +267,10 @@ export default function BlogsPage() {
                   Hasil pencarian untuk <span className="font-medium text-foreground">"{debouncedSearch}"</span>
                 </p>
                 <button
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => {
+                    setSearchQuery("")
+                    setPagination({ page: 1, totalPages: 1 })
+                  }}
                   className="text-primary text-sm hover:underline mt-2"
                 >
                   Lihat semua artikel
@@ -267,9 +317,15 @@ export default function BlogsPage() {
             )}
 
             {/* Load More */}
-            {!isLoading && pagination.page < pagination.totalPages && !debouncedSearch && (
+            {!isLoading && hasMore && !debouncedSearch && (
               <div className="text-center mt-12">
-                <Button variant="outline" size="lg" className="rounded-full px-8">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="rounded-full px-8"
+                  onClick={handleLoadMore}
+                  disabled={isLoading}
+                >
                   Muat Lebih Banyak
                 </Button>
               </div>
@@ -286,12 +342,29 @@ export default function BlogsPage() {
               Dapatkan notifikasi artikel dan tutorial terbaru langsung di inbox Anda.
               Tanpa spam, janji.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <Input type="email" placeholder="Email Anda" className="bg-white h-12" />
-              <Button size="lg" className="h-12 bg-primary hover:bg-primary/90">
-                Subscribe
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <Input
+                type="email"
+                placeholder="Email Anda"
+                className="bg-white h-12"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isSubscribing}
+              />
+              <Button
+                type="submit"
+                size="lg"
+                className="h-12 bg-primary hover:bg-primary/90"
+                disabled={isSubscribing}
+              >
+                {isSubscribing ? 'Mengirim...' : 'Subscribe'}
               </Button>
-            </div>
+            </form>
+            {subscribeStatus.type && (
+              <p className={`mt-4 text-sm ${subscribeStatus.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>
+                {subscribeStatus.message}
+              </p>
+            )}
           </div>
         </section>
       </main>

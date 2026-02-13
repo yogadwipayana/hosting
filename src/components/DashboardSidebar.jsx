@@ -12,6 +12,7 @@ import {
   HelpCircle,
   LogOut,
   Server,
+  Bell,
 } from "lucide-react"
 import { LogoMark } from "@/components/Logo"
 import { useAuth } from "@/hooks/useAuth"
@@ -45,6 +46,7 @@ const menuItems = [
     title: "ACCOUNT",
     items: [
       { id: "credit", name: "Credit", icon: CreditCard, href: "/dashboard/credit" },
+      { id: "notifications", name: "Notifications", icon: Bell, href: "/dashboard/notifications" },
       { id: "pengaturan", name: "Pengaturan", icon: Settings, href: "/dashboard/pengaturan" },
       { id: "bantuan", name: "Bantuan", icon: HelpCircle, href: "/dashboard/bantuan" },
     ],

@@ -61,7 +61,7 @@ async function request(endpoint, options = {}) {
 
 // API methods
 export const api = {
-    get: (endpoint) => request(endpoint, { method: 'GET' }),
+    get: (endpoint, options = {}) => request(endpoint, { method: 'GET', ...options }),
 
     post: (endpoint, body, options = {}) =>
         request(endpoint, {
@@ -70,13 +70,21 @@ export const api = {
             ...options
         }),
 
-    put: (endpoint, body) =>
+    put: (endpoint, body, options = {}) =>
         request(endpoint, {
             method: 'PUT',
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            ...options
         }),
 
-    delete: (endpoint) => request(endpoint, { method: 'DELETE' }),
+    patch: (endpoint, body, options = {}) =>
+        request(endpoint, {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            ...options
+        }),
+
+    delete: (endpoint, options = {}) => request(endpoint, { method: 'DELETE', ...options }),
 };
 
 // Auth-specific API calls
@@ -104,6 +112,7 @@ export const blogApi = {
     },
     getBlogBySlug: (slug) => api.get(`/blogs/${slug}`),
     getCategories: () => api.get('/blogs/categories'),
+    subscribeNewsletter: (email) => api.post('/blogs/subscribe', { email }, { auth: false }),
 };
 
 // Admin Blog API calls
@@ -371,8 +380,54 @@ export const adminApi = {
     updateCategory: (id, data) => api.patch(`/admin/categories/${id}`, data, { auth: 'admin' }),
     deleteCategory: (id) => api.delete(`/admin/categories/${id}`, { auth: 'admin' }),
 
+    // Users (Admin)
+    createUser: (data) => api.post('/admin/users', data, { auth: 'admin' }),
+
     // Admins
     getAdmins: () => api.get('/admin/admins', { auth: 'admin' }),
     createAdmin: (data) => api.post('/admin/admins', data, { auth: 'admin' }),
     toggleAdminStatus: (id) => api.patch(`/admin/admins/${id}/toggle-status`, {}, { auth: 'admin' }),
+
+    // Orders
+    getOrders: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.page) searchParams.append('page', params.page);
+        if (params.limit) searchParams.append('limit', params.limit);
+        if (params.status) searchParams.append('status', params.status);
+        if (params.type) searchParams.append('type', params.type);
+        const query = searchParams.toString();
+        return api.get(`/admin/orders${query ? `?${query}` : ''}`, { auth: 'admin' });
+    },
+
+    // Order Fulfillment
+    fulfillVpsOrder: (id, data) => api.patch(`/admin/vps/${id}/fulfill`, data, { auth: 'admin' }),
+    fulfillHostingOrder: (id, data) => api.patch(`/admin/hosting/${id}/fulfill`, data, { auth: 'admin' }),
+    fulfillDatabaseOrder: (id, data) => api.patch(`/admin/database/${id}/fulfill`, data, { auth: 'admin' }),
+    fulfillAutomationOrder: (id, data) => api.patch(`/admin/automation/${id}/fulfill`, data, { auth: 'admin' }),
+};
+
+// Notification API calls
+export const notificationApi = {
+    // Get notifications with pagination
+    getNotifications: (params = {}) => {
+        const searchParams = new URLSearchParams();
+        if (params.page) searchParams.append('page', params.page);
+        if (params.limit) searchParams.append('limit', params.limit);
+        if (params.unreadOnly) searchParams.append('unreadOnly', 'true');
+        if (params.type) searchParams.append('type', params.type);
+        const query = searchParams.toString();
+        return api.get(`/notifications${query ? `?${query}` : ''}`);
+    },
+
+    // Get recent unread notifications (for bell)
+    getRecentNotifications: (limit = 5) => api.get(`/notifications/recent?limit=${limit}`),
+
+    // Mark notification as read
+    markAsRead: (id) => api.patch(`/notifications/${id}/read`),
+
+    // Mark all notifications as read
+    markAllAsRead: () => api.post('/notifications/mark-all-read'),
+
+    // Delete notification
+    deleteNotification: (id) => api.delete(`/notifications/${id}`),
 };
